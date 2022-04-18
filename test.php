@@ -1,7 +1,7 @@
 <?php
-    error_reporting(0);
-    $next = $_POST['next'];
-    $previous = $_POST['previous'];
+error_reporting(0);
+$next = $_POST['next'];
+$previous = $_POST['previous'];
 if ($next == "25%" || $previous == "25%") {
 ?>
     <div class="row justify-content-center">
@@ -38,7 +38,8 @@ if ($next == "25%" || $previous == "25%") {
                     <thead>
                         <tr>
                             <td scope="col">No</td>
-                            <td scope="col">Name</td>
+                            <td scope="col">Employee Name</td>
+                            <td scope="col">ID</td>
                             <td scope="col">Total Core Competencies</td>
                             <td scope="col">Status</td>
                             <td scope="col" style="text-align: center;">Select</td>
@@ -50,6 +51,7 @@ if ($next == "25%" || $previous == "25%") {
                         ?>
                             <tr>
                                 <td scope="col"><?php echo $i + 1; ?></td>
+                                <td scope="col">test</td>
                                 <td scope="col">test</td>
                                 <td scope="col">test</td>
                                 <td scope="col">test</td>
@@ -83,9 +85,58 @@ if ($next == "25%" || $previous == "25%") {
 <?php
 }
 
-if ($next == "50%") {
+if ($next == "50%" || $previous == "50%") {
 ?>
-    
+    <div class="row">
+        <table class="table">
+            <tr>
+                <td>Name : </td>
+                <td>Simon Wong Kiung Fu</td>
+            </tr>
+            <tr>
+                <td>ID: </td>
+                <td>1027655672</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <h3 class="mt-3"><b><u>Core Competencies History</u></b></h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td scope="col">Competencies</td>
+                    <td scope="col">Item</td>
+                    <td scope="col">Score</td>
+                    <td scope="col">Target</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                for ($i = 0; $i < 5; $i++) {
+                ?>
+                    <tr>
+                        <td scope="col">test</td>
+                        <td scope="col">test</td>
+                        <td scope="col">test</td>
+                        <td scope="col">test</td>
+                    </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <h3 class="mt-3"><b><u>Add Competencies</u></b></h3><br>
+        <div id="Competencies_Card" class="col-12">
+
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <button type="button" class="btn btn-primary btn-sm" style="width: 30px;"> - </button>
+        <span style="width: 10%;"></span>
+        <button type="button" class="btn btn-primary btn-sm" style="width: 30px;"> + </button>
+    </div>
 <?php
 }
 ?>

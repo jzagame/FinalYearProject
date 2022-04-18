@@ -32,6 +32,14 @@ $('#btn_next').click(function(e){
         data: {next:progress},
         success: function(data){
             document.getElementById("Assessment_content").innerHTML = data;
+            $.ajax({
+                type: "POST",
+                url: "Assessment_Competencies_card.php",
+                data: {next:progress,num:"1"},
+                success:function(data){
+                    document.getElementById("Competencies_Card").innerHTML = data;
+                }
+            });
         }
     });
 });
@@ -45,6 +53,7 @@ $('#btn_previous').click(function(e){
         $("#progress_Ass").css("width","25%");
         $("#progress_Ass").text("25%");
     }else if(progress == "75%"){
+        progress = "50%";
         $("#progress_Ass").css("width","50%");
         $("#progress_Ass").text("50%");
     }
