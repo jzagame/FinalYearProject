@@ -2,105 +2,43 @@
 <script src="Bootstrap4.6.1/bootstrap4.6.1.min.js"></script>
 <script src="Bootstrap4.6.1/popper1.6.1.min.js"></script>
 <link rel="stylesheet" href="Bootstrap4.6.1/bootstrap4.6.1.css"/>
-<link href="css/Menuhover.css" rel="stylesheet" media="all">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">KPCC Management System</a>
+  <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
-<!--		Employee-->
-		<div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          	Employee Management
-        	</a>
-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li class="dropdown-item"><a href="#">Some action</a></li>
-                <li class="dropdown-item"><a href="#">Some other action</a></li>
-                <li class="dropdown-divider"></li>
-                <li class="dropdown-submenu">
-                  <a  class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
-                  </ul>
-                </li>
-              </ul>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu" aria-labelledby="1">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
         </div>
-<!--		Competencies-->
-		<div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          	Competencies Management
-        	</a>
-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li class="dropdown-submenu">
-                  <a  class="dropdown-item" tabindex="-1" href="#">Major Competencies</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Add Major Competencies</a></li>
-                    <li class="dropdown-item"><a href="#">Edit Major Competencies</a></li>
-                    <li class="dropdown-item"><a href="#">View Major Competencies</a></li>
-                  </ul>
-                </li>
-
-                <li class="dropdown-submenu">
-                  <a  class="dropdown-item" tabindex="-1" href="#">Core Competencies</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Add Core Competencies</a></li>
-                    <li class="dropdown-item"><a href="#">Edit Core Competencies</a></li>
-                    <li class="dropdown-item"><a href="#">View Core Competencies</a></li>
-                  </ul>
-                </li>
-				
-                <li class="dropdown-submenu">
-                  <a  class="dropdown-item" tabindex="-1" href="#">Core Competencies Items</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Add Core Competencies Items</a></li>
-                    <li class="dropdown-item"><a href="#">Edit Core Competencies Items</a></li>
-                    <li class="dropdown-item"><a href="#">View Core Competencies Items</a></li>
-                  </ul>
-                </li>
-              </ul>
+      </li>
+      <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu" aria-labelledby="2">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
         </div>
-<!--		Employee Traning-->
-		<div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          	Employee Training
-        	</a>
-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li class="dropdown-item"><a href="#">Some action</a></li>
-                <li class="dropdown-item"><a href="#">Some other action</a></li>
-                <li class="dropdown-divider"></li>
-                <li class="dropdown-submenu">
-                  <a  class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
-                  </ul>
-                </li>
-              </ul>
+      </li>
+      <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu" aria-labelledby="3">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
         </div>
-<!--		Additional-->
-		<div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          	Additional
-        	</a>
-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li class="dropdown-item"><a href="#">Some action</a></li>
-                <li class="dropdown-item"><a href="#">Some other action</a></li>
-                <li class="dropdown-divider"></li>
-                <li class="dropdown-submenu">
-                  <a  class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
-                  </ul>
-                </li>
-              </ul>
-        </div>
+      </li>
     </ul>
   </div>
 </nav>
