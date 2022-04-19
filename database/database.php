@@ -44,7 +44,7 @@
                     "CREATE TABLE Position (P_ID INT AUTO_INCREMENT PRIMARY KEY,
                     P_name VARCHAR(30),
                     P_level VARCHAR(10),
-                    P_Status VARCHAR(10)))"
+                    P_Status VARCHAR(10))"
                     
                     
     );
