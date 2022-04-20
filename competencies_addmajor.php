@@ -8,6 +8,7 @@
 <html lang="en">
 
 <head>
+<<<<<<< Updated upstream
 	<?php
 	
 	?>
@@ -155,4 +156,22 @@
 
 </body>
 
+=======
+	
+</head>
+
+<body>
+
+	<script>
+	window.onload = function() {
+	   showaddf();
+	}
+	</script> 
+	<div id="show_addmc"></div>
+
+
+
+</body>
+<script src="js/Ajax.js"></script>
+>>>>>>> Stashed changes
 </html>

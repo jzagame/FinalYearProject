@@ -4,6 +4,7 @@
 <script src="Bootstrap4.6.1/jquery3.6.0.min.js"></script>
 <link rel="stylesheet" href="Bootstrap4.6.1/bootstrap4.6.1.css" />
 <link href="css/Menuhover.css" rel="stylesheet" media="all">
+<<<<<<< Updated upstream
 <style>
   .sidenav {
     height: 100%;
@@ -41,6 +42,14 @@
     <div class="col-9 justify-content-center">
       <nav class="navbar navbar-expand-lg navbar-light bg-ligh">
         <a class="navbar-brand" href="index.php">LONGI</a>
+=======
+
+<div class="container">
+  <div class="row">
+    <div class="justify-content-center">
+      <nav class="navbar navbar-expand-lg navbar-light bg-ligh">
+        <a class="navbar-brand" href="index.php">LONGi</a>
+>>>>>>> Stashed changes
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -52,15 +61,26 @@
                 Employee
               </a>
               <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+<<<<<<< Updated upstream
                 <li class="dropdown-item"><a href="#">Some action</a></li>
                 <li class="dropdown-item"><a href="#">Some other action</a></li>
+=======
+                <li class="dropdown-item" role="button" onclick="location=''">Some action</a></li>
+                <li class="dropdown-item" role="button" onclick="location=''">Some other action</a></li>
+>>>>>>> Stashed changes
                 <li class="dropdown-divider"></li>
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
                   <ul class="dropdown-menu">
+<<<<<<< Updated upstream
                     <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
                     <li class="dropdown-item"><a href="#">Second level</a></li>
                     <li class="dropdown-item"><a href="#">Second level</a></li>
+=======
+                    <li class="dropdown-item" role="button" onclick="location=''">Second level</a></li>
+                    <li class="dropdown-item" role="button" onclick="location=''">Second level</a></li>
+                    <li class="dropdown-item" role="button" onclick="location=''">Second level</a></li>
+>>>>>>> Stashed changes
                   </ul>
                 </li>
               </ul>
@@ -72,28 +92,46 @@
               </a>
               <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                 <li class="dropdown-submenu">
+<<<<<<< Updated upstream
                   <a class="dropdown-item" tabindex="-1" href="#">Major Competencies</a>
                   <ul class="dropdown-menu">
                     <li class="dropdown-item"><a tabindex="-1" href="competencies_addmajor.php">Add Major Competencies</a></li>
                     <li class="dropdown-item"><a href="competencies_searchmajor.php?id=e">View/Edit Major Competencies</a></li>
+=======
+                  <a class="dropdown-item" tabindex="-1">Major Competencies</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" role="button" onclick="location='competencies_addmajor.php'">Create Major Competencies</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchmajor.php'">View/Edit Major Competencies</a></li>
+>>>>>>> Stashed changes
                   </ul>
                 </li>
 
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Core Competencies</a>
                   <ul class="dropdown-menu">
+<<<<<<< Updated upstream
                     <li class="dropdown-item"><a tabindex="-1" href="#">Add Core Competencies</a></li>
                     <li class="dropdown-item"><a href="#">Edit Core Competencies</a></li>
                     <li class="dropdown-item"><a href="#">View Core Competencies</a></li>
+=======
+                    <li class="dropdown-item" role="button" onclick="location='competencies_addcore.php'">Create Core Competencies</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchcore.php'">View/Edit Core Competencies</li>
+>>>>>>> Stashed changes
                   </ul>
                 </li>
 
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Core Competencies Items</a>
                   <ul class="dropdown-menu">
+<<<<<<< Updated upstream
                     <li class="dropdown-item"><a tabindex="-1" href="#">Add Core Competencies Items</a></li>
                     <li class="dropdown-item"><a href="#">Edit Core Competencies Items</a></li>
                     <li class="dropdown-item"><a href="#">View Core Competencies Items</a></li>
+=======
+                    <li class="dropdown-item" role="button" onclick="location=''">Add Core Competencies Items</li>
+                    <li class="dropdown-item"role="button" onclick="location=''">Edit Core Competencies Items</li>
+                    <li class="dropdown-item" role="button" onclick="location=''">View Core Competencies Items</li>
+>>>>>>> Stashed changes
                   </ul>
                 </li>
               </ul>
@@ -104,10 +142,17 @@
                 Learning
               </a>
               <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="Assessment">
+<<<<<<< Updated upstream
                 <li class="dropdown-item"><a href="Assessment_Assign.php">Assign</a></li>
                 <li class="dropdown-item"><a href="#">Grade</a></li>
                 <li class="dropdown-item"><a href="#">Swap</a></li>
                 <li class="dropdown-item"><a href="#">View</a></li>
+=======
+                <li class="dropdown-item" role="button" onclick="location='Assessment_Assign.php'">Assign</a></li>
+                <li class="dropdown-item" role="button" onclick="location=''">Grade</li>
+                <li class="dropdown-item" role="button" onclick="location=''">Swap</li>
+                <li class="dropdown-item" role="button" onclick="location=''">View</li>
+>>>>>>> Stashed changes
               </ul>
             </div>
             <!--		Additional-->
@@ -116,10 +161,17 @@
                 Additional
               </a>
               <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+<<<<<<< Updated upstream
                 <li class="dropdown-item"><a href="#">Some action</a></li>
                 <li class="dropdown-item"><a href="#">Some other action</a></li>
                 <li class="dropdown-item"><a href="#">Some other action</a></li>
                 <li class="dropdown-item"><a href="#">Some other action</a></li>
+=======
+                <li class="dropdown-item" role="button" onclick="location=''">Some action</li>
+                <li class="dropdown-item" role="button" onclick="location=''">Some other action</li>
+                <li class="dropdown-item" role="button" onclick="location=''">Some other action</li>
+                <li class="dropdown-item" role="button" onclick="location=''">Some other action</li>
+>>>>>>> Stashed changes
               </ul>
             </div>
           </ul>
