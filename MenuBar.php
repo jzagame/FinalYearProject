@@ -66,7 +66,7 @@
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Department</a>
                   <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Add</a></li>
+                    <li class="dropdown-item"><a tabindex="-1" href="Employee_CreateDepartment.php">Add</a></li>
                     <li class="dropdown-item"><a href="#">View/Edit</a></li>
                   </ul>
                 </li>
