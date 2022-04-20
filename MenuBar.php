@@ -83,7 +83,7 @@
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Assign Position</a>
                   <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Assign</a></li>
+                    <li class="dropdown-item"><a tabindex="-1" href="Employee_AssignPosition.php">Assign</a></li>
                     <li class="dropdown-item"><a href="#">Edit</a></li>
                     <li class="dropdown-item"><a href="#">View</a></li>
                   </ul>
