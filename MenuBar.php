@@ -58,8 +58,16 @@
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Position</a>
                   <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="CreatePosition.php">Add</a></li>
-                    <li class="dropdown-item"><a href="DeletePosition.php">Delete</a></li>
+                    <li class="dropdown-item"><a tabindex="-1" href="CreatePosition.php">Create</a></li>
+                    <li class="dropdown-item"><a href="ViewEditPosition.php">View/Edit</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Department</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a tabindex="-1" href="#">Add</a></li>
+                    <li class="dropdown-item"><a href="#">View/Edit</a></li>
                   </ul>
                 </li>
 
