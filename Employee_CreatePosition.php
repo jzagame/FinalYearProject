@@ -20,8 +20,8 @@
 				<div class="form-group d-flex justify-content-center">
 					<h3><strong>Create Position</strong></h3>
 				</div>
-                <div class="container" style="padding: 0px 50px 0px 100px;">
                 <hr class="bdr-light">
+                <div class="container" style="padding: 0px 50px 0px 100px;">
 					<div class="form-group">
 						<label class="col-sm-2">Position Name</label>
 						<div class="col-sm-12">
