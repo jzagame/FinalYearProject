@@ -2,8 +2,6 @@
 <?php 
     session_start();
     error_reporting(0);
-    include ("database/database.php");
-	include("MenuBar.php");
 ?>
 
 <html>

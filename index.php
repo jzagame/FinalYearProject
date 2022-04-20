@@ -3,6 +3,7 @@
     error_reporting(0);
     include ("database/database.php");
 	include("MenuBar.php");
+  include("dashboard.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
