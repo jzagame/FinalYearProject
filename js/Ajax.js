@@ -133,3 +133,23 @@ function editPosition(pid){
 		}
 	});
 }
+
+function UpdatePosition(pid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updatePosition",formdata:$('#UpdatePositionForm').serializeArray(), position_ID:pid},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Update Position Successfully.');
+				location="Employee_ViewEditPosition.php";
+			}
+			else if(data == "fail"){
+				window.alert('Update Position Failure.');
+			}
+			else{
+				window.alert('Position Category Exist.');
+			}
+		}
+	});
+}

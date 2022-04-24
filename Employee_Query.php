@@ -126,7 +126,7 @@
             $row = mysqli_fetch_array($SearchResult);
 ?>
             <div class="container" style="padding: 50px 0px 50px 100px;">
-            <form method="" id="EditPositionForm">
+            <form method="" id="UpdatePositionForm">
                 <div class="form-group d-flex justify-content-center">
                     <h3><strong>Edit Position Category</strong></h3>
                 </div>
@@ -146,15 +146,39 @@
                     </div>
                     <div class="form-group">
                     <div class="col-sm-12" style="text-align: center;">
-                        <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="back()">
-                        <input type="button" class="btn btn-primary" name="btnUPosition" value="Update" onclick="EditPosition()">
-                        <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
+                        <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditPosition.php'">
+                        <input type="button" class="btn btn-primary" name="btnUPosition" value="Update" onClick="UpdatePosition(<?php echo $row['P_ID'];?>)">
                     </div>
                     </div>
                 </div>
             </form>
             </div>
 <?php
+        }
+    }
+
+    if($_POST['action'] == 'updatePosition'){
+        $pid = $_POST['position_ID'];
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_name = '".strtoupper(trim($formdata[0]['value']))."'";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            echo "same";
+        }
+        else
+        {
+            $UpdateSQL = "UPDATE t_memc_kpcc_position SET P_name = 'ivan',
+            P_level = '".$formdata[1]['value']."'
+            WHERE P_ID = $pid";
+            $UpdateResult = mysqli_query($conn, $UpdateSQL);
+            if($UpdateResult)
+            {
+                echo "success";
+            }
+            else
+            {
+                echo "fail";
+            }
         }
     }
 ?>
