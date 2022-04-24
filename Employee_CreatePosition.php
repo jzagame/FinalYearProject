@@ -18,7 +18,7 @@
         <div class="container" style="padding: 50px 0px 50px 100px;">
 			<form action="" method="post">
 				<div class="form-group d-flex justify-content-center">
-					<h3><strong>Create Position</strong></h3>
+					<h3><strong>Create Position Category</strong></h3>
 				</div>
                 <hr class="bdr-light">
                 <div class="container" style="padding: 0px 50px 0px 100px;">
