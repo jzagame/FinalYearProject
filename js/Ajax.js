@@ -71,3 +71,20 @@ function sendeditmc(mcid){
 	});
 }
 
+function AddPosition(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addPosition",formdata:$('#AddPositionForm').serializeArray()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Position Category Create Successfully.');
+				document.getElementById("AddPositionForm").reset();
+			}else if(data == "fail"){
+				window.alert('Position Category Create Failure.');
+			}else{
+				window.alert('Position Category Exist.');
+			}
+		}
+	});
+}

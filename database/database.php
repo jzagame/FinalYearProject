@@ -57,21 +57,21 @@
                     
                     
     );
-	$link = mysqli_connect($localhost,$username,$password) or die(mysql_error()); 
-	//$link = mysqli_connect($localhost,$username,$password);
-	if($link)
+	$conn = mysqli_connect($localhost,$username,$password) or die(mysql_error()); 
+	//$conn = mysqli_connect($localhost,$username,$password);
+	if($conn)
 	{
-		if(!mysqli_select_db($link,$dbname))
+		if(!mysqli_select_db($conn,$dbname))
 		{
 			$sql="CREATE DATABASE ".$dbname;
-			//$result= mysql_query($sql,$link);
-			$result= mysqli_query($link,$sql);
+			//$result= mysql_query($sql,$conn);
+			$result= mysqli_query($conn,$sql);
 		}
 		//mysql_select_db($dbname);
-		mysqli_select_db($link,$dbname);
+		mysqli_select_db($conn,$dbname);
 		for($i=0;$i<count($tables);++$i)
 		{
-			mysqli_query($link,$tables[$i]);	
+			mysqli_query($conn,$tables[$i]);	
 		}
 	}
 	else
