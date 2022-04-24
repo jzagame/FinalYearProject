@@ -4,11 +4,16 @@
 <script src="Bootstrap4.6.1/jquery3.6.0.min.js"></script>
 <link rel="stylesheet" href="Bootstrap4.6.1/bootstrap4.6.1.css" />
 <link href="css/Menuhover.css" rel="stylesheet" media="all">
+<link href="css/General.css" rel="stylesheet" media="all">
 <div class="container">
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="justify-content-center">
       <nav class="navbar navbar-expand-lg navbar-light bg-ligh">
-        <a class="navbar-brand" href="index.php">LONGi</a>
+        <a class="navbar-brand" href="index.php">
+          <div class="logo-image">
+            <img src="Logo/LONGi_LOGO.png" class="img-fluid">
+          </div>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
