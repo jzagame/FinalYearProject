@@ -89,6 +89,7 @@ function AddPosition(){
 	});
 }
 
+<<<<<<< Updated upstream
 function AddDepartment(){
 	$.ajax({
 		type: "POST",
@@ -103,6 +104,31 @@ function AddDepartment(){
 			}else{
 				window.alert('Department is Existed.');
 			}
+=======
+function SearchPosition(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchPosition",formdata:$('#searchPositionForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Position Category Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function editPosition(pid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"editPosition",position_ID:pid},
+		success: function(data){
+			document.getElementById("searchPositionForm").innerHTML = data;
+>>>>>>> Stashed changes
 		}
 	});
 }

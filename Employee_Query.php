@@ -30,6 +30,7 @@
         }
     }
 
+<<<<<<< Updated upstream
 	if($_POST['action'] == "addDepartment"){
 		
 		$SearchSQL= "SELECT * FROM t_memc_kpcc_department WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."'";
@@ -83,4 +84,80 @@
         }
     }
 
+=======
+    if($_POST['action'] == "searchPosition"){
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            echo "<table class=\"table table-hover\">";
+                echo "<thead>";
+                echo "<tr>";
+                    echo "<th scope=\"col\">No.</th>";
+                    echo "<th scope=\"col\">Position Name</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Level</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
+                    for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+                    {
+                        $row = mysqli_fetch_array($SearchResult);
+                        echo "<tr role=\"button\" onClick=\"editPosition('".$row['P_ID']."')\">";
+                        echo "<td>".($i+1)."</td>";
+                        echo "<td>".$row['P_name']."</td>";
+                        echo "<td>".$row['P_level']."</td>";
+                        echo "<td>".$row['P_Status']."</td>";
+                        echo "</tr>";
+                    }
+                echo "</tbody>";
+            echo "</table>";
+        }
+        else
+        {
+            echo "fail";
+        }
+    }
+
+    if($_POST['action'] == "editPosition"){
+        $pid = $_POST['position_ID'];
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_ID = $pid";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            $row = mysqli_fetch_array($SearchResult);
+?>
+            <div class="container" style="padding: 50px 0px 50px 100px;">
+            <form method="" id="EditPositionForm">
+                <div class="form-group d-flex justify-content-center">
+                    <h3><strong>Edit Position Category</strong></h3>
+                </div>
+                <hr class="bdr-light">
+                <div class="container" style="padding: 0px 50px 0px 100px;">
+                    <div class="form-group">
+                        <label class="col-form-label">Position Name</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" value="<?php echo $row['P_name'];?>" name="txtPositionName">	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Level</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" value="<?php echo $row['P_level'];?>" name="txtPositionLevel" min="0" step="1">	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="back()">
+                        <input type="button" class="btn btn-primary" name="btnUPosition" value="Update" onclick="EditPosition()">
+                        <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
+                    </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+<?php
+        }
+    }
+>>>>>>> Stashed changes
 ?>

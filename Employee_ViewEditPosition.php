@@ -53,7 +53,7 @@
         {
       ?>
           <div class="container" style="padding: 50px 0px 50px 100px;">
-            <form action="" method="post">
+            <form method="" id="searchPositionForm">
             <div class="form-group d-flex justify-content-center">
             <h3><strong>Position Category</strong></h3>
             </div>
@@ -74,7 +74,7 @@
                         <!-- <div class="d-flex align-items-center mb-4">
                           <h4 class="card-title">Score</h4>
                         </div> -->
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="showSearchTable">
                         <table class="table table-hover">
                           <thead>
                             <tr>
@@ -85,18 +85,23 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr onclick="location='Employee_ViewEditPosition.php?id=a'">
-                              <td>1</td>
-                              <td>Admin</td>
-                              <td>1</td>
-                              <td>Open</td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>Head of Department</td>
-                              <td>2</td>
-                              <td>Open</td>
-                            </tr>
+                            <?php
+                              $SearchSQL = "SELECT * FROM t_memc_kpcc_position";
+                              $SearchResult = mysqli_query($conn, $SearchSQL);
+                              if(mysqli_num_rows($SearchResult) > 0)
+                              {
+                                  for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+                                  {
+                                    $row = mysqli_fetch_array($SearchResult);
+                                    echo "<tr role=\"button\" onClick=\"editPosition('".$row['P_ID']."')\">";
+                                    echo "<td>".($i+1)."</td>";
+                                    echo "<td>".$row['P_name']."</td>";
+                                    echo "<td>".$row['P_level']."</td>";
+                                    echo "<td>".$row['P_Status']."</td>";
+                                    echo "</tr>";
+                                  }
+                              }
+                            ?>
                           </tbody>
                         </table>
                         </div>
@@ -111,4 +116,5 @@
         }
       ?>
     </body>
+    <script src="js/Ajax.js"></script>
 </html>
