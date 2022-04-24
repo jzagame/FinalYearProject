@@ -29,7 +29,7 @@
                 <li class="dropdown-item"><a href="#">Some other action</a></li>
                 <li class="dropdown-divider"></li> -->
                 <li class="dropdown-submenu">
-                  <a class="dropdown-item" tabindex="-1" href="#">Position</a>
+                  <a class="dropdown-item" tabindex="-1" href="#">Position Category</a>
                   <ul class="dropdown-menu">
                     <li class="dropdown-item"><a tabindex="-1" href="Employee_CreatePosition.php">Create</a></li>
                     <li class="dropdown-item"><a href="Employee_ViewEditPosition.php">View/Edit</a></li>
