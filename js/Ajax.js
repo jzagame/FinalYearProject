@@ -88,3 +88,21 @@ function AddPosition(){
 		}
 	});
 }
+
+function AddDepartment(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addDepartment",formdata:$('#AddDepartmentForm').serializeArray()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Add Department Successfully.');
+				document.getElementById("AddDepartmentForm").reset();
+			}else if(data == "fail"){
+				window.alert('Create Department Failed.');
+			}else{
+				window.alert('Department is Existed.');
+			}
+		}
+	});
+}
