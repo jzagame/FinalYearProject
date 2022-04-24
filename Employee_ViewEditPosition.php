@@ -40,8 +40,8 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-12" style="text-align: center;">
-                  <input type="submit" class="btn btn-dark" name="btnEditPosition" value="Edit">
-                  <input type="button" class="btn btn-dark" name="btnBack" value="Back" onClick="back()">
+                  <input type="submit" class="btn btn-primary" name="btnEditPosition" value="Edit">
+                  <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="back()">
                 </div>
               </div>
             </div>
@@ -55,10 +55,10 @@
           <div class="container" style="padding: 50px 0px 50px 100px;">
             <form action="" method="post">
             <div class="form-group d-flex justify-content-center">
-            <h3><strong>Position</strong></h3>
+            <h3><strong>Position Category</strong></h3>
             </div>
             <hr class="bdr-light">
-              <div class="container">
+              <div class="container" id="SearchPositionDiv">
                 <div class="row">
                   <div class="col">
                     <div class="ml-12">
@@ -68,7 +68,7 @@
                             <input type="text" class="form-control" placeholder="Search" name="txtSearchPosition">	
                           </div>
                           <div class="col-sm-1" style="text-align: center;">
-                            <input type="submit" class="btn btn-dark" name="btnSearchPosition" value="Search">
+                            <input type="button" class="btn btn-primary" name="btnSearchPosition" value="Search" onclick="SearchPosition()">
                           </div>
                         </div>
                         <!-- <div class="d-flex align-items-center mb-4">
@@ -76,7 +76,7 @@
                         </div> -->
                         <div class="table-responsive">
                         <table class="table table-hover">
-                          <thead class="thead-dark">
+                          <thead>
                             <tr>
                               <th scope="col">No.</th>
                               <th scope="col">Position Name</th>

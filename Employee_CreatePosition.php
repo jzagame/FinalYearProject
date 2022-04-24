@@ -23,22 +23,21 @@
             <hr class="bdr-light">
             <div class="container" style="padding: 0px 50px 0px 100px;">
 				<div class="form-group">
-					<label class="col-sm-2">Position Name</label>
+					<label class="col-form-label">Position Name</label>
 					<div class="col-sm-12">
                         <input type="text" class="form-control" placeholder="Enter Position Name" name="txtPositionName">	
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-2">Level</label>
+					<label class="col-form-label">Level</label>
 					<div class="col-sm-12">
                         <input type="number" class="form-control" placeholder="Enter Position Level" name="txtPositionLevel" min="0" step="1">	
 					</div>
 				</div>
                 <div class="form-group">
                 <div class="col-sm-12" style="text-align: center;">
-                    <!-- <button class="btn btn-dark" name="btnCPosition" onClick="AddPosition()">Create</button> -->
-                    <input type="button" class="btn btn-dark" name="btnCPosition" value="Create" onclick="AddPosition()">
-                    <input type="reset" class="btn btn-dark" name="btnClear" value="Clear">
+                    <input type="button" class="btn btn-primary" name="btnCPosition" value="Create" onclick="AddPosition()">
+                    <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                 </div>
                 </div>
             </div>
