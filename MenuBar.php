@@ -4,6 +4,7 @@
 <script src="Bootstrap4.6.1/jquery3.6.0.min.js"></script>
 <link rel="stylesheet" href="Bootstrap4.6.1/bootstrap4.6.1.css" />
 <link href="css/Menuhover.css" rel="stylesheet" media="all">
+<link rel="stylesheet" href="css/open-iconic-master/font/css/open-iconic-bootstrap.css"/>
 <nav class="navbar navbar-expand-lg navbar-light bg-ligh">
   <a class="navbar-brand" href="MenuBar.php">LONGI</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

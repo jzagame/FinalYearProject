@@ -1,28 +1,66 @@
 <?php 
-    include "conn.php";
-    $sqlquery = array(
-            "Create table if not exists MajorCompetencies(Mc_ID int auto_increment primary key, Mc_name varchar(30), Mc_status varchar(1))",
-            "Create table if not exists CoreCompetencies (Cc_ID int auto_increment primary key,Cc_Mc_ID int,Cc_Name varchar(30),Cc_Description varchar(1000),Cc_status varchar(1))",
-            "Create table if not exists Items (Im_ID int auto_increment primary key, Im_Cc_ID int, Im_Name varchar(30), Im_Description varchar(1000),Im_lv1_Desc varchar(2000),
-            Im_lv2_Desc varchar(2000),Im_lv3_Desc varchar(2000),Im_Lv4_Desc varchar(2000),Im_Lv5_Desc varchar(2000),Im_Status varchar(1))",
-            //first 3 belong to competencies
-            "Create table if not exists Learning_Path(Lh_ID int auto_increment primary key, Lh_Emp_ID varchar(30), Lh_Total_Core int, Lh_Total_Sub int, Lh_Status varchar(1))",
-            "Create table if not exists Employee_item(Ei_ID int auto_increment primary key,Ei_Lh_ID int, Ei_Im_ID int, Ei_Date_Assign varchar(20),  Ei_Date_Participate varchar(20),
-            Ei_Time_Participate varchar(20), Ei_Category varchar(20), Ei_Score varchar(20),Ei_Target_Score varchar(20), Ei_Status varchar(10))",
-            // 4 - 5 belong to employee training
-            "Create table if not exists Employee_detail(EmpDetail_ID int auto_increment primary key,Emp_ID varchar(30) ,Emp_P_ID int, EmpDetail_Status varchar(20))",
-            "Create table if not exists Position (P_ID int auto_increment primary key, P_name varchar(30), P_level varchar(10), P_Status varchar(10))" 
-            //6-7 belong to employee      
-        );
-
-    foreach($sqlquery as $sqlq){
-        if($conn -> query($sqlq) == false){
-            echo "Failed create table : " . $sqlq . "<br>" . $conn->error; // if table creation fail will print error
+	include "conn.php";
+	//$localhost="http://www.myapps.com:3306";
+	$tables = array("CREATE TABLE  t_memc_kpcc_MajorCompetencies(Mc_ID INT AUTO_INCREMENT PRIMARY KEY,
+	                 Mc_name VARCHAR(30),
+	                 Mc_status CHAR(1))",
+                    "CREATE TABLE t_memc_kpcc_CoreCompetencies (Cc_ID INT AUTO_INCREMENT PRIMARY KEY,
+				    Cc_Mc_ID INT,
+				    Cc_Name VARCHAR(30),
+				    Cc_Description VARCHAR(1000),
+				    Cc_status CHAR(1))",
+                    "CREATE TABLE t_memc_kpcc_CoreCompetenciesItems (Im_ID INT AUTO_INCREMENT PRIMARY KEY,
+                    Im_Cc_ID INT,
+				    Im_Name VARCHAR(30),
+				    Im_Description VARCHAR(1000),
+				    Im_lv1_Desc VARCHAR(2000),
+                    Im_lv2_Desc VARCHAR(2000),
+				    Im_lv3_Desc VARCHAR(2000),
+				    Im_Lv4_Desc VARCHAR(2000),
+				    Im_Lv5_Desc VARCHAR(2000),
+				    Im_Status CHAR(1))",
+				    "CREATE TABLE t_memc_kpcc_Learning_Path(Lh_ID INT AUTO_INCREMENT PRIMARY KEY,
+				    Lh_Emp_ID VARCHAR(30),
+				    Lh_Total_Core INT,
+				    Lh_Total_Sub  INT,
+				    Lh_Status CHAR(1))",
+                    "CREATE TABLE t_memc_kpcc_Employee_item(Ei_ID INT AUTO_INCREMENT PRIMARY KEY,
+                    Ei_Lh_ID INT,
+                    Ei_Im_ID INT,
+                    Ei_Date_Assign VARCHAR(20),
+                    Ei_Date_Participate VARCHAR(20),
+					Ei_Date_End VARCHAR(20),
+					Ei_Description VARCHAR(2000),
+                    Ei_Category VARCHAR(20),
+                    Ei_Score VARCHAR(20),
+                    Ei_Target_Score INT,
+                    Ei_Status VARCHAR(10))",
+                    "CREATE TABLE t_memc_kpcc_Employee_detail(EmpDetail_ID INT AUTO_INCREMENT PRIMARY KEY,
+					EMP_D_ID INT,
+                    Emp_ID VARCHAR(30),
+                    Emp_P_ID INT,
+                    EmpDetail_Status VARCHAR(20))",
+					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
+                    D_Name VARCHAR(50),
+                    D_HODName VARCHAR(50),
+					D_Quarter VARCHAR(10),
+					D_Year INT,
+                    D_HODNode VARCHAR(50),
+                    D_Status CHAR(1))",
+                    "CREATE TABLE t_memc_kpcc_Position (P_ID INT AUTO_INCREMENT PRIMARY KEY,
+                    P_name VARCHAR(30),
+                    P_level INT,
+                    P_Status VARCHAR(10))"
+                    
+                    
+    );
+	
+	foreach($tables as $sql){
+		if($conn -> query($sql) == false){
+			echo "Failed create table : " . $sqlq . "<br>" . $conn->error; // if table creation fail will print error
             break;
-        }
-    }
+		}
+	}
 
-    $conn->close();
-
-    //only conn.php need include, database.php not necessary because it only use for create table 
+	$conn -> close();
 ?>
