@@ -30,7 +30,6 @@
         }
     }
 
-<<<<<<< Updated upstream
 	if($_POST['action'] == "addDepartment"){
 		
 		$SearchSQL= "SELECT * FROM t_memc_kpcc_department WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."'";
@@ -84,7 +83,6 @@
         }
     }
 
-=======
     if($_POST['action'] == "searchPosition"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -159,5 +157,4 @@
 <?php
         }
     }
->>>>>>> Stashed changes
 ?>

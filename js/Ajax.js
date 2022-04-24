@@ -89,7 +89,6 @@ function AddPosition(){
 	});
 }
 
-<<<<<<< Updated upstream
 function AddDepartment(){
 	$.ajax({
 		type: "POST",
@@ -104,7 +103,10 @@ function AddDepartment(){
 			}else{
 				window.alert('Department is Existed.');
 			}
-=======
+		}
+		});
+	}
+
 function SearchPosition(){
 	$.ajax({
 		type: "POST",
@@ -128,7 +130,6 @@ function editPosition(pid){
 		data: {action:"editPosition",position_ID:pid},
 		success: function(data){
 			document.getElementById("searchPositionForm").innerHTML = data;
->>>>>>> Stashed changes
 		}
 	});
 }
