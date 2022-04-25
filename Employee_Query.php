@@ -167,7 +167,7 @@
         }
         else
         {
-            $UpdateSQL = "UPDATE t_memc_kpcc_position SET P_name = 'ivan',
+            $UpdateSQL = "UPDATE t_memc_kpcc_position SET P_name = '".strtoupper(trim($formdata[0]['value']))."',
             P_level = '".$formdata[1]['value']."'
             WHERE P_ID = $pid";
             $UpdateResult = mysqli_query($conn, $UpdateSQL);
@@ -179,6 +179,42 @@
             {
                 echo "fail";
             }
+        }
+    }
+
+    if($_POST['action'] == "searchEmployee"){
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            echo "<table class=\"table table-hover\">";
+                echo "<thead>";
+                echo "<tr>";
+                    echo "<th scope=\"col\"></th>";
+                    echo "<th scope=\"col\">No.</th>";
+                    echo "<th scope=\"col\">Employee Number</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Email</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
+                    for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+                    {
+                        $row = mysqli_fetch_array($SearchResult);
+                        echo "<tr>";
+                        echo "<td><input type=\"checkbox\" name=\"".$row['Emp_Detail_ID']."\"></td>";
+                        echo "<td>".($i+1)."</td>";
+                        echo "<td>".$row['P_name']."</td>";
+                        echo "<td>".$row['P_level']."</td>";
+                        echo "<td>".$row['P_Status']."</td>";
+                        echo "</tr>";
+                    }
+                echo "</tbody>";
+            echo "</table>";
+        }
+        else
+        {
+            echo "fail";
         }
     }
 ?>

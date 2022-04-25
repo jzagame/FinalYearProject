@@ -129,12 +129,49 @@ function editPosition(pid){
 		url: "Employee_Query.php",
 		data: {action:"editPosition",position_ID:pid},
 		success: function(data){
-			document.getElementById("searchPositionForm").innerHTML = data;
+			document.getElementById("ShowEditForm").innerHTML = data;
 		}
 	});
 }
 
 function UpdatePosition(pid){
+	console.log($('#UpdatePositionForm').serializeArray());
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updatePosition",formdata:$('#UpdatePositionForm').serializeArray(), position_ID:pid},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Update Position Successfully.');
+				location="Employee_ViewEditPosition.php";
+			}
+			else if(data == "fail"){
+				window.alert('Update Position Failure.');
+			}
+			else{
+				window.alert('Position Category Exist.');
+			}
+		}
+	});
+}
+
+function SearchEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchEmployee",formdata:$('#searchEmployeeForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function AddEmployee(pid){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",

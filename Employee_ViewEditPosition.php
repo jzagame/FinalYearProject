@@ -15,7 +15,7 @@
     </head>
 
     <body>
-      <div class="container" style="padding: 50px 0px 50px 100px;">
+      <div class="container" style="padding: 50px 0px 50px 100px;" id="ShowEditForm">
         <form method="" id="searchPositionForm">
         <div class="form-group d-flex justify-content-center">
         <h3><strong>Position Category</strong></h3>

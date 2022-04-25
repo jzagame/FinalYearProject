@@ -42,6 +42,8 @@
 					EMP_D_ID INT,
                     Emp_ID VARCHAR(30),
                     Emp_P_ID INT,
+					Emp_Name VARCHAR(99),
+					Emp_Email VARCHAR(50),
                     EmpDetail_Status VARCHAR(20))",
 					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
                     D_Name VARCHAR(50),

@@ -47,18 +47,10 @@
                 <li class="dropdown-submenu">
                   <a class="dropdown-item" tabindex="-1" href="#">Employee</a>
                   <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="#">Add</a></li>
-                    <li class="dropdown-item"><a href="#">Edit</a></li>
-                    <li class="dropdown-item"><a href="#">View</a></li>
-                  </ul>
-                </li>
-
-                <li class="dropdown-submenu">
-                  <a class="dropdown-item" tabindex="-1" href="#">Assign Position</a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a tabindex="-1" href="Employee_AssignPosition.php">Assign</a></li>
-                    <li class="dropdown-item"><a href="#">Edit</a></li>
-                    <li class="dropdown-item"><a href="#">View</a></li>
+                    <li class="dropdown-item"><a tabindex="-1" href="Employee_AddEmployee.php">Add</a></li>
+                    <li class="dropdown-item"><a href="Employee_RemoveEmployee.php">Remove</a></li>
+                    <li class="dropdown-item"><a href="Employee_AssignPosition.php">Assign Position</a></li>
+                    <li class="dropdown-item"><a href="#">View/Edit Position</a></li>
                   </ul>
                 </li>
 
