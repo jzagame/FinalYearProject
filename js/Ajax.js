@@ -190,3 +190,50 @@ function AddEmployee(pid){
 		}
 	});
 }
+
+function SearchDepartment(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchDepartment",formdata:$('#searchDepartmentForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Department Not Found");
+			}
+			else{
+				document.getElementById("showDepartTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function editDepartment(did){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"editDepartment",D_ID:did},
+		success: function(data){
+			document.getElementById("ShowEditForm").innerHTML = data;
+		}
+	});
+}
+
+function UpdateDepartment(did){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateDepartment",formdata:$('#UpdateDepartmentForm').serializeArray(), D_ID:did},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Update Department Successfully.');
+				location="Employee_ViewEditDepartment.php";
+			}
+			else if(data == "fail"){
+				window.alert('Update Department Failure.');
+			}
+			else{
+				window.alert('Department Does Not Exist.');
+			}
+		}
+	});
+}

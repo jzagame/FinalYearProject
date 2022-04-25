@@ -217,4 +217,121 @@
             echo "fail";
         }
     }
+
+	if($_POST['action'] == "searchDepartment"){
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            echo "<table class=\"table table-hover\">";
+			echo "<thead class=\"thead-dark\">";
+                echo "<tr>";
+                    echo "<th scope=\"col\">No.</th>";
+                    echo "<th scope=\"col\">Department Name</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Department HOD Name</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Quarter</th>";
+					echo "<th scope=\"col\" style=\"vertical-align:middle\">Year</th>";
+					echo "<th scope=\"col\" style=\"vertical-align:middle\">Node</th>";
+					echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
+                    for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+                    {
+                        $row = mysqli_fetch_array($SearchResult);
+                                echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
+                                echo "<td>".$row['D_ID']."</td>";
+                                echo "<td>".$row['D_Name']."</td>";
+                                echo "<td>".$row['D_HODName']."</td>";
+                                echo "<td>".$row['D_Quarter']."</td>";
+								echo "<td>".$row['D_Year']."</td>";
+								echo "<td>".$row['D_HODNode']."</td>";
+								echo "<td>".$row['D_Status']."</td>";
+                                echo "</tr>";
+                    }
+                echo "</tbody>";
+            echo "</table>";
+        }
+        else
+        {
+            echo "fail";
+        }
+    }
+
+	if($_POST['action'] == "editDepartment"){
+        $did = $_POST['D_ID'];
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            $row = mysqli_fetch_array($SearchResult);
+?>
+            <div class="container" style="padding: 50px 0px 50px 100px;">
+            <form method="" id="UpdateDepartmentForm">
+                <div class="form-group d-flex justify-content-center">
+                    <h3><strong>Edit Department</strong></h3>
+                </div>
+                <hr class="bdr-light">
+                <div class="container" style="padding: 0px 50px 0px 100px;">
+                    <div class="form-group">
+                        <label class="col-form-label">Department Name</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" value="<?php echo $row['D_Name'];?>" name="txtDepartmentName">	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Department HOD Name</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" value="<?php echo $row['D_HODName'];?>" name="txtDepartmentHOD">	
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-form-label">Quarter</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" value="<?php echo $row['D_Quarter'];?>" name="txtQuarter">	
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-form-label">Year</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" value="<?php echo $row['D_Year'];?>" name="txtYear">	
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-form-label">Node</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" value="<?php echo $row['D_HODNode'];?>" name="txtNode">	
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditDepartment.php'">
+                        <input type="button" class="btn btn-primary" name="btnUDepartment" value="Update" onClick="UpdateDepartment(<?php echo $row['D_ID'];?>)">
+                    </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+<?php
+        }
+    }
+	
+	if($_POST['action'] == 'updateDepartment'){
+        $did = $_POST['D_ID'];
+            $UpdateSQL = "UPDATE t_memc_kpcc_department SET D_Name = '".strtoupper(trim($formdata[0]['value']))."',
+            D_HODName = '".strtoupper(trim($formdata[1]['value']))."',
+			D_Quarter = '".$formdata[2]['value']."',
+			D_Year = '".$formdata[3]['value']."',
+			D_HODNode = '".strtoupper(trim($formdata[4]['value']))."'
+            WHERE D_ID = $did";
+            $UpdateResult = mysqli_query($conn, $UpdateSQL);
+            if($UpdateResult)
+            {
+                echo "success";
+            }
+            else
+            {
+                echo "fail";
+            }
+        }
 ?>
