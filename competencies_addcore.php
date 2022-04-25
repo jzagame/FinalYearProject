@@ -9,9 +9,12 @@
 
 <head>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	<?php
 	
 	?>
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -19,6 +22,7 @@
 
 <body>
 	<?php
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 	$xx=0;
 	if($_GET['id'] != "")
@@ -194,6 +198,8 @@
 </body>
 
 =======
+=======
+>>>>>>> Stashed changes
 	$catesql= "SELECT * FROM t_memc_kpcc_majorcompetencies";
 	$view= mysqli_query($conn,$catesql);
 	if(mysqli_num_rows($view) > 0)
@@ -214,5 +220,8 @@
 
 </body>
 <script src="js/Ajax.js"></script>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 </html>

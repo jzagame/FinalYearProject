@@ -4,6 +4,10 @@
 	$formdata = $_POST['formdata'];
 	$xx=0;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+//Major Competecies
+>>>>>>> Stashed changes
 =======
 //Major Competecies
 >>>>>>> Stashed changes
@@ -125,9 +129,12 @@
 <?php
 		}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
 	}
 =======
+=======
+>>>>>>> Stashed changes
 		else{
 			echo "nf";
 		}
@@ -262,6 +269,9 @@ if($_POST['action'] == "searchcc"){
 		}
 	
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 
