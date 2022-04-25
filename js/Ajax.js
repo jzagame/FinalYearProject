@@ -1,3 +1,7 @@
+<<<<<<< Updated upstream
+=======
+//Major Competecies
+>>>>>>> Stashed changes
 function showaddf(){
 	$.ajax({
 		type: "POST",
@@ -9,6 +13,10 @@ function showaddf(){
 	});
 }
 function btnaddmcf(){
+<<<<<<< Updated upstream
+=======
+	
+>>>>>>> Stashed changes
 		$.ajax({
 			type:"POST",
 			url:"Competencies_db_query.php",
@@ -40,7 +48,11 @@ function btneditmcf(mcid2){
 			}else if(data == "fail"){
 				window.alert('Update failure.');
 			}else{
+<<<<<<< Updated upstream
 				window.alert('Same Core Competencies Exist.');
+=======
+				window.alert('Same Major Competencies Exist.');
+>>>>>>> Stashed changes
 			}
 			
         }
@@ -54,6 +66,14 @@ $('#btnmcsearch').click(function(e){
         url:"Competencies_db_query.php",
         data: {action:"searchmc",formdata:$('#smc').serializeArray()},
         success: function(data){
+<<<<<<< Updated upstream
+=======
+			if(data =="nf")
+			{
+				window.alert('Not found');
+				document.getElementById("smc").reset();
+			}else
+>>>>>>> Stashed changes
 			document.getElementById("show_searchmc").innerHTML = data;
 			
         }
@@ -71,3 +91,82 @@ function sendeditmc(mcid){
 	});
 }
 
+<<<<<<< Updated upstream
+=======
+//Core Competecies
+function showaddfcc(){
+	$.ajax({
+		type: "POST",
+		url: "Competencies_showform.php",
+		data: {  action:"showaddcc"},
+		success: function(data){
+			document.getElementById("show_addcc").innerHTML = data;
+		}
+	});
+}
+function btnaddccf(){
+		$.ajax({
+			type:"POST",
+			url:"Competencies_db_query.php",
+			data: {action:"createcc",formdata:$('#acc').serializeArray()},
+			success: function(data){
+				if(data == "success"){
+					window.alert('Created successfully.');
+					document.getElementById("acc").reset();
+				}else if(data == "fail"){
+					window.alert('Create failure.');
+				}else{
+					window.alert('Same Core Competencies Exist.');
+				}
+
+			}
+		});
+}
+function btneditccf(ccid2){
+    $.ajax({
+        type:"POST",
+        url:"Competencies_db_query.php",
+        data: {action:"editcc",formdata:$('#acc').serializeArray(),ccidd:ccid2},
+        success: function(data){
+            if(data == "updated"){
+				window.alert('Updated successfully.');
+				window.location ="competencies_searchcore.php";
+			}else if(data == "fail"){
+				window.alert('Update failure.');
+			}else{
+				window.alert('Same Core Competencies Exist.');
+			}
+			
+        }
+    });
+}
+
+$('#btnccsearch').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url:"Competencies_db_query.php",
+        data: {action:"searchcc",formdata:$('#scc').serializeArray()},
+        success: function(data){
+			if(data =="nf")
+			{
+				window.alert('Not found');
+				document.getElementById("scc").reset();
+			}else			
+				document.getElementById("show_searchcc").innerHTML = data;
+        }
+    });
+});
+
+function sendeditcc(ccid){
+	$.ajax({
+		type: "POST",
+		url: "Competencies_showform.php",
+		data: { action:"showaddcc", ccid1: ccid},
+		success: function(data){
+			document.getElementById("show_editcc").innerHTML = data;
+		}
+	});
+}
+
+>>>>>>> Stashed changes

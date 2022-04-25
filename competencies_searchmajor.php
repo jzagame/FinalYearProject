@@ -40,10 +40,64 @@
 	
 
   <input class="btn btn-dark" type="submit" id="btnmcsearch" value="Search">
+<<<<<<< Updated upstream
 </form>
             
 
 <div id="show_searchmc"></div>
+=======
+	<input type="reset" class="btn btn-dark" name="btnclear" value="Clear">
+</form>
+            
+
+<div id="show_searchmc">
+	<?php
+		$sql= "SELECT * FROM t_memc_kpcc_majorcompetencies WHERE Mc_ID IS NOT NULL AND "; //Search major competencies
+		$sql.= "ORDER BY Mc_ID";
+		$sql = str_replace("AND ORDER","ORDER",$sql);
+		$view= mysqli_query($conn,$sql);
+		if(mysqli_num_rows($view) > 0)
+		{
+            ?>
+	  <table class="table table-hover" style="margin-top:15px">
+		<thead>
+		  <tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Status</th>
+		  </tr>
+		</thead>
+<tbody>
+         <?php
+	for($i=0;$i<mysqli_num_rows($view);++$i)
+	{
+		$row = mysqli_fetch_array($view);
+		
+		 echo "<tr role=\"button\" onClick=\"sendeditmc('".$row['Mc_ID']."')\">";
+
+			echo "<td>".$row['Mc_ID']."</td>";
+			echo "<td>".$row['Mc_name']."</td>";
+			if($row['Mc_status']=="A"){
+				echo "<td>Active</td>";
+			}else{
+				echo "<td>Inactive</td>";
+			}
+		echo "</tr>";	
+	}
+	?>
+    </tbody>
+    </table>
+    </div>
+	</div>
+    </div>
+</div>
+	
+<?php
+		}
+        		
+	?>
+</div>
+>>>>>>> Stashed changes
 	  
  </div>
   </div> 
