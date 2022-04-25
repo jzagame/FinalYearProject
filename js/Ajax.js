@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+
 //Major Competecies
->>>>>>> Stashed changes
-=======
-//Major Competecies
->>>>>>> Stashed changes
 function showaddf(){
 	$.ajax({
 		type: "POST",
@@ -17,14 +11,6 @@ function showaddf(){
 	});
 }
 function btnaddmcf(){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-	
->>>>>>> Stashed changes
-=======
-	
->>>>>>> Stashed changes
 		$.ajax({
 			type:"POST",
 			url:"Competencies_db_query.php",
@@ -56,15 +42,7 @@ function btneditmcf(mcid2){
 			}else if(data == "fail"){
 				window.alert('Update failure.');
 			}else{
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 				window.alert('Same Core Competencies Exist.');
-=======
-				window.alert('Same Major Competencies Exist.');
->>>>>>> Stashed changes
-=======
-				window.alert('Same Major Competencies Exist.');
->>>>>>> Stashed changes
 			}
 			
         }
@@ -78,20 +56,11 @@ $('#btnmcsearch').click(function(e){
         url:"Competencies_db_query.php",
         data: {action:"searchmc",formdata:$('#smc').serializeArray()},
         success: function(data){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
 			if(data =="nf")
 			{
 				window.alert('Not found');
 				document.getElementById("smc").reset();
 			}else
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 			document.getElementById("show_searchmc").innerHTML = data;
 			
         }
@@ -109,11 +78,6 @@ function sendeditmc(mcid){
 	});
 }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
 //Core Competecies
 function showaddfcc(){
 	$.ajax({
@@ -190,7 +154,3 @@ function sendeditcc(ccid){
 	});
 }
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

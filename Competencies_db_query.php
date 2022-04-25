@@ -3,14 +3,8 @@
     include ("database/database.php");
 	$formdata = $_POST['formdata'];
 	$xx=0;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
+
 //Major Competecies
->>>>>>> Stashed changes
-=======
-//Major Competecies
->>>>>>> Stashed changes
     if($_POST['action'] == "createmc"){
 		
 		$sql2= "SELECT * FROM t_memc_kpcc_majorcompetencies";
@@ -128,13 +122,6 @@
 	
 <?php
 		}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        
-	}
-=======
-=======
->>>>>>> Stashed changes
 		else{
 			echo "nf";
 		}
@@ -268,13 +255,6 @@ if($_POST['action'] == "searchcc"){
 			echo "nf";
 		}
 	
-}
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
-
-	
+}	
 
 ?>

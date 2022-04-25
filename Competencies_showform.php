@@ -1,20 +1,10 @@
 <?php 
     error_reporting(0);
     include ("database/database.php");
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-$mcid1 = $_POST['mcid1'];
-=======
-=======
->>>>>>> Stashed changes
 
 $mcid1 = $_POST['mcid1'];
 $ccid1 = $_POST['ccid1'];
 //Major Competecies
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 if($_POST['action'] == "showaddmc"){
 	
 	if($mcid1 != "")
@@ -30,36 +20,15 @@ if($_POST['action'] == "showaddmc"){
 	<div class="container-fluid px-1 py-3 mx-auto">
 		<div class="row d-flex justify-content-center">
 			<div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-				<h3><strong>Create Major Competencies</strong></h3>
-				<div class="card">
-					<?php if($mcid1 !=""){?>
-					<input class="btn btn-dark col-2" type="submit" name="btnback" value="Back" onClick="location='competencies_searchmajor.php?id=e'">
-=======
-=======
->>>>>>> Stashed changes
 				<h3><strong><?php if($ccid1 !=""){ ?> Edit Major Competecies<?php }else  {?>Create Major Competencies <?php } ?></strong></h3>
 				<div class="card">
 					<?php if($mcid1 !=""){?>
 					<input class="btn btn-dark col-2" type="submit" name="btnback" value="Back" onClick="location='competencies_searchmajor.php'">
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 					<?php
 					}
 					?>
 					<h5 class="text-center mb-4"></h5>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-					<form class="form-card" id="amc">
-=======
 					<form class="form-card" id="amc" onSubmit="event.preventDefault(); <?php if($mcid1!=""){echo "btneditmcf(".$mcid1.")";}else echo "btnaddmcf()"; ?>">
->>>>>>> Stashed changes
-=======
-					<form class="form-card" id="amc" onSubmit="event.preventDefault(); <?php if($mcid1!=""){echo "btneditmcf(".$mcid1.")";}else echo "btnaddmcf()"; ?>">
->>>>>>> Stashed changes
 						<div class="row justify-content-center text-left">
 							<div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">Major Competency name</label> 
 							<div class="col-md-12">
@@ -96,15 +65,7 @@ if($_POST['action'] == "showaddmc"){
 								</div>
 							<div class="row justify-content-center">
 							<div class="form-group col-sm-6">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-							<button class="btn btn-dark" type="button" onClick="<?php if($mcid1!=""){echo "btneditmcf(".$mcid1.")";}else echo "btnaddmcf()"; ?>"><?php if($mcid1!=""){echo "Update";}else echo "Create"; ?></button>
-=======
 							<input class="btn btn-dark" type="submit" value="<?php if($mcid1!=""){echo "Update";}else echo "Create"; ?>" >
->>>>>>> Stashed changes
-=======
-							<input class="btn btn-dark" type="submit" value="<?php if($mcid1!=""){echo "Update";}else echo "Create"; ?>" >
->>>>>>> Stashed changes
 								<input type="reset" class="btn btn-dark" name="btnclear" value="Clear">
 							</div>
 						</div>
@@ -118,14 +79,6 @@ if($_POST['action'] == "showaddmc"){
 	</div>
 <?php
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-
-
-=======
-=======
->>>>>>> Stashed changes
 //Core Competencies
 if($_POST['action'] == "showaddcc"){
 
@@ -234,8 +187,4 @@ if($_POST['action'] == "showaddcc"){
 	
 	
 }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 ?>

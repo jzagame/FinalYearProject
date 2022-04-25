@@ -40,15 +40,6 @@
 	
 
   <input class="btn btn-dark" type="submit" id="btnmcsearch" value="Search">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-</form>
-            
-
-<div id="show_searchmc"></div>
-=======
-=======
->>>>>>> Stashed changes
 	<input type="reset" class="btn btn-dark" name="btnclear" value="Clear">
 </form>
             
@@ -99,12 +90,7 @@
 		}
         		
 	?>
-</div>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-	  
+</div>	  
  </div>
   </div> 
 	</div>
