@@ -7,64 +7,91 @@ $previous = $_POST['previous'];
 $action = $_POST['action'];
 $search = $_POST['search'];
 if ($next == "Comp_Card") { // Add competecies form content
-    if ($_SESSION['core_count'] + 1 == 6) {
-        echo "no";
-    } else {
-        $_SESSION['core_count'] = $_SESSION['core_count'] + 1;
+    if ($_SESSION['core_count'] < 6) {
+        if ($_POST['act2'] != "replace") {
+            $_SESSION['core_count'] = $_SESSION['core_count'] + 1;
+        }
+        if ($search != null) {
+            $sql = "select * from t_memc_kpcc_employee_item,t_memc_kpcc_items,t_memc_kpcc_corecompetencies,t_memc_kpcc_majorcompetencies where 
+            Ei_Im_ID = Im_ID and Im_Cc_Id = Cc_ID and Cc_Mc_ID = Mc_ID and Ei_ID = " . $search . "";
+            $result = $conn->query($sql);
+            $found = $result->fetch_assoc();
+        }
         $num = $_SESSION['core_count'];
 ?>
         <div id="card_<?php echo $num; ?>" class="row">
             <table class="table" style="text-align: center;">
                 <tr>
                     <td scope="col" style="width:5%;"><label for="MajorCompetencies<?php echo $num; ?>" class="col-form-label">Major</label></td>
-                    <td scope="col" colspan="3">
+                    <td scope="col" colspan="2">
                         <Select class="custom-select form-control" id="MajorCompetencies<?php echo $num; ?>" onchange="filterCompetencies('<?php echo $num; ?>')" required>
-                            <option value="blank" selected>choose...</option>
+                            <option value="blank">choose...</option>
                             <?php
                             $sql = "select * from t_memc_kpcc_majorcompetencies where Mc_status = 'A'";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
                             ?>
-                                <option value="<?php echo $row['Mc_ID']; ?>"><?php echo $row['Mc_name']; ?></option>
+                                <option <?php if ($found['Mc_ID'] == $row['Mc_ID']) {
+                                            echo "selected";
+                                        } ?> value="<?php echo $row['Mc_ID']; ?>"><?php echo $row['Mc_name']; ?></option>
                             <?php
                             }
                             ?>
                         </Select>
                     </td>
                     <td scope="col" style="width: 10%;"><label for="Compt<?php echo $num; ?>>" class="col-form-label">Competencies:</label></td>
-                    <td scope="col" colspan="3">
+                    <td scope="col" colspan="2">
                         <Select class="custom-select form-contorl" id="Compt<?php echo $num; ?>" onchange="filterItems('<?php echo $num; ?>')">
-                            <option value="blank" selected>choose...</option>
+                            <option value="blank">choose...</option>
                             <?php
                             $sql = "select * from t_memc_kpcc_corecompetencies where Cc_status = 'A'";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
                             ?>
-                                <option value="<?php echo $row['Cc_ID']; ?>"><?php echo $row['Cc_Name']; ?></option>
+                                <option <?php if ($found['Cc_ID'] == $row['Cc_ID']) {
+                                            echo "selected";
+                                        } ?> value="<?php echo $row['Cc_ID']; ?>"><?php echo $row['Cc_Name']; ?></option>
                             <?php
                             }
                             ?>
                         </Select>
                     </td>
+                    <td scope="col"><label for="Quarter<?php echo $num; ?>" class="col-form-label">Quarter</label></td>
+                    <td scope="col" colspan="2">
+                        <select name="quarter" id="Qaruter<?php echo $num; ?>" class="form-control custom-select">
+                            <option>choose...</option>
+                            <?php
+                            $sql = "select * from t_memc_kpcc_quarter where Q_Year = '" . date("Y") . "'";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                            ?>
+                                <option value="<?php echo $row['Q_ID'] ?>"><?php echo $row['Q_name'] . " - " . $row['Q_Year']; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td scope="col"><label for="Itm<?php echo $num; ?>" class="col-form-label">Item</label></td>
-                    <td scope="col" colspan="3">
+                    <td scope="col" colspan="2">
                         <Select class="custom-select form-control" name="Itm" id="Itm<?php echo $num; ?>">
-                            <option selected>choose...</option>
+                            <option>choose...</option>
                             <?php
                             $sql = "select * from t_memc_kpcc_items where Im_Status = 'A'";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
                             ?>
-                                <option value="<?php echo $row['Im_ID']; ?>"><?php echo $row['Im_Name']; ?></option>
+                                <option <?php if ($found['Im_ID'] == $row['Im_ID']) {
+                                            echo "selected";
+                                        } ?> value="<?php echo $row['Im_ID']; ?>"><?php echo $row['Im_Name']; ?></option>
                             <?php
                             }
                             ?>
                         </Select>
                     </td>
-                    <td scope="col" style="width:5%;"><label for="Cat<?php echo $num; ?>" class="col-form-label">Category</label></td>
-                    <td scope="col">
+                    <td scope="col" style="width:10%;"><label for="Cat<?php echo $num; ?>" class="col-form-label">Category</label></td>
+                    <td scope="col" colspan="2">
                         <Select class="custom-select form-control" id="Cat<?php echo $num; ?>" name="Cat">
                             <option selected>choose...</option>
                             <option value="core">Core Competencies</option>
@@ -72,26 +99,28 @@ if ($next == "Comp_Card") { // Add competecies form content
                         </Select>
                     </td>
                     <td scope="col" style="width:5%;"><label for="target<?php echo $num; ?>" class="col-form-label">Target</label></td>
-                    <td scope="col" style="width:10%;"><input type="text" name="target" class="form-control" id="target<?php echo $num; ?>" placeholder="Score.."></td>
+                    <td scope="col"><input type="text" name="target" value="<?php echo $found['Ei_Target_Score'] ?>" class="form-control" id="target<?php echo $num; ?>" placeholder="Score.."></td>
                 </tr>
                 <tr>
                     <td scope="col">To-Do</td>
-                    <td scope="col" colspan="7"><textarea id="todo<?php echo $num; ?>" name="todo" class="form-control" style="width: 100%;height:300px;overflow-y:scroll" rows="30"></textarea></td>
+                    <td scope="col" colspan="7"><textarea id="todo<?php echo $num; ?>" name="todo" class="form-control" style="width: 100%;height:300px;overflow-y:scroll" rows="30"><?php echo $found['Ei_desp'] ?></textarea></td>
                 </tr>
                 <tr>
                     <td scope="col"><label for="assess_start_date<?php echo $num; ?>" class="col-form-label">Date:</label></td>
                     <td scope="col" colspan="3">
-                        <input type="date" id="assess_start_date<?php echo $num; ?>" name="assess_start_date" class="form-control">
+                        <input type="date" value="<?php echo $found['Ei_Date_Participate'] ?>" id="assess_start_date<?php echo $num; ?>" name="assess_start_date" class="form-control">
                     </td>
                     <td scope="col"><label for="assess_end_date<?php echo $num; ?>" class="col-form-label">To</label></td>
                     <td scope="col" colspan="3">
-                        <input type="date" id="assess_end_date<?php echo $num; ?>" name="assess_end_date" class="form-control">
+                        <input type="date" value="<?php echo $found['Ei_Date_End'] ?>" id="assess_end_date<?php echo $num; ?>" name="assess_end_date" class="form-control">
                     </td>
                 </tr>
             </table>
             <hr style="width: 70%;text-align:center;">
         </div>
     <?php
+    } else {
+        echo "no";
     }
 }
 if ($action == "search_emp") { // table of employee after searching
@@ -209,6 +238,7 @@ if ($next == "33%" || $previous == "33%") {
 <?php
 }
 if ($next == "66%" || $previous == "66%") {
+    $_SESSION['plus_one'] = false;
     $_SESSION['core_count'] = 0;
     $sql = "select * from t_memc_kpcc_employee_item,t_memc_kpcc_quarter where Ei_Quarter_ID = Q_ID and Q_Year = '2022' and Ei_Emp_ID = '" . $_POST['empid'] . "'";
     $result = $conn->query($sql);
@@ -291,7 +321,7 @@ if ($next == "66%" || $previous == "66%") {
             </form>
         </div>
     </div>
-    <?php
+<?php
 }
 if ($action == "remove_card") {
     if ($_SESSION['core_count'] - 1 == $_SESSION['initial_core']) {
@@ -301,7 +331,24 @@ if ($action == "remove_card") {
         $_SESSION['core_count'] = $_SESSION['core_count'] - 1;
     }
 }
-if($action == "check_init_or_add"){
-    
+if ($action == "check_init_or_add") {
+    if($_SESSION['initial_core'] == 4){
+        $_SESSION['plus_one'] = false;
+    }
+    if ( $_SESSION['core_count'] == $_SESSION['initial_core'] + 1 && $_SESSION['plus_one'] == false) {
+        $_SESSION['plus_one'] = true;
+        echo "replace";
+    }else if($_SESSION['plus_one'] == true && $_SESSION['core_count'] == 5){
+        echo "max";
+    } else {
+        echo "add";
+    }
+}
+if($action == "Check_Add"){
+    if($_SESSION['core_count'] == 5){
+        echo "max";
+    }else{
+        echo "ok";
+    }
 }
 ?>

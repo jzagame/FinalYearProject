@@ -1,22 +1,19 @@
 <html>
 
 <head>
-    <?php
-    session_start();
-    ?>
     <title>Assign Competencies</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container-fluid">
+        <div class="row  m-3">
             <?php
             include "Menubar.php";
             ?>
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="progress m-2">
+                <div class="progress m-3">
                     <div id="progress_Ass" class="progress-bar" role="progressbar" style="width: 33%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
                 </div>
             </div>

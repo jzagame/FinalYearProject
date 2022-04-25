@@ -1,3 +1,6 @@
+<?php 
+  session_start();
+?>
 <script src="Bootstrap4.6.1/jquery3.5.1.slim.min.js"></script>
 <script src="Bootstrap4.6.1/bootstrap4.6.1.min.js"></script>
 <script src="Bootstrap4.6.1/popper1.6.1.min.js"></script>
@@ -75,7 +78,7 @@
             <a class="dropdown-item">Competencies</a>
             <ul class="dropdown-menu">
               <li class="dropdown-item"><a tabindex="-1" href="Assessment_Assign.php">Assign</a></li>
-              <li class="dropdown-item"><a href="#">View</a></li>
+              <li class="dropdown-item"><a href="Assessment_amend.php">View</a></li>
             </ul>
           </li>
           <li class="dropdown-item"><a href="#">Grade</a></li>
