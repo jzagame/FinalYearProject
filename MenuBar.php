@@ -78,12 +78,10 @@
             <a class="dropdown-item">Competencies</a>
             <ul class="dropdown-menu">
               <li class="dropdown-item"><a tabindex="-1" href="Assessment_Assign.php">Assign</a></li>
-              <li class="dropdown-item"><a href="Assessment_amend.php">View</a></li>
+              <li class="dropdown-item"><a href="Assessment_amend.php">Amend</a></li>
             </ul>
           </li>
           <li class="dropdown-item"><a href="#">Grade</a></li>
-          <li class="dropdown-item"><a href="#">Swap</a></li>
-          <li class="dropdown-item"><a href="#">View</a></li>
         </ul>
       </div>
       <!--		Additional-->

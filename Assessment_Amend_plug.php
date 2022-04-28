@@ -6,7 +6,11 @@ $search = $_POST['search'];
 
 if ($action == "show_emp_table") {
     $sql = "select * from t_memc_kpcc_employee_item,t_memc_kpcc_items,t_memc_kpcc_corecompetencies,t_memc_kpcc_majorcompetencies,t_memc_kpcc_quarter where 
-        Ei_Im_ID = Im_ID and Im_Cc_Id = Cc_ID and Cc_Mc_ID = Mc_ID and Q_ID = Ei_Quarter_ID Order By Q_name DESC";
+        Ei_Im_ID = Im_ID and Im_Cc_Id = Cc_ID and Cc_Mc_ID = Mc_ID and Q_ID = Ei_Quarter_ID ";
+    if($search != null){
+        $sql .= " and Ei_Emp_ID like '%".$search."%'";
+    }
+    $sql .= " Order By Q_name DESC";
     $result = $conn->query($sql);
     $i = 0;
     while ($row = $result->fetch_assoc()) {

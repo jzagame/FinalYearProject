@@ -37,3 +37,14 @@ $("#btn_edit_assess").click(function(e){
         }
     });
 });
+
+$("#btn_tbl_emp_search").click(function(e){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_Amend_plug.php",
+        data: {action:"show_emp_table",search:$("#emp_search_key").val()},
+        success:function(data){
+            document.getElementById("View_Employee_Item").innerHTML = data;
+        }
+    })
+});
