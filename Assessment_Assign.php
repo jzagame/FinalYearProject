@@ -29,7 +29,6 @@
             </div>
             <div class="col-4">
                 <button type="button" id="btn_add" style="visibility:hidden" class="btn btn-primary btn-sm" style="width: 200px;">+</button>
-                <button type="button" id="btn_minus" style="visibility:hidden" class="btn btn-primary btn-sm" style="width: 200px;">-</button>
             </div>
             <div class="col-3">
 

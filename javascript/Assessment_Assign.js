@@ -65,7 +65,6 @@ $('#btn_previous').click(function (e) {
         $("#btn_minus").css("visibility", "hidden");
         $("#btn_submit").css("visibility", "hidden");
     }
-    console.log(progress);
     $.ajax({
         type: "POST",
         url: "Assessment_plug.php",
@@ -113,6 +112,21 @@ function filterItems(a){
     });
 }
 
+function catSelected(num){
+    console.log(num);
+    var new_selection = $("#Cat" + num).find('option:selected');
+    $('#Cat ' +num+ ' option').not(new_selection).removeAttr('selected');
+    $("#Cat" + num + " option[value='"+$("#Cat"+ num).val() +"']").attr("selected","selected");
+    $.ajax({
+        type: "POST",
+        url: "Assessment_plug.php",
+        data: { action: "categorySelected",search: $("#Cat"+ num).val()},
+        success: function (data) {
+            
+        }
+    });
+}
+
 function Search() {
     $.ajax({
         type: "POST",
@@ -126,7 +140,6 @@ function Search() {
 
 $('#btn_submit').click(function(e){
     e.preventDefault();
-    console.log($('#Form_Competencies').serializeArray());
     $.ajax({
         type:"POST",
         url:"Assessment_db_query.php",
@@ -141,74 +154,59 @@ $("#btn_add").click(function(){
     $.ajax({
         type:"POST",
         url: "Assessment_plug.php",
-        data : {action:"Check_Add"},
+        data : {action:"AddButton"},
         success:function(data){
-            if(data == "max"){
-                alert("Competencies already max");
-            }else{
-                $.ajax({
-                    type: "POST",
-                    url: "Assessment_plug.php",
-                    data: { next: "Comp_Card"},
-                    success: function (data) {
-                        if(data == "no"){
-                            alert("Competencies Already Max");
-                        }else{
-                            document.getElementById("Competencies_Card").innerHTML += data;
-                        }
-                    }
-                });
-            }
+            AddCard("",data);
         }
     })
 });
 
-$("#btn_minus").click(function(){
+
+function removeCard(num){
+    console.log($("#Cat" + num).val());
     $.ajax({
-        type: "POST",
-        url: "Assessment_plug.php",
-        data: { action: "remove_card"},
-        success: function (data) {
-            console.log(data);
-            if(data == "no"){
-                alert("Cannot remove");
+        type:"POST",
+        url:"Assessment_plug.php",
+        data: {action:"removeCard",search:$("#Cat" + num).val()},
+        success:function(data){
+            if(data == "remove"){
+                $("#card_" + num).remove();
             }else{
-                $("#card_" + data).remove();
+                window.alert("cannot remove");
             }
-        }
-    });
-});
-
-function FillData(a){
-    $.ajax({
-        type: "POST",
-        url: "Assessment_plug.php",
-        data: { action: "check_init_or_add"},
-        success: function (data) {
-            console.log(data);
-            FillData_2(a,data);
         }
     });
 }
 
-function FillData_2(a,act){
+function FillData(EiID){
     $.ajax({
-        type: "POST",
-        url: "Assessment_plug.php",
-        data: { next: "Comp_Card",search:a,act2:act},
-        success: function (data) {
-            if(act == "replace"){ 
+        type:"POST",
+        url:"Assessment_plug.php",
+        data:{action:"addHistory"},
+        success:function(data){
+            if(data == "full"){
+                alert("Core Competencies is full, please delete 1 core competencies");
+            }else if(data == "replace"){
+                AddCard(EiID,data);
+            }else{
+                AddCard(EiID,data);
+            }
+        }
+    });
+}
+
+function AddCard(EiID,want){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data:{next:"Comp_Card",search:EiID,for:want},
+        success:function(data){
+            if(want == "replace"){
                 document.getElementById("Competencies_Card").innerHTML = data;
-            }else if(act == "max"){
-                alert("Competencies Already Max");
-            }else if(act == "add"){
-                console.log(act);     
-                if(data == "no"){
-                    alert("Competencies Already Max");
-                }else{
-                    document.getElementById("Competencies_Card").innerHTML += data;
-                }
+            }else{
+                document.getElementById("Competencies_Card").innerHTML += data;
             }
         }
     });
 }
+
