@@ -19,7 +19,7 @@
 	{
 		
 	}else{
-		echo "<script>alert('No Competencies Dimension data, Please create.');location='competencies_addcore.php';</script>";
+		echo "<script>alert('No Core Competencies data, Please create.');location='competencies_addcore.php';</script>";
 	}
 	
 	?>
