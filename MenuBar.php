@@ -45,8 +45,8 @@
                 </li>
                 <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Items</a>
                   <ul class="dropdown-menu">
-                    <li class="dropdown-item" role="button" onclick="location=''">Create Item</li>
-                    <li class="dropdown-item" role="button" onclick="location=''">View/Edit Items</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_additems.php'">Create Item</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchitems.php'">View/Edit Items</li>
                   </ul>
                 </li>
                 <li class="dropdown-item" role="button" onclick="location=''">Import Excel (.csv)</li>
