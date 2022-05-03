@@ -63,17 +63,17 @@
 	  <table class="table table-hover table-sm" style="margin-top:15px;" >
 		<thead>
 		  <tr>
-			<th>ID</th>
-			<th>Core Competency</th>
-			<th>Competencies Dimension</th>
-			<th>Item Name</th> 
-			<th>Definition</th>
-			<th>Lv 5 Definition</th>
-			<th>Lv 4 Definition</th>
-			<th>Lv 3 Definition</th>
-			<th>Lv 2 Definition</th>
-			<th>Lv 1 Definition</th>
-			<th>Status</th>
+			<th nowrap>ID</th>
+			<th nowrap>Core Competency</th>
+			<th nowrap>Competencies Dimension</th>
+			<th nowrap>Item Name</th> 
+			<th nowrap width="160px">Definition</th>
+			<th nowrap width="160px">Lv 5 Definition</th>
+			<th nowrap width="160px">Lv 4 Definition</th>
+			<th nowrap width="160px">Lv 3 Definition</th>
+			<th nowrap width="160px">Lv 2 Definition</th>
+			<th nowrap width="160px">Lv 1 Definition</th>
+			<th nowrap>Status</th>
 		  </tr>
 		</thead>
 <tbody>
@@ -87,11 +87,15 @@
 			echo "<td>".$row['Cd_Name']."</td>";
 			echo "<td>".$row['Im_Name']."</td>";
 			echo "<td>".$row['Im_Definition']."</td>";
-			echo "<td>".$row['Im_lv5_Def']."</td>";
-			echo "<td>".$row['Im_lv4_Def']."</td>";
-			echo "<td>".$row['Im_lv3_Def']."</td>";
-			echo "<td>".$row['Im_lv2_Def']."</td>";
-			echo "<td>".$row['Im_lv1_Def']."</td>";
+		
+		  $catesql = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = ".$row['Im_ID']." ORDER BY Im_lvl_ID DESC";
+		  $view2 = mysqli_query( $conn, $catesql );
+		  if ( mysqli_num_rows( $view2 ) > 0 ) {
+			for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
+			  $row2 = mysqli_fetch_array( $view2 );
+				echo "<td>".$row2['Im_lvl_Description']."</td>";
+			}
+		  }
 			if($row['Im_Status']=="A"){
 				echo "<td>Active</td>";
 			}else{

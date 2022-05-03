@@ -201,6 +201,15 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
     $result = mysqli_query( $conn, $sql );
     if ( mysqli_num_rows( $result ) > 0 ) {
       $row = mysqli_fetch_array( $result );
+	$itemdesarray = array();
+	  $catesql = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = ".$itemid1."";
+	  $view = mysqli_query( $conn, $catesql );
+	  if ( mysqli_num_rows( $view ) > 0 ) {
+		for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
+		  $row2 = mysqli_fetch_array( $view );
+			array_push($itemdesarray,$row2['Im_lvl_Description']);
+		}
+	  }
     }
   }
   ?>
@@ -289,19 +298,19 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
           <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">5</strong>（引领/战略）Lead / Strategiest</label>
             <div class="col-md-12">
-              <textarea id="form_message" name="txtdef5" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $row['Im_lv5_Def']; ?></textarea>
+              <textarea id="form_message" name="txtdef5" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[4]; ?></textarea>
             </div>
           </div>
           <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">4</strong>（统筹/专家）Coordinate / Professional</label>
             <div class="col-md-12">
-              <textarea id="form_message" name="txtdef4" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $row['Im_lv4_Def']; ?></textarea>
+              <textarea id="form_message" name="txtdef4" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[3]; ?></textarea>
             </div>
           </div>
 			 <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">3</strong>（指导/中级）Direct / Intermediate</label>
             <div class="col-md-12">
-              <textarea id="form_message" name="txtdef3" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $row['Im_lv3_Def']; ?></textarea>
+              <textarea id="form_message" name="txtdef3" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[2]; ?></textarea>
             </div>
           </div>
         </div>
@@ -310,13 +319,13 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
 		  <div class="form-group col-md-4">
             <label><strong style="font-size: 30px">2</strong>（独立/熟练）Independent / Experienced</label>
             <div class="col-md-12">
-              <textarea id="form_message" name="txtdef2" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $row['Im_lv2_Def']; ?></textarea>
+              <textarea id="form_message" name="txtdef2" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[1]; ?></textarea>
             </div>
           </div>
           <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">1</strong>（辅助/初级）Assist / Novice</label>
             <div class="col-md-12">
-              <textarea id="form_message" name="txtdef1" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $row['Im_lv1_Def']; ?></textarea>
+              <textarea id="form_message" name="txtdef1" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[0]; ?></textarea>
             </div>
           </div>
 		  </div>

@@ -3,6 +3,7 @@
     include ("database/database.php");
 	$formdata = $_POST['formdata'];
 	$xx=0;
+	$c=0;
 //Core Competecies
     if($_POST['action'] == "createcc"){
 		
@@ -281,19 +282,29 @@ if($_POST['action'] == "createitem"){
 			$formdata3 = str_replace("'", "\'",$formdata[3]['value']);
 			$formdata2 = str_replace("'", "\'",$formdata[2]['value']);
 			
-			$additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_Name,Im_Definition,Im_lv1_def,Im_lv2_def,Im_lv3_def,Im_lv4_def,Im_lv5_def,Im_Status) VALUES('".trim($formdata[0]['value'])."',
+			$itemdes = array($formdata7,$formdata6,$formdata5,$formdata4,$formdata3);
+			
+			$additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_Name,Im_Definition,Im_Status) VALUES('".trim($formdata[0]['value'])."',
 			'".trim($formdata[1]['value'])."',
 			'".trim($formdata2)."',
-			'".trim($formdata7)."',
-			'".trim($formdata6)."',
-			'".trim($formdata5)."',
-			'".trim($formdata4)."',
-			'".trim($formdata3)."',
 			'".trim($formdata[8]['value'])."'
 			)";
 			
 			$additemsql= mysqli_query($conn,$additem);
-			if($additemsql)
+			$last_id = mysqli_insert_id($conn);
+			
+			for($i =0; $i<5; ++$i){
+				$additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('".trim($last_id)."',
+				'level ".trim(($i + 1))."',
+				'".trim($itemdes[$i])."',
+				'".trim($formdata[8]['value'])."'
+			)";
+				$additemlvlsql= mysqli_query($conn,$additem2);
+				if($additemlvlsql){
+					++$c;
+				}
+			}
+			if($additemsql && $c==5)
 			{
 				echo "success";
 			}
@@ -355,11 +366,14 @@ if($_POST['action'] == "searchitem"){
 			echo "<td>".$row['Cd_Name']."</td>";
 			echo "<td>".$row['Im_Name']."</td>";
 			echo "<td>".$row['Im_Definition']."</td>";
-			echo "<td>".$row['Im_lv5_Def']."</td>";
-			echo "<td>".$row['Im_lv4_Def']."</td>";
-			echo "<td>".$row['Im_lv3_Def']."</td>";
-			echo "<td>".$row['Im_lv2_Def']."</td>";
-			echo "<td>".$row['Im_lv1_Def']."</td>";
+		  $catesql = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = ".$row['Im_ID']."";
+		  $view2 = mysqli_query( $conn, $catesql );
+		  if ( mysqli_num_rows( $view2 ) > 0 ) {
+			for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
+			  $row2 = mysqli_fetch_array( $view2 );
+				echo "<td>".$row2['Im_lvl_Description']."</td>";
+			}
+		  }
 			if($row['Im_Status']=="A"){
 				echo "<td>Active</td>";
 			}else{
@@ -406,16 +420,34 @@ if($_POST['action'] == "edititem"){
 		$formdata4 = str_replace("'", "\'",$formdata[4]['value']);
 		$formdata3 = str_replace("'", "\'",$formdata[3]['value']);
 		$formdata2 = str_replace("'", "\'",$formdata[2]['value']);
+		
+		$itemdes = array($formdata7,$formdata6,$formdata5,$formdata4,$formdata3);
+			
 		$uppcd = "UPDATE t_memc_kpcc_items SET Im_Cd_ID ='".trim($formdata[0]['value'])."', 
 		Im_Name='".trim($formdata[1]['value'])."',	
 		Im_Definition ='".trim($formdata2)."',
-		Im_lv1_Def ='".trim($formdata7)."',
-		Im_lv2_Def ='".trim($formdata6)."',
-		Im_lv3_Def ='".trim($formdata5)."',
-		Im_lv4_Def ='".trim($formdata4)."',
-		Im_lv5_Def ='".trim($formdata3)."',
 		Im_status='".trim($formdata[8]['value'])."' WHERE Im_ID ='".trim($_POST['itemidd'])."'";
-			if(mysqli_query($conn,$uppcd))
+			
+		$lvlidarray = array();	
+		$getlvlid = "SELECT * FROM t_memc_kpcc_Items_lvl_desc WHERE Im_lvl_Im_ID = '".trim($_POST['itemidd'])."'";
+		$view2 = mysqli_query( $conn, $getlvlid );
+		  if ( mysqli_num_rows( $view2 ) > 0 ) {
+			for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
+			  $row2 = mysqli_fetch_array( $view2 );
+				array_push($lvlidarray,$row2['Im_lvl_ID']);
+			}
+		  }
+			
+		for($i =0; $i<5; ++$i){
+			$uppitemlvl = "UPDATE t_memc_kpcc_Items_lvl_desc SET Im_lvl_Description = '".trim($itemdes[$i])."',
+			Im_lvl_Status = '".trim($formdata[8]['value'])."' WHERE Im_lvl_Im_ID = '".trim($_POST['itemidd'])."' AND Im_lvl_ID = ".$lvlidarray[$i]."";
+			$additemlvlsql= mysqli_query($conn,$uppitemlvl);
+			if($additemlvlsql){
+				++$c;
+			}
+		}
+
+		if(mysqli_query($conn,$uppcd) && $c==5)
 		 {
 			
 			echo "updated";
