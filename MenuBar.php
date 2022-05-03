@@ -35,39 +35,29 @@
         </ul>
       </div>
       <!--		Competencies-->
-      <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Competencies
-        </a>
-        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-          <li class="dropdown-submenu">
-            <a class="dropdown-item" tabindex="-1" href="#">Major Competencies</a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-item"><a tabindex="-1" href="#">Add Major Competencies</a></li>
-              <li class="dropdown-item"><a href="#">Edit Major Competencies</a></li>
-              <li class="dropdown-item"><a href="#">View Major Competencies</a></li>
-            </ul>
-          </li>
-
-          <li class="dropdown-submenu">
-            <a class="dropdown-item" tabindex="-1" href="#">Core Competencies</a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-item"><a tabindex="-1" href="#">Add Core Competencies</a></li>
-              <li class="dropdown-item"><a href="#">Edit Core Competencies</a></li>
-              <li class="dropdown-item"><a href="#">View Core Competencies</a></li>
-            </ul>
-          </li>
-
-          <li class="dropdown-submenu">
-            <a class="dropdown-item" tabindex="-1" href="#">Core Competencies Items</a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-item"><a tabindex="-1" href="#">Add Core Competencies Items</a></li>
-              <li class="dropdown-item"><a href="#">Edit Core Competencies Items</a></li>
-              <li class="dropdown-item"><a href="#">View Core Competencies Items</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <div class="dropdown"> <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Competencies </a>
+              <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1">Core Competencies</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" role="button" onclick="location='competencies_addcore.php'">Create Core Competencies</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchcore.php'">View/Edit Core Competencies</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Competencies Dimension</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" role="button" onclick="location='competencies_addcd.php'">Create Competencies Dimension</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchcd.php'">View/Edit Competencies Dimension</li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Items</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" role="button" onclick="location='competencies_additems.php'">Create Item</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchitems.php'">View/Edit Items</li>
+                  </ul>
+                </li>
+                <li class="dropdown-item" role="button" onclick="location=''">Import Excel (.csv)</li>
+              </ul>
+            </div>
       <!--		Employee Traning-->
       <div class="dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="Assessment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

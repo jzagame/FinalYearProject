@@ -26,13 +26,13 @@ if ($next == "Comp_Card") { // Add competecies form content
                     <Select class="custom-select form-control" id="MajorCompetencies<?php echo $num; ?>" onchange="filterCompetencies('<?php echo $num; ?>')" required>
                         <option value="blank">choose...</option>
                         <?php
-                        $sql = "select * from t_memc_kpcc_competenciesdimension where Mc_status = 'A'";
+                        $sql = "select * from t_memc_kpcc_corecompetencies where Cc_status = 'A'";
                         $result = $conn->query($sql);
                         while ($row = $result->fetch_assoc()) {
                         ?>
                             <option <?php if ($found['Cc_ID'] == $row['Cc_ID']) {
                                         echo "selected";
-                                    } ?> value="<?php echo $row['Cc_ID']; ?>"><?php echo $row['Mc_name']; ?></option>
+                                    } ?> value="<?php echo $row['Cc_ID']; ?>"><?php echo $row['Cc_name']; ?></option>
                         <?php
                         }
                         ?>
@@ -43,13 +43,13 @@ if ($next == "Comp_Card") { // Add competecies form content
                     <Select class="custom-select form-contorl" id="Compt<?php echo $num; ?>" onchange="filterItems('<?php echo $num; ?>')">
                         <option value="blank">choose...</option>
                         <?php
-                        $sql = "select * from t_memc_kpcc_corecompetencies where Cc_status = 'A'";
+                        $sql = "select * from t_memc_kpcc_competenciesdimension where Cd_status = 'A'";
                         $result = $conn->query($sql);
                         while ($row = $result->fetch_assoc()) {
                         ?>
                             <option <?php if ($found['Cd_ID'] == $row['Cd_ID']) {
                                         echo "selected";
-                                    } ?> value="<?php echo $row['Cd_ID']; ?>"><?php echo $row['Cc_Name']; ?></option>
+                                    } ?> value="<?php echo $row['Cd_ID']; ?>"><?php echo $row['Cd_Name']; ?></option>
                         <?php
                         }
                         ?>
@@ -75,8 +75,8 @@ if ($next == "Comp_Card") { // Add competecies form content
             </tr>
             <tr>
                 <td scope="col"><label for="target<?php echo $num; ?>" class="col-form-label">Target</label></td>
-                <td scope="col" colspan="8">
-                    <select name="target[]" id="target<?php echo $num; ?>">
+                <td scope="col" colspan="4">
+                    <select class="custom-select" name="target[]" id="target<?php echo $num; ?>" onchange="filterTarget('<?php echo $num; ?>')">
                         
                     </select>
                 </td>
@@ -126,9 +126,9 @@ if ($next == "Comp_Card") { // Add competecies form content
     </div>
     <?php
 }
-if ($action == "search_emp") { // table of employee after searching
-    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_kpcc_department,t_memc_kpcc_position where Emp_dept_id = '1' and 
-                        Emp_P_ID = P_ID and EmpDetail_Status = 'A' and Emp_dept_id = dept_id and P_level < '5'";
+if ($action == "search_emp") { // table of employee after searching // done -2
+    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_kpcc_department,t_memc_kpcc_position where EMP_D_ID = '2' and 
+                        Emp_P_ID = P_ID and EmpDetail_Status = 'A' and Emp_D_ID = D_ID and P_level < '5'";
     if ($_POST['PID'] != null && $_POST['PID'] != "blank") {
         $sql .= " and P_ID = '" . $_POST['PID'] . "'";
     }
@@ -155,6 +155,35 @@ if ($action == "search_emp") { // table of employee after searching
         $_SESSION['emp_table_data'] = "";
     }
 }
+if ($action == "genEmpPageBar") {
+    for ($i = 0; $i < $_SESSION['page_number']; $i++) {
+    ?>
+        <li class="page-item" onclick="EmpNextPage('<?php echo $i + 1; ?>')"><a class="page-link" style="cursor:pointer"><?php echo $i + 1; ?></a></li>
+        <?php
+    }
+}
+if ($action == "generateEmpTbl") {
+    for ($i = ($search * 7) - 7; $i < $search * 7; $i++) {
+        $row = $_SESSION['emp_table_data'][$i];
+        if (count($row) != 0) {
+        ?>
+            <tr>
+                <td scope="col"><?php echo $i + 1 ?></td>
+                <td scope="col"><?php echo $row['Emp_ID']; ?></td>
+                <td scope="col"><?php echo $row['D_Name']; ?></td>
+                <td scope="col"><?php echo $row['EmpDetail_Status'] ?></td>
+                <td scope="col" style="text-align: center;"><input type="radio" name="Emp_IC" value="<?php echo $row['Emp_ID']; ?>" id="Emp_IC"></td>
+            </tr>
+        <?php
+        } else {
+        ?>
+            <tr>
+                <td colspan="5" style="text-align: center;">-</td>
+            </tr>
+<?php
+        }
+    }
+}
 if ($action == "filteritems") { //dropdown box of items in Add competencies, to filter items by select the competencies
     $i = 0;
     $sql = "select * from t_memc_kpcc_items where Im_Status = 'A'";
@@ -166,20 +195,20 @@ if ($action == "filteritems") { //dropdown box of items in Add competencies, to 
     ?>
         <option <?php if ($i == 0) {
                     echo "selected";
-                } ?> value="<?php echo $row['Im_ID']; ?>"><?php echo "Pre-sale and after-sale tenical support capabilities in overseas Market"; ?></option>
+                } ?> value="<?php echo $row['Im_ID']; ?>"><?php echo $row['Im_Name']; ?></option>
     <?php
         $i++;
     }
 }
 if ($action == "filterComp") {
     $i = 0;
-    $sql = "select * from t_memc_kpcc_corecompetencies where Cc_Status = 'A' and Cd_Cc_ID = '" . $search . "'";
+    $sql = "select * from t_memc_kpcc_competenciesdimension where Cd_Status = 'A' and Cd_Cc_ID = '" . $search . "'";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
     ?>
         <option <?php if ($i == 0) {
                     echo "selected";
-                } ?> value="<?php echo $row['Cd_ID']; ?>"><?php echo "Commercial Affairs / Buisness"; ?></option>
+                } ?> value="<?php echo $row['Cd_ID']; ?>"><?php echo $row['Cd_Name']; ?></option>
     <?php
         $i++;
     }
@@ -284,7 +313,7 @@ if ($next == "66%" || $previous == "66%") {
                 if ($row == 0) {
                 ?>
                     <tr>
-                        <td style="text-align: center;" scope="col" colspan="7">No Data</td>
+                        <td style="text-align: center;" scope="col" colspan="12">No Data</td>
                     </tr>
                     <?php
                 } else {
@@ -371,34 +400,13 @@ if ($action == "categorySelected") {
         $_SESSION['core_count'] -= 1;
     }
 }
-if ($action == "genEmpPageBar") {
-    for ($i = 0; $i < $_SESSION['page_number']; $i++) {
+if($action == "targetItemDesc"){
+    $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Im_ID = ".$search." and Im_lvl_Status = 'A'";
+    $result = $conn -> query($sql);
+    while($row = $result -> fetch_assoc()){
     ?>
-        <li class="page-item" onclick="EmpNextPage('<?php echo $i + 1; ?>')"><a class="page-link" style="cursor:pointer"><?php echo $i + 1; ?></a></li>
-        <?php
-    }
-}
-
-if ($action == "generateEmpTbl") {
-    for ($i = ($search * 7) - 7; $i < $search * 7; $i++) {
-        $row = $_SESSION['emp_table_data'][$i];
-        if (count($row) != 0) {
-        ?>
-            <tr>
-                <td scope="col"><?php echo $i + 1 ?></td>
-                <td scope="col"><?php echo $row['Emp_ID']; ?></td>
-                <td scope="col"><?php echo $row['dept_name']; ?></td>
-                <td scope="col"><?php echo $row['EmpDetail_Status'] ?></td>
-                <td scope="col" style="text-align: center;"><input type="radio" name="Emp_IC" value="<?php echo $row['Emp_ID']; ?>" id="Emp_IC"></td>
-            </tr>
-        <?php
-        } else {
-        ?>
-            <tr>
-                <td colspan="5" style="text-align: center;">-</td>
-            </tr>
-<?php
-        }
+        <option value="<?php echo $row['Im_lvl_ID'] ?>"><?php echo $row['Im_lvl_Name'] ." - ". $row['Im_lvl_Description']; ?></option>
+    <?php
     }
 }
 ?>

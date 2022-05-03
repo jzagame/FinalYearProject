@@ -3,7 +3,7 @@
 <head>
     <title>Assign Competencies</title>
     <style>
-        table {
+        table{
             table-layout: fixed;
             overflow-wrap: break-word;
         }

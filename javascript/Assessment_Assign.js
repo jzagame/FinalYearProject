@@ -143,12 +143,20 @@ function filterItems(a){
             var new_selection = $("#MajorCompetencies" + a).find('option:selected');
             $('#MajorCompetencies' +a+ ' option').not(new_selection).removeAttr('selected');
             $("#MajorCompetencies" + a + " option[value='"+$("#MajorCompetencies"+ a).val() +"']").attr("selected","selected");
+            filterTarget(a);
         }
     });
 }
 
 function filterTarget(a){
-
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data: {action:"targetItemDesc",search:$("#Itm" + a).val()},
+        success:function(data){
+            document.getElementById("target" + a).innerHTML = data;
+        }
+    });
 }
 
 function catSelected(num){
