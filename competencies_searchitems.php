@@ -25,7 +25,11 @@
 			
 <form class="form-card" id="sitem" style="margin: 10px">
 	<div class="form-row">
-  <div class="form-group col-md-8">
+		 <div class="form-group col-md-6">
+    <label for="inputAddress">Core Competencies</label>
+    <input type="text" class="form-control" placeholder="Enter Core Competencies Name" name="txtsccname">
+  </div>
+  <div class="form-group col-md-6">
     <label for="inputAddress">Competencies Dimension</label>
     <input type="text" class="form-control" placeholder="Enter Competencies Dimension Name" name="txtscdname">
   </div>
@@ -56,7 +60,7 @@
 		if(mysqli_num_rows($view) > 0)
 		{
             ?>
-	  <table class="table table-hover table-sm" style="margin-top:15px; " >
+	  <table class="table table-hover table-sm" style="margin-top:15px;" >
 		<thead>
 		  <tr>
 			<th>ID</th>

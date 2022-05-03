@@ -143,14 +143,15 @@ if($_POST['action'] == "createcd"){
             echo "same";
         }
 		else{
-			$addcc = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('".trim($formdata[0]['value'])."',
+			$formdata2 = str_replace("'", "\'",$formdata[2]['value']);
+			$addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('".trim($formdata[0]['value'])."',
 			'".trim($formdata[1]['value'])."',
-			'".trim($formdata[2]['value'])."',
+			'".trim($formdata2)."',
 			'".trim($formdata[3]['value'])."'
 			)";
 
-			$addccsql= mysqli_query($conn,$addcc);
-			if($addccsql)
+			$addcdsql= mysqli_query($conn,$addcd);
+			if($addcdsql)
 			{
 				echo "success";
 			}
@@ -177,9 +178,10 @@ if($_POST['action'] == "createcd"){
             echo "same";
         }
 		else{
+		$formdata2 = str_replace("'", "\'",$formdata[2]['value']);
 		$uppcd = "UPDATE t_memc_kpcc_competenciesdimension SET Cd_Cc_ID ='".trim($formdata[0]['value'])."', 
 		Cd_Name='".trim($formdata[1]['value'])."',	
-		Cd_Definition ='".trim($formdata[2]['value'])."',
+		Cd_Definition ='".trim($formdata2)."',
 		Cd_status='".trim($formdata[3]['value'])."' WHERE Cd_ID ='".trim($_POST['cdidd'])."'";
 			if(mysqli_query($conn,$uppcd))
 		 {
@@ -306,15 +308,19 @@ if($_POST['action'] == "searchitem"){
 		$sql= "SELECT * FROM t_memc_kpcc_items,t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension WHERE t_memc_kpcc_items.Im_Cd_ID = t_memc_kpcc_competenciesdimension.Cd_ID AND t_memc_kpcc_corecompetencies.Cc_ID = t_memc_kpcc_competenciesdimension.Cd_Cc_ID AND Im_ID IS NOT NULL AND "; //Search item
 		if(trim($formdata[0]['value']) != "")
 		{
-			$sql .= "Cd_name LIKE '%".trim($formdata[0]['value'])."%' AND ";
+			$sql .= "Cc_name LIKE '%".trim($formdata[0]['value'])."%' AND ";
 		}
 		if(trim($formdata[1]['value']) != "")
 		{
-			$sql .= "Im_Name LIKE '%".trim($formdata[1]['value'])."%' AND ";
+			$sql .= "Cd_name LIKE '%".trim($formdata[1]['value'])."%' AND ";
 		}
 		if(trim($formdata[2]['value']) != "")
 		{
-			$sql .= "Im_status = '".trim($formdata[2]['value'])."' AND ";
+			$sql .= "Im_Name LIKE '%".trim($formdata[2]['value'])."%' AND ";
+		}
+		if(trim($formdata[3]['value']) != "")
+		{
+			$sql .= "Im_status = '".trim($formdata[3]['value'])."' AND ";
 		}
 		$sql.= "ORDER BY Im_ID";
 		$sql = str_replace("AND ORDER","ORDER",$sql);
@@ -322,7 +328,7 @@ if($_POST['action'] == "searchitem"){
 		if(mysqli_num_rows($view) > 0)
 {
             ?>
-	  <table class="table table-hover" style="margin-top:15px">
+	  <table class="table table-hover table-sm" style="margin-top:15px">
 		<thead>
 		  <tr>
 			<th>ID</th>
