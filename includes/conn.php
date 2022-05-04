@@ -2,7 +2,7 @@
     $localhost = "localhost";
     $username = "username";
     $password = "password";
-    $mydb = "competencies";
+    $mydb = "dbkpcc";
 
     $conn = new mysqli($localhost,$username,$password,$mydb);
     
