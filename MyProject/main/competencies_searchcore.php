@@ -98,5 +98,5 @@
   </div>
 
 </body>
-<script src="../../includes/assest/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>
