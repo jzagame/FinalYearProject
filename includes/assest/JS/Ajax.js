@@ -241,20 +241,21 @@ function btnedititemf(itemid2){
         }
     });
 }
+
 //Employee
-function AddPosition(){
+function AddAccessRight(){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"addPosition",formdata:$('#AddPositionForm').serializeArray()},
+		data: {action:"addAccessRight",formdata:$('#AddAccessRightForm').serializeArray()},
 		success: function(data){
 			if(data == "success"){
-				window.alert('Position Category Create Successfully.');
-				document.getElementById("AddPositionForm").reset();
+				window.alert('Access Right Create Successfully.');
+				document.getElementById("AddAccessRightForm").reset();
 			}else if(data == "fail"){
-				window.alert('Position Category Create Failure.');
+				window.alert('Access Right Create Failure.');
 			}else{
-				window.alert('Position Category Exist.');
+				window.alert('Access Right Exist.');
 			}
 		}
 	});

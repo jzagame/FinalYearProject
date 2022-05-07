@@ -52,10 +52,10 @@
 					D_Q_ID_END INT,
 					D_HODNode VARCHAR(50),
                     D_Status CHAR(1))",
-                    "CREATE TABLE t_memc_kpcc_Position (P_ID INT AUTO_INCREMENT PRIMARY KEY,
-                    P_name VARCHAR(30),
-                    P_level INT,
-                    P_Status VARCHAR(10))"
+                    "CREATE TABLE t_memc_kpcc_Access_Right (AR_ID INT AUTO_INCREMENT PRIMARY KEY,
+                    AR_Level INT,
+                    AR_Description VARCHAR(99),
+					AR_Status VARCHAR(10))"
                     
                     
     );

@@ -15,28 +15,28 @@
     </head>
 
     <body>
-        <div class="container" style="padding: 50px 0px 50px 100px;">
-		<form method="" id="AddPositionForm">
+        <div class="container-fluid" style="padding: 50px 0px 50px 100px;">
+		<form method="" id="AddAccessRightForm">
 			<div class="form-group d-flex justify-content-center">
-				<h3><strong>Create Position Category</strong></h3>
+				<h3><strong>Create Access Right</strong></h3>
 			</div>
             <hr class="bdr-light">
             <div class="container" style="padding: 0px 50px 0px 100px;">
 				<div class="form-group">
-					<label class="col-form-label">Position Name</label>
+					<label class="col-form-label">Access Right Level</label>
 					<div class="col-sm-12">
-                        <input type="text" class="form-control" placeholder="Enter Position Name" name="txtPositionName">	
+                        <input type="number" class="form-control" placeholder="Enter Access Right Level" name="txtAccessRoghtLevel" min="0" step="1">	
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-form-label">Level</label>
+					<label class="col-form-label">Description</label>
 					<div class="col-sm-12">
-                        <input type="number" class="form-control" placeholder="Enter Position Level" name="txtPositionLevel" min="0" step="1">	
+                        <textarea class="form-control" placeholder="Enter Description" name="txtAccessRightDescription" rows="4"></textarea>	
 					</div>
 				</div>
                 <div class="form-group">
                 <div class="col-sm-12" style="text-align: center;">
-                    <input type="button" class="btn btn-primary" name="btnCPosition" value="Create" onclick="AddPosition()">
+                    <input type="button" class="btn btn-primary" name="btnCPosition" value="Create" onclick="AddAccessRight()">
                     <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                 </div>
                 </div>

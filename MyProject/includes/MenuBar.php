@@ -17,7 +17,7 @@
             <div class="dropdown"> <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Employee </a>
               <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                 <li class="dropdown-submenu">
-                  <a class="dropdown-item" tabindex="-1" href="#">Position Category</a>
+                  <a class="dropdown-item" tabindex="-1" href="#">Access Right</a>
                   <ul class="dropdown-menu">
                     <li class="dropdown-item"><a tabindex="-1" href="Employee_CreatePosition.php">Create</a></li>
                     <li class="dropdown-item"><a href="Employee_ViewEditPosition.php">View/Edit</a></li>
