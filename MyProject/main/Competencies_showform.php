@@ -278,16 +278,12 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
         </div>
         <div class="form-row ">
           <div class="form-group col-md-6">
-            <label for="inputAddress">Item Name</label>
-            <div class="col-md-12">
+            <label for="inputAddress" >Item Name</label>
               <textarea id="form_message" name="txtname" class="form-control" placeholder="Write the name here." rows="4" required="required" data-error="Please, leave a Definition."><?php if($itemid1 != "")echo $row['Im_Name']; ?></textarea>
-            </div>
           </div>
           <div class="form-group col-md-6">
             <label >Definition</label>
-            <div class="col-md-12">
               <textarea id="form_message" name="txtdef" class="form-control" placeholder="Write the Definition here." rows="4" data-error="Please, leave a Definition."><?php if($itemid1 != "")echo $row['Im_Definition']; ?></textarea>
-            </div>
           </div>
         </div>
 		 <hr class="bdr-light">
@@ -297,36 +293,26 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
 		 <div class="form-row ">
           <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">5</strong>（引领/战略）Lead / Strategiest</label>
-            <div class="col-md-12">
               <textarea id="form_message" name="txtdef5" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[4]; ?></textarea>
-            </div>
           </div>
           <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">4</strong>（统筹/专家）Coordinate / Professional</label>
-            <div class="col-md-12">
               <textarea id="form_message" name="txtdef4" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[3]; ?></textarea>
-            </div>
           </div>
 			 <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">3</strong>（指导/中级）Direct / Intermediate</label>
-            <div class="col-md-12">
               <textarea id="form_message" name="txtdef3" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[2]; ?></textarea>
-            </div>
           </div>
         </div>
 		  
 		  <div class="form-row justify-content-center">
 		  <div class="form-group col-md-4">
             <label><strong style="font-size: 30px">2</strong>（独立/熟练）Independent / Experienced</label>
-            <div class="col-md-12">
               <textarea id="form_message" name="txtdef2" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[1]; ?></textarea>
-            </div>
           </div>
           <div class="form-group col-md-4">
             <label ><strong style="font-size: 30px">1</strong>（辅助/初级）Assist / Novice</label>
-            <div class="col-md-12">
               <textarea id="form_message" name="txtdef1" class="form-control" placeholder="Write the Description here." rows="4"><?php if($itemid1 != "")echo $itemdesarray[0]; ?></textarea>
-            </div>
           </div>
 		  </div>
         <div class="form-row justify-content-center">
