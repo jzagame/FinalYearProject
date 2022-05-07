@@ -15,11 +15,10 @@
         {
             $AddAccessRightSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description) VALUES(
                 '".trim($formdata[0]['value'])."',
-                '".$formdata[1]['value']."',
-                'ACTIVE'
+                '".$formdata[1]['value']."'
             )";
-            $AddPositionResult = mysqli_query($conn, $AddPositionSQL);
-            if($AddPositionResult)
+            $AddAccessRightResult = mysqli_query($conn, $AddAccessRightSQL);
+            if($AddAccessRightResult)
             {
                 echo "success";
             }
@@ -83,29 +82,27 @@
         }
     }
 
-    if($_POST['action'] == "searchPosition"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
+    if($_POST['action'] == "searchAccessRight"){
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level LIKE '%".trim($formdata[0]['value'])."%'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
-            echo "<table class=\"table table-hover\">";
+            echo "<table class=\"table table-hover table-bordered\">";
                 echo "<thead>";
                 echo "<tr>";
                     echo "<th scope=\"col\">No.</th>";
-                    echo "<th scope=\"col\">Position Name</th>";
-                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Level</th>";
-                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
+                    echo "<th scope=\"col\">Level</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Description</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
                     for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                     {
                         $row = mysqli_fetch_array($SearchResult);
-                        echo "<tr role=\"button\" onClick=\"editPosition('".$row['P_ID']."')\">";
+                        echo "<tr role=\"button\" onClick=\"editAccessRight('".$row['AR_ID']."')\">";
                         echo "<td>".($i+1)."</td>";
-                        echo "<td>".$row['P_name']."</td>";
-                        echo "<td>".$row['P_level']."</td>";
-                        echo "<td>".$row['P_Status']."</td>";
+                        echo "<td>".$row['AR_Level']."</td>";
+                        echo "<td>".$row['AR_Description']."</td>";
                         echo "</tr>";
                     }
                 echo "</tbody>";
@@ -117,37 +114,37 @@
         }
     }
 
-    if($_POST['action'] == "editPosition"){
-        $pid = $_POST['position_ID'];
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_ID = $pid";
+    if($_POST['action'] == "editAccessRight"){
+        $arid = $_POST['accessright_ID'];
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_ID = $arid";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
             $row = mysqli_fetch_array($SearchResult);
 ?>
-            <div class="container" style="padding: 50px 0px 50px 100px;">
-            <form method="" id="UpdatePositionForm">
+            <div class="container-fluid" style="padding-top: 50px;">
+            <form method="" id="UpdateAccessRightForm">
                 <div class="form-group d-flex justify-content-center">
-                    <h3><strong>Edit Position Category</strong></h3>
+                    <h3><strong>Edit Access Right</strong></h3>
                 </div>
                 <hr class="bdr-light">
-                <div class="container" style="padding: 0px 50px 0px 100px;">
+                <div class="container-fluid">
                     <div class="form-group">
-                        <label class="col-form-label">Position Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" value="<?php echo $row['P_name'];?>" name="txtPositionName">	
+                        <label class="col-form-label">Access Right Level</label>
+                        <div class="col-12">
+                            <input type="number" class="form-control" value="<?php echo $row['AR_Level'];?>" name="txtAccessRoghtLevel" min="0" step="1">	
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Level</label>
-                        <div class="col-sm-12">
-                            <input type="number" class="form-control" value="<?php echo $row['P_level'];?>" name="txtPositionLevel" min="0" step="1">	
+					    <label class="col-form-label">Description</label>
+                        <div class="col-12">
+                            <textarea class="form-control" name="txtAccessRightDescription" rows="4"><?php echo $row['AR_Description'];?></textarea>	
                         </div>
-                    </div>
+				    </div>
                     <div class="form-group">
                     <div class="col-sm-12" style="text-align: center;">
                         <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditPosition.php'">
-                        <input type="button" class="btn btn-primary" name="btnUPosition" value="Update" onClick="UpdatePosition(<?php echo $row['P_ID'];?>)">
+                        <input type="button" class="btn btn-primary" name="btnUAccessRight" value="Update" onClick="UpdateAccessRight(<?php echo $row['AR_ID'];?>)">
                     </div>
                     </div>
                 </div>
@@ -157,9 +154,9 @@
         }
     }
 
-    if($_POST['action'] == 'updatePosition'){
-        $pid = $_POST['position_ID'];
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_position WHERE P_name = '".strtoupper(trim($formdata[0]['value']))."'";
+    if($_POST['action'] == 'updateAccessRight'){
+        $arid = $_POST['accessright_ID'];
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."' AND AR_ID != $arid";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -167,9 +164,9 @@
         }
         else
         {
-            $UpdateSQL = "UPDATE t_memc_kpcc_position SET P_name = '".strtoupper(trim($formdata[0]['value']))."',
-            P_level = '".$formdata[1]['value']."'
-            WHERE P_ID = $pid";
+            $UpdateSQL = "UPDATE t_memc_kpcc_access_right SET AR_Level = '".trim($formdata[0]['value'])."',
+            AR_Description = '".(trim($formdata[1]['value']))."'
+            WHERE AR_ID = $arid";
             $UpdateResult = mysqli_query($conn, $UpdateSQL);
             if($UpdateResult)
             {
