@@ -38,7 +38,7 @@
                       <h4 class="card-title">Score</h4>
                     </div> -->
                     <div class="table-responsive" id="showSearchTable">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
                             <th scope="col"></th>

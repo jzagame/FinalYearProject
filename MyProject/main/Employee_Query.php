@@ -187,7 +187,7 @@
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
-            echo "<table class=\"table table-hover\">";
+            echo "<table class=\"table table-hover table-bordered\">";
                 echo "<thead>";
                 echo "<tr>";
                     echo "<th scope=\"col\"></th>";
@@ -223,7 +223,7 @@
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
-            echo "<table class=\"table table-hover\">";
+            echo "<table class=\"table table-hover table-bordered\">";
 			echo "<thead class=\"thead-dark\">";
                 echo "<tr>";
                     echo "<th scope=\"col\">No.</th>";

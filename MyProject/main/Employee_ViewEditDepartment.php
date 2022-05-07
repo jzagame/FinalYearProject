@@ -38,7 +38,7 @@
                           <h4 class="card-title">Score</h4>
                         </div> -->
 						  <div class="table-responsive" id="showDepartTable">
-                        <table class="table table-hover">
+                        <table class="table table-hover table-bordered">
                           <thead class="thead-dark">
                             <tr>
                               <th scope="col">No.</th>

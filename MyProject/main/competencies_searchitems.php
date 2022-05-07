@@ -41,7 +41,7 @@
   </div>
     <div class="form-group col-md-4">
       <label for="inputState">Status</label>
-      <select name="selstatus" class="form-control">
+      <select name="selstatus" class="form-control custom-select">
 		  <option value="">Both</option>
         <option value="A">Active</option>
 		<option value="I">Inactive</option>
@@ -60,7 +60,7 @@
 		if(mysqli_num_rows($view) > 0)
 		{
             ?>
-	  <table class="table table-hover table-sm" style="margin-top:15px;" >
+	  <table class="table table-bordered table-hover table-sm" style="margin-top:15px;" >
 		<thead>
 		  <tr>
 			<th nowrap>ID</th>

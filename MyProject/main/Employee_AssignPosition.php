@@ -75,7 +75,7 @@
                           <h4 class="card-title">Score</h4>
                         </div> -->
                         <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover table-bordered">
                           <thead class="thead-dark">
                             <tr>
                                 <th scope="col"></th>
@@ -106,7 +106,7 @@
                         <div class="form-group row">
 						    <label class="col-sm-2">Position</label>
 						    <div class="col-sm-12">
-                                <select class="form-control" name="txtPosition">
+                                <select class="form-control custom-select" name="txtPosition">
 									<option value="">Admin</option>
 									<option value="">Head Of Department</option>
 								</select>	
@@ -115,7 +115,7 @@
                         <div class="form-group row">
 						    <label class="col-sm-2">Department</label>
 						    <div class="col-sm-12">
-                                <select class="form-control" name="txtDepartment">
+                                <select class="form-control custom-select" name="txtDepartment">
 									<option value="">Human Resource(HR)</option>
 									<option value="">Information Technology(IT)</option>
 								</select>	

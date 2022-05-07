@@ -87,7 +87,7 @@
 		if(mysqli_num_rows($view) > 0)
 		{
             ?>
-	  <table class="table table-hover" style="margin-top:15px">
+	  <table class="table table-hover table-bordered" style="margin-top:15px">
 		<thead>
 		  <tr>
 			<th>ID</th>
@@ -216,7 +216,7 @@ if($_POST['action'] == "searchcd"){
 		{
             ?>
 				
-	  <table class="table table-hover" style="margin-top:15px">
+	  <table class="table table-hover table-bordered" style="margin-top:15px">
 		<thead>
 		  <tr>
 			<th>ID</th>
@@ -339,7 +339,7 @@ if($_POST['action'] == "searchitem"){
 		if(mysqli_num_rows($view) > 0)
 {
             ?>
-	  <table class="table table-hover table-sm" style="margin-top:15px">
+	  <table class="table table-hover table-sm table-bordered" style="margin-top:15px">
 		<thead>
 		  <tr>
 			<th>ID</th>
