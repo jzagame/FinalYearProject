@@ -118,7 +118,12 @@ if ( $_POST[ 'action' ] == "showaddcd" ) {
     <div class="col-10">
       <select class="custom-select form-control" id="Position" name="selccid">
         <?php
-        $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+        if ( $cdid1 != "" ) {
+          $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+        } else {
+          $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_Status <> 'I'";
+        }
+
         $view = mysqli_query( $conn, $catesql );
         if ( mysqli_num_rows( $view ) > 0 ) {
           for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
@@ -240,7 +245,11 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
           <?php
           $first;
           $selected;
-          $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+          if ( $itemid1 != "" ) {
+            $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+          } else {
+            $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_Status <> 'I'";
+          }
           $view = mysqli_query( $conn, $catesql );
           if ( mysqli_num_rows( $view ) > 0 ) {
             for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
