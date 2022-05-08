@@ -18,7 +18,7 @@
 	   showaddf();
 	}
 	</script> 
-	<div id="show_addcc"></div>
+	<div class="container-fluid" id="show_addcc"></div>
 
 
 
