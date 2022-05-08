@@ -342,18 +342,18 @@ if($_POST['action'] == "searchitem"){
 	  <table class="table table-hover table-sm table-bordered" style="margin-top:15px">
 		<thead>
 		  <tr>
-			<th>ID</th>
-			<th>Core Competency</th>
-			<th>Competencies Dimension</th>
-			<th>Item Name</th> 
-			<th>Definition</th>
-			<th>Lv 5 Definition</th>
-			<th>Lv 4 Definition</th>
-			<th>Lv 3 Definition</th>
-			<th>Lv 2 Definition</th>
-			<th>Lv 1 Definition</th>
-			<th>Status</th>
-		  </tr>
+          <th nowrap>ID</th>
+          <th nowrap>Core Competency</th>
+          <th nowrap>Competencies Dimension</th>
+          <th nowrap>Item Name</th>
+          <th nowrap width="160px">Definition</th>
+          <th nowrap width="160px">Lv 5 Definition</th>
+          <th nowrap width="160px">Lv 4 Definition</th>
+          <th nowrap width="160px">Lv 3 Definition</th>
+          <th nowrap width="160px">Lv 2 Definition</th>
+          <th nowrap width="160px">Lv 1 Definition</th>
+          <th nowrap>Status</th>
+        </tr>
 		</thead>
 <tbody>
          <?php
