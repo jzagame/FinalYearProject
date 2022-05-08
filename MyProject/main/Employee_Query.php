@@ -188,14 +188,14 @@
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
-            echo "<table class=\"table table-hover\">";
+            echo "<table class=\"table table-hover table-bordered\">";
                 echo "<thead>";
                 echo "<tr>";
                     echo "<th scope=\"col\"></th>";
                     echo "<th scope=\"col\">No.</th>";
                     echo "<th scope=\"col\">Employee Number</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
-                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Email</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -205,13 +205,21 @@
                         echo "<tr>";
                         echo "<td><input type=\"checkbox\" name=\"".$row['Emp_Detail_ID']."\"></td>";
                         echo "<td>".($i+1)."</td>";
-                        echo "<td>".$row['P_name']."</td>";
-                        echo "<td>".$row['P_level']."</td>";
-                        echo "<td>".$row['P_Status']."</td>";
+                        echo "<td>".$row['Emp_ID']."</td>";
+                        echo "<td>".$row['Emp_Name']."</td>";
+                        echo "<td>".$row['Emp_Department']."</td>";
                         echo "</tr>";
                     }
                 echo "</tbody>";
             echo "</table>";
+            echo "<div class=\"container-fluid\">";
+            echo "<div class=\"form-group\">";
+                echo "<div class=\"col-12\" style=\"text-align: center;\">";
+                    echo "<input type=\"button\" class=\"btn btn-primary\" name=\"btnAddEmployee\" value=\"Add\" onclick=\"AddEmployee()\">";
+                    echo "<input type=\"reset\" class=\"btn btn-primary\" name=\"btnClear\" value=\"Clear\">";
+                echo "</div>";
+            echo "</div>";
+            echo "</div>";
         }
         else
         {

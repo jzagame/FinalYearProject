@@ -43,7 +43,7 @@
                     Emp_ID VARCHAR(30),
                     Emp_P_ID INT,
 					Emp_Name VARCHAR(99),
-					Emp_Email VARCHAR(50),
+					Emp_Department VARCHAR(50),
                     EmpDetail_Status VARCHAR(20))",
 					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
                     D_Name VARCHAR(50),
@@ -52,10 +52,10 @@
 					D_Q_ID_END INT,
 					D_HODNode VARCHAR(50),
                     D_Status CHAR(1))",
-          "CREATE TABLE t_memc_kpcc_Access_Right (AR_ID INT AUTO_INCREMENT PRIMARY KEY,
+          			"CREATE TABLE t_memc_kpcc_Access_Right (AR_ID INT AUTO_INCREMENT PRIMARY KEY,
                     AR_Level INT,
                     AR_Description VARCHAR(99),
-					          AR_Status VARCHAR(10))"
+					AR_Status VARCHAR(10))"
                     
                     
     );
