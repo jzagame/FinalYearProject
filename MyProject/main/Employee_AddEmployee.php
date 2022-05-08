@@ -46,7 +46,6 @@
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Employee Name</th>
                           <th scope="col" style="vertical-align:middle">Department</th>
-                          <th scope="col" style="vertical-align:middle">Email</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -63,20 +62,20 @@
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['Emp_ID']."</td>";
                                 echo "<td>".$row['Emp_Name']."</td>";
-                                echo "<td>".$row['Emp_Email']."</td>";
+                                echo "<td>".$row['Emp_Department']."</td>";
                                 echo "</tr>";
                               }
                           }
                           else
                           {
                             echo "<script> alert('No Record Found');
-						    location='index.php'; </script>";
+						                location='index.php'; </script>";
                           }
                         ?>
                       </tbody>
                     </table>
                     <div class="form-group">
-                        <div class="col-sm-12" style="text-align: center;">
+                        <div class="col-12" style="text-align: center;">
                             <input type="button" class="btn btn-primary" name="btnAddEmployee" value="Add" onclick="AddEmployee()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                         </div>
@@ -90,5 +89,5 @@
         </form>
     </div>
     </body>
-	<script src="../../includes/assest/JS/Ajax.js"></script>
+	<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>
