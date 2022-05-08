@@ -396,7 +396,12 @@ if ( $_POST[ 'action' ] == "showadditemcd" ) {
   ?>
 <select class="custom-select form-control" id="Position" required="required" name="selcdid">
   <?php
-  $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $_POST[ 'value1' ] . " AND Cd_status = 'A'";
+  if ( $itemid1 != "" ) {
+    $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $_POST[ 'value1' ] . "";
+  } else {
+    $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $_POST[ 'value1' ] . " AND Cd_status = 'A'";
+  }
+
   $view = mysqli_query( $conn, $catesql );
   if ( mysqli_num_rows( $view ) > 0 ) {
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
