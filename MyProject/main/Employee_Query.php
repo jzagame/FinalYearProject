@@ -223,13 +223,75 @@
 
     if($_POST['action'] == "addEmployee"){
 		$data = array();
+        parse_str($formdata, $data);
+        var_dump($data);
+        for($i = 0; $i < count($data['txtEmployeePass']); $i++)
+        {
+            $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 'A' WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
+            $UpdateEmployeeResult = mysqli_query($conn,$UpdateEmployeeSQL);
+        }
+        
+		if($UpdateEmployeeResult)
+		{
+            echo "success";
+		}
+        else
+        {
+            echo "fail";
+        }
+    }
+
+    if($_POST['action'] == "searchRemoveEmployee"){
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Status = 'A' AND Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
+        $SearchResult = mysqli_query($conn, $SearchSQL);
+        if(mysqli_num_rows($SearchResult) > 0)
+        {
+            echo "<table class=\"table table-hover table-bordered\">";
+                echo "<thead>";
+                echo "<tr>";
+                    echo "<th scope=\"col\"></th>";
+                    echo "<th scope=\"col\">No.</th>";
+                    echo "<th scope=\"col\">Employee Number</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
+                    for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+                    {
+                        $row = mysqli_fetch_array($SearchResult);
+                        echo "<tr>";
+                        echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
+                        echo "<td>".($i+1)."</td>";
+                        echo "<td>".$row['Emp_ID']."</td>";
+                        echo "<td>".$row['Emp_Name']."</td>";
+                        echo "<td>".$row['Emp_Department']."</td>";
+                        echo "</tr>";
+                    }
+                echo "</tbody>";
+            echo "</table>";
+            echo "<div class=\"form-group\">";
+                echo "<div class=\"col-12\" style=\"text-align: center;\">";
+                    echo "<input type=\"button\" class=\"btn btn-primary mr-2\" name=\"btnRemoveEmployee\" value=\"Remove\" onclick=\"RemoveEmployee()\">";
+                    echo "<input type=\"reset\" class=\"btn btn-primary\" name=\"btnClear\" value=\"Clear\">";
+                echo "</div>";
+            echo "</div>";
+        }
+        else
+        {
+            echo "fail";
+        }
+    }
+
+    if($_POST['action'] == "removeEmployee"){
+		$data = array();
         // echo $data;
         // echo $formdata;
         parse_str($formdata, $data);
         var_dump($data);
         for($i = 0; $i < count($data['txtEmployeePass']); $i++)
         {
-            $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 'A' WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
+            $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 'D' WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
             $UpdateEmployeeResult = mysqli_query($conn,$UpdateEmployeeSQL);
         }
         

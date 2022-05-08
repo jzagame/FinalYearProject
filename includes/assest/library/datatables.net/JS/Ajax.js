@@ -406,3 +406,36 @@ function AddEmployee(){
 		}
 	});
 }
+
+function SearchRemoveEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchRemoveEmployee",formdata:$('#searchRemoveEmployeeForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchRemoveTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function RemoveEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"removeEmployee",formdata:$('#searchRemoveEmployeeForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Remove Successfully.');
+				document.getElementById("searchRemoveEmployeeForm").reset();
+			}else{
+				window.alert('Employee Remove Failure.');
+			}
+			// alert(data);
+		}
+	});
+}
