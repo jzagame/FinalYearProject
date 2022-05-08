@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container-fluid mt-3">
+    <div class="container-fluid">
         <div class="row">
             <?php
             include "../includes/Menubar.php";

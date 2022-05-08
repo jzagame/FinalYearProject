@@ -18,7 +18,18 @@ if ($next == "Comp_Card") { // Add competecies form content
     <div id="card_<?php echo $num; ?>">
         <table class="table table-bordered" style="text-align: center;">
             <tr>
-                <td colspan="8" style="text-align: left;"><?php if($search != null) { echo "<b>Editing</b> ". $found['Cd_Name'] . " In " . $found['Q_Year']. " - " . $found['Q_Name'];} else{ echo "New Competencies";} ?></td>
+                <td colspan="8" style="text-align: left;">
+                    <?php if ($search != null) {
+                        echo "<b>Editing</b> " . $found['Cd_Name'] . " In " . $found['Q_Year'] . " - " . $found['Q_Name'];
+                    } else {
+                        echo "New Competencies";
+                    } ?>
+                    <input type="text" hidden value="<?php if ($search != null) {
+                                                            echo $search;
+                                                        } else {
+                                                            echo "new";
+                                                        } ?>" id="EID<?php echo $num; ?>" name="EID[]">
+                </td>
                 <td colspan="1" style="text-align: right;"><span class="oi oi-x" id="removeCard_<?php echo $num; ?>" onclick="removeCard(<?php echo $num; ?>)" style="cursor: pointer;"></span></td>
             </tr>
             <tr>
@@ -45,8 +56,8 @@ if ($next == "Comp_Card") { // Add competecies form content
                         <option value="blank">choose...</option>
                         <?php
                         $sql = "select * from t_memc_kpcc_competenciesdimension where Cd_status = 'A'";
-                        if($search != NULL){
-                            $sql .= " and Cd_Cc_ID = '".$found['Cd_Cc_ID']."'";
+                        if ($search != NULL) {
+                            $sql .= " and Cd_Cc_ID = '" . $found['Cd_Cc_ID'] . "'";
                         }
                         $result = $conn->query($sql);
                         while ($row = $result->fetch_assoc()) {
@@ -65,8 +76,8 @@ if ($next == "Comp_Card") { // Add competecies form content
                         <option>choose...</option>
                         <?php
                         $sql = "select * from t_memc_kpcc_items where Im_Status = 'A'";
-                        if($search != null){
-                            $sql .= " and Im_Cd_ID = ".$found['Cd_ID']."";
+                        if ($search != null) {
+                            $sql .= " and Im_Cd_ID = " . $found['Cd_ID'] . "";
                         }
                         $result = $conn->query($sql);
                         while ($row = $result->fetch_assoc()) {
@@ -83,18 +94,20 @@ if ($next == "Comp_Card") { // Add competecies form content
             <tr>
                 <td scope="col"><label for="target<?php echo $num; ?>" class="col-form-label">Target</label></td>
                 <td scope="col" colspan="8">
-                    <select class="custom-select form-control" name="target[]" id="target<?php echo $num; ?>" >
+                    <select class="custom-select form-control" name="target[]" id="target<?php echo $num; ?>">
                         <option>choose...</option>
-                        <?php 
-                        if($search != null){
-                            $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Status = 'A' and Im_lvl_Im_ID = ".$found['Im_ID']."";
-                            $result = $conn -> query($sql);
-                            while($row = $result -> fetch_assoc()){
-                            ?>
-                                <option <?php 
-                                if($found['Ei_Target_Score'] == $row['Im_lvl_ID']) {echo "selected";}
-                                ?> value="<?php echo $row['Im_lvl_ID']; ?>"><?php echo $row['Im_lvl_Name'] ." - ". $row['Im_lvl_Description']; ?></option>
-                            <?php
+                        <?php
+                        if ($search != null) {
+                            $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Status = 'A' and Im_lvl_Im_ID = " . $found['Im_ID'] . "";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                        ?>
+                                <option <?php
+                                        if ($found['Ei_Target_Score'] == $row['Im_lvl_ID']) {
+                                            echo "selected";
+                                        }
+                                        ?> value="<?php echo $row['Im_lvl_ID']; ?>"><?php echo $row['Im_lvl_Name'] . " - " . $row['Im_lvl_Description']; ?></option>
+                        <?php
                             }
                         }
                         ?>
@@ -121,20 +134,13 @@ if ($next == "Comp_Card") { // Add competecies form content
                 </td>
                 <td scope="col" style="width:10%;"><label for="Cat<?php echo $num; ?>" class="col-form-label">Category</label></td>
                 <td scope="col" colspan="2">
-                    <Select class="custom-select form-control" id="Cat<?php echo $num; ?>" name="Cat[]" onchange="catSelected('<?php echo $num; ?>')">
+                    <Select class="custom-select form-control" id="Cat<?php echo $num; ?>" name="Cat[]" >
                         <option <?php if ($found['Ei_Category'] == "sub") {
                                     echo "selected";
                                 } ?> value="sub">Sub-Core Competencies</option>
-                        <?php
-                        // $_SESSION['core_count'] < 6 && $_POST['for'] != "max" && $_SESSION['initial_core'] != 5
-                        if ($_SESSION['core_count'] < 5 && $_POST['for'] != "max") {
-                        ?>
-                            <option <?php if ($found['Ei_Category'] == "core") {
-                                        echo "selected";
-                                    } ?> value="core">Core Competencies</option>
-                        <?php
-                        }
-                        ?>
+                        <option <?php if ($found['Ei_Category'] == "core") {
+                                    echo "selected";
+                                } ?> value="core">Core Competencies</option>
                     </Select>
                 </td>
                 <td scope="col" style="width:10%;"><label for="score<?php echo $num; ?>" class="col-form-label">Score</label></td>
@@ -314,7 +320,7 @@ if ($next == "66%" || $previous == "66%") {
     <div class="col-12">
         <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active">
-                <h5 class="m-0">Competencies History [Total Core In <?php echo date("Y") ." - ". $_SESSION['core_count'] ?>]</h5>
+                <h5 class="m-0">Competencies History [Total Core In <?php echo date("Y") . " - " . $_SESSION['core_count'] ?>]</h5>
             </li>
         </ul>
         <table class="table table-bordered">
@@ -335,7 +341,7 @@ if ($next == "66%" || $previous == "66%") {
                 <?php
                 $sql = "select * from t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension,t_memc_kpcc_employee_item,t_memc_kpcc_items,
                     t_memc_kpcc_quarter,t_memc_kpcc_items_lvl_desc where Ei_Quarter_ID = Q_ID and Ei_Im_ID = Im_ID and Ei_Target_Score = Im_lvl_ID 
-                    and Ei_EMP_ID = '" . $_POST['empid'] . "' and Cd_ID = Im_Cd_ID and Cc_ID = Cd_Cc_ID and Im_lvl_Im_ID = Im_ID and Q_Year = '".date('Y')."'  
+                    and Ei_EMP_ID = '" . $_POST['empid'] . "' and Cd_ID = Im_Cd_ID and Cc_ID = Cd_Cc_ID and Im_lvl_Im_ID = Im_ID and Q_Year = '" . date('Y') . "'  
                     order by Q_Name DESC,Q_Year DESC, Im_Name ASC";
                 $result = $conn->query($sql);
                 $row = mysqli_num_rows($result);
@@ -387,9 +393,7 @@ if ($next == "66%" || $previous == "66%") {
     <?php
 }
 if ($action == "addHistory") {
-    if ($_SESSION['core_count'] == 5 && $_POST['cat'] == "core") {
-        echo "full";
-    } else if ($_SESSION['start'] == 1 && $_SESSION['plus_one'] == false) {
+    if ($_SESSION['start'] == 1 && $_SESSION['plus_one'] == false) {
         // if ($_POST['cat'] == "core") {
         //     $_SESSION['core_count'] = $_SESSION['core_count'] +  1;
         // }
@@ -426,19 +430,12 @@ if ($action == "AddButton_1") {
     $_SESSION['start'] = $_SESSION['start'] + 1;
     $_SESSION['total'] = $_SESSION['total'] + 1;
 }
-if ($action == "categorySelected") {
-    if ($search == "core") {
-        echo $_SESSION['core_count'] += 1;
-    } else {
-        echo $_SESSION['core_count'] -= 1;
-    }
-}
 if ($action == "targetItemDesc") {
     $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Im_ID = " . $search . " and Im_lvl_Status = 'A'";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
     ?>
-        <option class="tooltip" data-toggle="tooltip" data-placement="bottom" value="<?php echo $row['Im_lvl_ID'] ?>" title=""><?php echo $row['Im_lvl_Name'] . " - ". $row['Im_lvl_Description']; ?></option>
+        <option class="tooltip" data-toggle="tooltip" data-placement="bottom" value="<?php echo $row['Im_lvl_ID'] ?>" title=""><?php echo $row['Im_lvl_Name'] . " - " . $row['Im_lvl_Description']; ?></option>
 <?php
     }
 }
