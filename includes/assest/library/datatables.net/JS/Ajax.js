@@ -242,19 +242,19 @@ function btnedititemf(itemid2){
     });
 }
 //Employee
-function AddPosition(){
+function AddAccessRight(){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"addPosition",formdata:$('#AddPositionForm').serializeArray()},
+		data: {action:"addAccessRight",formdata:$('#AddAccessRightForm').serializeArray()},
 		success: function(data){
 			if(data == "success"){
-				window.alert('Position Category Create Successfully.');
-				document.getElementById("AddPositionForm").reset();
+				window.alert('Access Right Create Successfully.');
+				document.getElementById("AddAccessRightForm").reset();
 			}else if(data == "fail"){
-				window.alert('Position Category Create Failure.');
+				window.alert('Access Right Create Failure.');
 			}else{
-				window.alert('Position Category Exist.');
+				window.alert('Access Right Exist.');
 			}
 		}
 	});
@@ -278,14 +278,14 @@ function AddDepartment(){
 		});
 	}
 
-function SearchPosition(){
+function SearchAccessRight(){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"searchPosition",formdata:$('#searchPositionForm').serializeArray()},
+		data: {action:"searchAccessRight",formdata:$('#searchAccessRightForm').serializeArray()},
 		success: function(data){
 			if(data == "fail"){
-				window.alert("Position Category Not Found");
+				window.alert("Access Right Not Found");
 			}
 			else{
 				document.getElementById("showSearchTable").innerHTML = data;
@@ -294,33 +294,33 @@ function SearchPosition(){
 	});
 }
 
-function editPosition(pid){
+function editAccessRight(arid){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"editPosition",position_ID:pid},
+		data: {action:"editAccessRight",accessright_ID:arid},
 		success: function(data){
 			document.getElementById("ShowEditForm").innerHTML = data;
 		}
 	});
 }
 
-function UpdatePosition(pid){
-	console.log($('#UpdatePositionForm').serializeArray());
+function UpdateAccessRight(arid){
+	console.log($('#UpdateAccessRightForm').serializeArray());
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"updatePosition",formdata:$('#UpdatePositionForm').serializeArray(), position_ID:pid},
+		data: {action:"updateAccessRight",formdata:$('#UpdateAccessRightForm').serializeArray(), accessright_ID:arid},
 		success: function(data){
 			if(data == "success"){
-				window.alert('Update Position Successfully.');
+				window.alert('Update Access Right Successfully.');
 				location="Employee_ViewEditPosition.php";
 			}
 			else if(data == "fail"){
 				window.alert('Update Position Failure.');
 			}
 			else{
-				window.alert('Position Category Exist.');
+				window.alert('Access Right Exist.');
 			}
 		}
 	});
