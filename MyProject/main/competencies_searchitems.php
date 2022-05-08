@@ -10,6 +10,7 @@ include( "../includes/MenuBar.php" );
 <style>
 td, th {
     max-width: 200px;
+	word-wrap: break-word;
 }
 </style>
 </head>

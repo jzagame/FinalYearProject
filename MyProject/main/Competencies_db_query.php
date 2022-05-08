@@ -399,21 +399,7 @@ if($_POST['action'] == "searchitem"){
 
 if($_POST['action'] == "edititem"){
 		
-		$sql2= "SELECT * FROM t_memc_kpcc_items";
-        $result2=mysqli_query($conn,$sql2);
-		if(mysqli_num_rows($result2)>0)
-		{
-            for($i=0;$i<mysqli_num_rows($result2);++$i)      
-	        {
-			$row2= mysqli_fetch_array($result2);
-            if($formdata[0]['value'] == $row2['Im_Cd_ID'] && $formdata[1]['value'] == $row2['Im_Name'] && $formdata[2]['value'] == $row2['Im_Definition'] && $formdata[7]['value'] == $row2['Im_lv1_Def'] && $formdata[6]['value'] == $row2['Im_lv2_Def']&& $formdata[5]['value'] == $row2['Im_lv3_Def']&& $formdata[4]['value'] == $row2['Im_lv4_Def']&& $formdata[3]['value'] == $row2['Im_lv5_Def']&& $formdata[8]['value'] == $row2['Im_Status'] ){
-            $xx=1;}
-            }
-		}
-		if($xx == 1){
-            echo "same";
-        }
-		else{
+
 		$formdata7 = str_replace("'", "\'",$formdata[7]['value']);
 		$formdata6 = str_replace("'", "\'",$formdata[6]['value']);
 		$formdata5 = str_replace("'", "\'",$formdata[5]['value']);
@@ -456,7 +442,7 @@ if($_POST['action'] == "edititem"){
 		 {
 			 echo "fail";
 		 }
-		}
+		
 	}
 
 ?>
