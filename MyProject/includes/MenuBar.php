@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="../../includes/assest/CSS/bootstrap4.6.1.css" />
 <link href="../../includes/assest/CSS/Menuhover.css" rel="stylesheet" media="all">
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="justify-content-center">
       <nav class="navbar navbar-expand-lg navbar-light bg-ligh"> <a class="navbar-brand" href="index.php">LONGi</a>
