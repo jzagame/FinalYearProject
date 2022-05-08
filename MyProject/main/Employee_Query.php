@@ -1,6 +1,6 @@
 <?php 
     error_reporting(0);
-    include ("../../includes/assest/library/database.php");
+    include ("../../includes/assest/database.php");
 	$formdata = $_POST['formdata'];
 	$flag = false; 
     if($_POST['action'] == "addAccessRight"){
