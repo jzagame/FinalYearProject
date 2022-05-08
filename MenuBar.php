@@ -16,24 +16,45 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <!--		Employee-->
-      <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Employee
-        </a>
-        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-          <li class="dropdown-item"><a href="#">Some action</a></li>
-          <li class="dropdown-item"><a href="#">Some other action</a></li>
-          <li class="dropdown-divider"></li>
-          <li class="dropdown-submenu">
-            <a class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
-              <li class="dropdown-item"><a href="#">Second level</a></li>
-              <li class="dropdown-item"><a href="#">Second level</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <!--		Employee-->
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Employee
+              </a>
+              <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                <!-- <li class="dropdown-item"><a href="#">Some action</a></li>
+                <li class="dropdown-item"><a href="#">Some other action</a></li>
+                <li class="dropdown-divider"></li> -->
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Position Category</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a tabindex="-1" href="Employee_CreatePosition.php">Create</a></li>
+                    <li class="dropdown-item"><a href="Employee_ViewEditPosition.php">View/Edit</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Department</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a tabindex="-1" href="Employee_CreateDepartment.php">Add</a></li>
+                    <li class="dropdown-item"><a href="Employee_ViewEditDepartment.php">View/Edit</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Employee</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a tabindex="-1" href="Employee_AddEmployee.php">Add</a></li>
+                    <li class="dropdown-item"><a href="Employee_RemoveEmployee.php">Remove</a></li>
+                    <li class="dropdown-item"><a href="Employee_AssignPosition.php">Assign Position</a></li>
+                    <li class="dropdown-item"><a href="#">View/Edit Position</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+            </div>
       <!--		Competencies-->
       <div class="dropdown"> <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Competencies </a>
               <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -64,14 +85,8 @@
           Learning
         </a>
         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="Assessment">
-          <li class="dropdown-submenu">
-            <a class="dropdown-item">Competencies</a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-item"><a tabindex="-1" href="Assessment_Assign.php">Assign</a></li>
-              <li class="dropdown-item"><a href="Assessment_amend.php">Amend</a></li>
-            </ul>
-          </li>
-          <li class="dropdown-item"><a href="#">Grade</a></li>
+          <li class="dropdown-item"><a href="Assessment_Assign.php">Assign Items</a></li>
+          <li class="dropdown-item"><a href="Assessment_View_Employee.php">View Items</a></li>
         </ul>
       </div>
       <!--		Additional-->

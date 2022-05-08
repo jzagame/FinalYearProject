@@ -126,9 +126,9 @@ function filterCompetencies(a){
             document.getElementById("Compt" + a).innerHTML = data;
             // document.getElementById("MajorCompetencies").removeAttribute("onchange");
             filterItems(a);
-            var new_selection = $("#MajorCompetencies" + a).find('option:selected');
-            $('#MajorCompetencies' +a+ ' option').not(new_selection).removeAttr('selected');
-            $("#MajorCompetencies" + a + " option[value='"+$("#MajorCompetencies"+ a).val() +"']").attr("selected","selected");
+            // var new_selection = $("#MajorCompetencies" + a).find('option:selected');
+            // $('#MajorCompetencies' +a+ ' option').not(new_selection).removeAttr('selected');
+            // $("#MajorCompetencies" + a + " option[value='"+$("#MajorCompetencies"+ a).val() +"']").attr("selected","selected");
         }
     });
 }
@@ -140,30 +140,34 @@ function filterItems(a){
         data: {action:"filteritems",search:$("#Compt" + a).val()},
         success:function(data){
             document.getElementById("Itm" + a).innerHTML = data;
-            var new_selection = $("#MajorCompetencies" + a).find('option:selected');
-            $('#MajorCompetencies' +a+ ' option').not(new_selection).removeAttr('selected');
-            $("#MajorCompetencies" + a + " option[value='"+$("#MajorCompetencies"+ a).val() +"']").attr("selected","selected");
-            filterTarget(a);
+            ItemSelected(a);
+            // var new_selection = $("#MajorCompetencies" + a).find('option:selected');
+            // $('#MajorCompetencies' +a+ ' option').not(new_selection).removeAttr('selected');
+            // $("#MajorCompetencies" + a + " option[value='"+$("#MajorCompetencies"+ a).val() +"']").attr("selected","selected");
         }
     });
 }
 
-function filterTarget(a){
+function ItemSelected(a){
     $.ajax({
         type:"POST",
         url:"Assessment_plug.php",
         data: {action:"targetItemDesc",search:$("#Itm" + a).val()},
         success:function(data){
             document.getElementById("target" + a).innerHTML = data;
+            filterTarget(a);
         }
     });
 }
 
+function filterTarget(a){
+    
+    var new_selection = $("#target" + a).find('option:selected');
+    $('#target' +a+ ' option').not(new_selection).removeAttr('selected');
+    $("#target" + a + " option[value='"+$("#target"+ a).val() +"']").attr("selected","selected");
+}
+
 function catSelected(num){
-    console.log(num);
-    var new_selection = $("#Cat" + num).find('option:selected');
-    $('#Cat' +num+ ' option').not(new_selection).removeAttr('selected');
-    $("#Cat" + num + " option[value='"+$("#Cat"+ num).val() +"']").attr("selected","selected");
     $.ajax({
         type: "POST",
         url: "Assessment_plug.php",
@@ -193,22 +197,34 @@ $('#btn_submit').click(function(e){
         url:"Assessment_db_query.php",
         data: {action:"addcompetencies", formdata:$('#Form_Competencies').serialize(),EID:$("#emp_id").val()},
         success: function(data){
-            alert(data);
+            console.log(data);
+            SearchEmp($("#emp_id").val());
         }
     });
 });
 
-$("#btn_add").click(function(){
+$("#btn_add").click(function(e){
+    e.preventDefault();
     $.ajax({
         type:"POST",
         url: "Assessment_plug.php",
         data : {action:"AddButton"},
         success:function(data){
-            AddCard("",data);
+            if($("#Quarter" + data).val() == "blank"){
+                alert("please select quarter");
+            }else{
+                $.ajax({
+                    type:"POST",
+                    url: "Assessment_plug.php",
+                    data : {action:"AddButton_1"},
+                    success:function(data){
+                        AddCard("",data);
+                    }
+                });
+            }
         }
     })
 });
-
 
 function removeCard(num){
     console.log($("#Cat" + num).val());
@@ -226,16 +242,14 @@ function removeCard(num){
     });
 }
 
-function FillData(EiID){
+function FillData(EiID,category){
     $.ajax({
         type:"POST",
         url:"Assessment_plug.php",
-        data:{action:"addHistory"},
+        data:{action:"addHistory",cat:category},
         success:function(data){
             if(data == "full"){
                 alert("Core Competencies is full, please delete 1 core competencies");
-            }else if(data == "replace"){
-                AddCard(EiID,data);
             }else{
                 AddCard(EiID,data);
             }
@@ -252,7 +266,7 @@ function AddCard(EiID,want){
             if(want == "replace"){
                 document.getElementById("Competencies_Card").innerHTML = data;
             }else{
-                document.getElementById("Competencies_Card").innerHTML += data;
+                document.getElementById("Competencies_Card").insertAdjacentHTML("beforeend",data);
             }
         }
     });
@@ -267,4 +281,16 @@ function SelectQuarter(a){
     var new_selection = $("#Quarter" + a).find('option:selected');
     $('#Quarter' +a+ ' option').not(new_selection).removeAttr('selected');
     $("#Quarter" + a + " option[value='"+$("#Quarter"+ a).val() +"']").attr("selected","selected");
+    checkExist(a);
+}
+
+function checkExist(num){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data : {action:"checkExist",catgy:$("#Cat" + num).val(),qutr:$("#quarter"+num).val(),itms:$("#Itm" + num).val(),search:$("#emp_id").val()},
+        success:function(data){
+
+        }
+    });
 }
