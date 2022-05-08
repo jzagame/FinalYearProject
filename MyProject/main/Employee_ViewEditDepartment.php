@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-  include ("../../includes/assest/library/database.php");
+  include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -15,38 +15,36 @@
     </head>
 
     <body>
-		<div class="container" style="padding: 50px 0px 50px 100px;" id="ShowEditForm">
+		<div class="container-fluid" style="padding-top: 50px;" id="ShowEditForm">
             <form method="" id="searchDepartmentForm">
-            <div class="form-group d-flex justify-content-center">
-            <h3><strong>Department</strong></h3>
-            </div>
+            <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active"><h5 class="m-0">Department List</h5></li>
+        </ul>
             <hr class="bdr-light">
-              <div class="container">
+              <div class="container-fluid">
                 <div class="row">
                   <div class="col">
                     <div class="ml-12">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-sm-11" style="padding: 0px 20px 20px 0px;">
+                          <div class="col-11" style="padding: 0px 20px 20px 0px;">
                             <input type="text" class="form-control" placeholder="Search" name="txtSearchDepartment">	
                           </div>
-                          <div class="col-sm-1" style="text-align: center;">
-                            <input type="button" class="btn btn-dark" name="btnSearchDepartment" value="Search" onClick="SearchDepartment()">
+                          <div class="col-1" style="text-align: center;">
+                            <input type="button" class="btn btn-primary" name="btnSearchDepartment" value="Search" onClick="SearchDepartment()">
                           </div>
                         </div>
                         <!-- <div class="d-flex align-items-center mb-4">
                           <h4 class="card-title">Score</h4>
                         </div> -->
 						  <div class="table-responsive" id="showDepartTable">
-                        <table class="table table-hover">
-                          <thead class="thead-dark">
+                        <table class="table table-hover table-bordered">
+                          <thead>
                             <tr>
                               <th scope="col">No.</th>
                               <th scope="col">Department Name</th>
 							  <th scope="col">Department HOD Name</th>
-                              <th scope="col" style="vertical-align:middle">Quarter</th>
-                              <th scope="col" style="vertical-align:middle">Year</th>
-							  <th scope="col" style="vertical-align:middle">Node</th>
+							  <th scope="col" style="vertical-align:middle">Parent Department</th>
 							  <th scope="col" style="vertical-align:middle">Status</th>
                             </tr>
                           </thead>
@@ -62,9 +60,7 @@
                                 echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
                                 echo "<td>".$row['D_ID']."</td>";
                                 echo "<td>".$row['D_Name']."</td>";
-                                echo "<td>".$row['D_HODName']."</td>";
-                                echo "<td>".$row['D_Quarter']."</td>";
-								echo "<td>".$row['D_Year']."</td>";
+                                echo "<td>".$row['D_HODID']."</td>";
 								echo "<td>".$row['D_HODNode']."</td>";
 								echo "<td>".$row['D_Status']."</td>";
                                 echo "</tr>";
@@ -87,5 +83,5 @@
             </form>
           </div>
     </body>
-<script src="../../includes/assest/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>
