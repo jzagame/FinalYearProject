@@ -241,6 +241,7 @@ function btnedititemf(itemid2){
         }
     });
 }
+
 //Employee
 function AddAccessRight(){
 	$.ajax({
@@ -326,42 +327,6 @@ function UpdateAccessRight(arid){
 	});
 }
 
-function SearchEmployee(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"searchEmployee",formdata:$('#searchEmployeeForm').serializeArray()},
-		success: function(data){
-			if(data == "fail"){
-				window.alert("Employee Not Found");
-			}
-			else{
-				document.getElementById("showSearchTable").innerHTML = data;
-			}
-		}
-	});
-}
-
-function AddEmployee(pid){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"updatePosition",formdata:$('#UpdatePositionForm').serializeArray(), position_ID:pid},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Update Position Successfully.');
-				location="Employee_ViewEditPosition.php";
-			}
-			else if(data == "fail"){
-				window.alert('Update Position Failure.');
-			}
-			else{
-				window.alert('Position Category Exist.');
-			}
-		}
-	});
-}
-
 function SearchDepartment(){
 	$.ajax({
 		type: "POST",
@@ -405,6 +370,39 @@ function UpdateDepartment(did){
 			else{
 				window.alert('Department Does Not Exist.');
 			}
+		}
+	});
+}
+
+function SearchEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchEmployee",formdata:$('#searchEmployeeForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function AddEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addEmployee",formdata:$('#searchEmployeeForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Added Successfully.');
+				document.getElementById("searchEmployeeForm").reset();
+			}else{
+				window.alert('Employee Added Failure.');
+			}
+			// alert(data);
 		}
 	});
 }

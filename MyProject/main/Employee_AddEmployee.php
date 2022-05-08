@@ -15,8 +15,8 @@
     </head>
 
     <body>
-    <div class="container-fluid" style="padding-top: 50px;">
-        <form method="" id="searchEmployeeForm">
+    <div class="container-fluid">
+        <form id="searchEmployeeForm">
         <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
         </ul>
@@ -50,7 +50,7 @@
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status != 'A'";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -58,7 +58,7 @@
                               {
                                 $row = mysqli_fetch_array($SearchResult);
                                 echo "<tr>";
-                                echo "<td><input type=\"checkbox\" name=\"".$row['Emp_Detail_ID']."\"></td>";
+                                echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['Emp_ID']."</td>";
                                 echo "<td>".$row['Emp_Name']."</td>";

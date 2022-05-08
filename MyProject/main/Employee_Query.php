@@ -118,7 +118,7 @@
         {
             $row = mysqli_fetch_array($SearchResult);
 ?>
-            <div class="container-fluid" style="padding-top: 30px;">
+            <div class="container-fluid">
             <form method="" id="UpdateAccessRightForm">
                 <ul class="list-group mt-2 mb-2">
                     <li class="list-group-item active"><h5 class="m-0">Edit Access Right</h5></li>
@@ -199,7 +199,7 @@
                     {
                         $row = mysqli_fetch_array($SearchResult);
                         echo "<tr>";
-                        echo "<td><input type=\"checkbox\" name=\"".$row['Emp_Detail_ID']."\"></td>";
+                        echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
                         echo "<td>".($i+1)."</td>";
                         echo "<td>".$row['Emp_ID']."</td>";
                         echo "<td>".$row['Emp_Name']."</td>";
@@ -208,15 +208,35 @@
                     }
                 echo "</tbody>";
             echo "</table>";
-            echo "<div class=\"container-fluid\">";
             echo "<div class=\"form-group\">";
                 echo "<div class=\"col-12\" style=\"text-align: center;\">";
-                    echo "<input type=\"button\" class=\"btn btn-primary\" name=\"btnAddEmployee\" value=\"Add\" onclick=\"AddEmployee()\">";
+                    echo "<input type=\"button\" class=\"btn btn-primary mr-2\" name=\"btnAddEmployee\" value=\"Add\" onclick=\"AddEmployee()\">";
                     echo "<input type=\"reset\" class=\"btn btn-primary\" name=\"btnClear\" value=\"Clear\">";
                 echo "</div>";
             echo "</div>";
-            echo "</div>";
         }
+        else
+        {
+            echo "fail";
+        }
+    }
+
+    if($_POST['action'] == "addEmployee"){
+		$data = array();
+        // echo $data;
+        // echo $formdata;
+        parse_str($formdata, $data);
+        var_dump($data);
+        for($i = 0; $i < count($data['txtEmployeePass']); $i++)
+        {
+            $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 'A' WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
+            $UpdateEmployeeResult = mysqli_query($conn,$UpdateEmployeeSQL);
+        }
+        
+		if($UpdateEmployeeResult)
+		{
+            echo "success";
+		}
         else
         {
             echo "fail";

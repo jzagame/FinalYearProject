@@ -15,7 +15,7 @@
     </head>
 
     <body>
-      <div class="container-fluid" style="padding-top: 50px;" id="ShowEditForm">
+      <div class="container-fluid" id="ShowEditForm">
         <form method="" id="searchAccessRightForm">
         <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Access Right List</h5></li>

@@ -15,7 +15,7 @@
     </head>
 
     <body>
-        <div class="container-fluid" style="padding-top: 50px;">
+        <div class="container-fluid">
 		<form method="" id="AddAccessRightForm">
             <ul class="list-group mt-2 mb-2">
                 <li class="list-group-item active"><h5 class="m-0">Create Access Right</h5></li>
