@@ -28,7 +28,7 @@ include("../includes/MenuBar.php");
 	   showaddfcd();
 	}
 	</script> 
-	<div id="show_addcd"></div>
+	<div class="container-fluid" id="show_addcd"></div>
 
 
 </body>
