@@ -53,7 +53,6 @@
                     <li class="dropdown-item"><a href="#">View/Edit Position</a></li>
                   </ul>
                 </li>
-
               </ul>
             </div>
       <!--		Competencies-->
