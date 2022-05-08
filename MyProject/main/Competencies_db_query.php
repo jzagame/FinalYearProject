@@ -1,7 +1,7 @@
 <?php 
     error_reporting(0);
-  include ("../../includes/assest/library/database.php");
-	$formdata = $_POST['formdata'];
+include ("../../includes/database.php");
+$formdata = $_POST['formdata'];
 	$xx=0;
 	$c=0;
 //Core Competecies

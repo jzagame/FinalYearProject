@@ -1,6 +1,6 @@
 <?php
 error_reporting( 0 );
-  include ("../../includes/assest/library/database.php");
+  include ("../../includes/database.php");
 
 $ccid1 = $_POST[ 'ccid1' ];
 $cdid1 = $_POST[ 'cdid1' ];

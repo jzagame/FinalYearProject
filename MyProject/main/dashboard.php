@@ -2,8 +2,8 @@
 <?php 
     session_start();
     error_reporting(0);
-  include ("../../includes/assest/library/database.php");
-    include("../includes/MenuBar.php");
+include ("../../includes/database.php");
+include("../includes/MenuBar.php");
 ?>
 
 <html>

@@ -1,8 +1,8 @@
 <?php 
   session_start();
   error_reporting(0);
-  include ("database/database.php");
-	include("../includes/MenuBar.php");
+include ("../../includes/database.php");
+include("../includes/MenuBar.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
