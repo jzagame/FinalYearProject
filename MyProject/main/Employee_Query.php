@@ -30,7 +30,7 @@
     }
 
 	if($_POST['action'] == "addDepartment"){
-		
+
 		$SearchSQL= "SELECT * FROM t_memc_kpcc_department WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."'";
 		//echo "I am in";
         $SearchResult = mysqli_query($conn,$SearchSQL);
@@ -45,12 +45,10 @@
 			$row = mysqli_fetch_array($Result);
 			if($row['userFound'] == 0)
 			{
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_Name, D_HODName, D_Quarter, D_Year, D_HODNode, D_Status) VALUES(
+				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_Name, D_HODID, D_HODNode, D_Status) VALUES(
                 '".strtoupper(trim($formdata[0]['value']))."',
 				'".strtoupper(trim($formdata[1]['value']))."',
-                '".$formdata[2]['value']."',
-				'".$formdata[3]['value']."',
-				'".strtoupper(trim($formdata[4]['value']))."',
+				'".strtoupper(trim($formdata[2]['value']))."',
                 'A')";
 			}
 			
@@ -59,13 +57,11 @@
 				$SID = "1" + $row['userFound'];
 				$EmpID = "DEP-".sprintf('%04d', $SID);
 				
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_ID, D_Name, D_HODName, D_Quarter, D_Year, D_HODNode, D_Status) VALUES(
+				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_ID, D_Name, D_HODID, D_HODNode, D_Status) VALUES(
 				'$EmpID',
                 '".strtoupper(trim($formdata[0]['value']))."',
 				'".strtoupper(trim($formdata[1]['value']))."',
-                '".$formdata[2]['value']."',
-				'".$formdata[3]['value']."',
-				'".strtoupper(trim($formdata[4]['value']))."',
+				'".strtoupper(trim($formdata[2]['value']))."',
                 'A')";
 			}
 			
@@ -238,9 +234,7 @@
                     echo "<th scope=\"col\">No.</th>";
                     echo "<th scope=\"col\">Department Name</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Department HOD Name</th>";
-                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Quarter</th>";
-					echo "<th scope=\"col\" style=\"vertical-align:middle\">Year</th>";
-					echo "<th scope=\"col\" style=\"vertical-align:middle\">Node</th>";
+					echo "<th scope=\"col\" style=\"vertical-align:middle\">Parent Department</th>";
 					echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
                 echo "</tr>";
                 echo "</thead>";
@@ -251,9 +245,7 @@
                                 echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
                                 echo "<td>".$row['D_ID']."</td>";
                                 echo "<td>".$row['D_Name']."</td>";
-                                echo "<td>".$row['D_HODName']."</td>";
-                                echo "<td>".$row['D_Quarter']."</td>";
-								echo "<td>".$row['D_Year']."</td>";
+                                echo "<td>".$row['D_HODID']."</td>";
 								echo "<td>".$row['D_HODNode']."</td>";
 								echo "<td>".$row['D_Status']."</td>";
                                 echo "</tr>";
@@ -275,40 +267,52 @@
         {
             $row = mysqli_fetch_array($SearchResult);
 ?>
-            <div class="container" style="padding: 50px 0px 50px 100px;">
+            <div class="container-fluid" style="padding-top: 50px;">
             <form method="" id="UpdateDepartmentForm">
-                <div class="form-group d-flex justify-content-center">
-                    <h3><strong>Edit Department</strong></h3>
-                </div>
+                <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active"><h5 class="m-0">Edit Department</h5></li>
+        </ul>
                 <hr class="bdr-light">
-                <div class="container" style="padding: 0px 50px 0px 100px;">
-                    <div class="form-group">
-                        <label class="col-form-label">Department Name</label>
-                        <div class="col-sm-12">
+                <div class="container-fluid" style="padding: 0px 50px 0px 100px;">
+                    <div class="form-group row">
+						<div class="col-2">
+                        <label>Department Name</label>
+						</div>
+                        <div class="col-10">
                             <input type="text" class="form-control" value="<?php echo $row['D_Name'];?>" name="txtDepartmentName">	
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Department HOD Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" value="<?php echo $row['D_HODName'];?>" name="txtDepartmentHOD">	
+                    <div class="form-group row">
+						<div class="col-2">
+                        <label>Department HOD Name</label>
+						</div>
+                        <div class="col-10">
+                            <select class= "custom-select" name="sltHOD">
+                                        <option value=""></option>
+                                        <?php
+                                            $SCSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
+											//$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
+                                            $SCResult = mysqli_query($conn, $SCSQL);
+							
+                                            if(mysqli_num_rows($SCResult)>0)
+                                            {
+                                                for($i=0;$i<mysqli_num_rows($SCResult);++$i)
+                                                {
+                                                    $scrow = mysqli_fetch_array($SCResult);
+                                        ?>
+                                                    <option value="<?php echo $scrow['Emp_ID'];?>"<?php echo ($scrow['Emp_ID'] == $row['D_HODID']) ? "selected" : "" ;?>><?php echo $scrow['Emp_ID']; echo $scrow['Emp_Name'];?></option>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>	
                         </div>
                     </div>
-					<div class="form-group">
-                        <label class="col-form-label">Quarter</label>
-                        <div class="col-sm-12">
-                            <input type="number" class="form-control" value="<?php echo $row['D_Quarter'];?>" name="txtQuarter">	
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="col-form-label">Year</label>
-                        <div class="col-sm-12">
-                            <input type="number" class="form-control" value="<?php echo $row['D_Year'];?>" name="txtYear">	
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="col-form-label">Node</label>
-                        <div class="col-sm-12">
+					<div class="form-group row">
+						<div class="col-2">
+                        <label>Parent Department</label>
+						</div>
+                        <div class="col-10">
                             <input type="text" class="form-control" value="<?php echo $row['D_HODNode'];?>" name="txtNode">	
                         </div>
                     </div>
@@ -328,10 +332,8 @@
 	if($_POST['action'] == 'updateDepartment'){
         $did = $_POST['D_ID'];
             $UpdateSQL = "UPDATE t_memc_kpcc_department SET D_Name = '".strtoupper(trim($formdata[0]['value']))."',
-            D_HODName = '".strtoupper(trim($formdata[1]['value']))."',
-			D_Quarter = '".$formdata[2]['value']."',
-			D_Year = '".$formdata[3]['value']."',
-			D_HODNode = '".strtoupper(trim($formdata[4]['value']))."'
+            D_HODID = '".strtoupper(trim($formdata[1]['value']))."',
+			D_HODNode = '".strtoupper(trim($formdata[2]['value']))."'
             WHERE D_ID = $did";
             $UpdateResult = mysqli_query($conn, $UpdateSQL);
             if($UpdateResult)

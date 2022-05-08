@@ -48,8 +48,6 @@
 					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
                     D_Name VARCHAR(50),
                     D_HODID VARCHAR(50),
-					D_Q_ID_start VARCHAR(10),
-					D_Q_ID_END INT,
 					D_HODNode VARCHAR(50),
                     D_Status CHAR(1))",
           			"CREATE TABLE t_memc_kpcc_Access_Right (AR_ID INT AUTO_INCREMENT PRIMARY KEY,
