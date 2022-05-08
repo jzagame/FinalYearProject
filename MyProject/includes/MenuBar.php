@@ -8,8 +8,9 @@
 <link rel="stylesheet" href="../../includes/assest/CSS/bootstrap4.6.1.css" />
 <link href="css/Menuhover.css" rel="stylesheet" media="all">
 <link rel="stylesheet" href="../../includes/assest/CSS/open-iconic-master/font/css/open-iconic-bootstrap.css"/>
+<link href="../../includes/assest/library/datatables.net/CSS/Menuhover.css" rel="stylesheet" media="all">
 <nav class="navbar navbar-expand-lg navbar-light bg-ligh">
-  <a class="navbar-brand" href="MenuBar.php">LONGI</a>
+  <a class="navbar-brand" href="MenuBar.php">LONGi</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
