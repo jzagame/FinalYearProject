@@ -1,7 +1,7 @@
 <?php 
     session_start();
     error_reporting(0);
-    include ("../../includes/assest/database.php");
+    include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 <!DOCTYPE html>

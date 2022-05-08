@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-  include ("../../includes/assest/library/database.php");
+  include ("../../includes/assest/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -15,7 +15,7 @@
     </head>
 
     <body>
-    <div class="container" style="padding: 50px 0px 50px 100px;">
+    <div class="container-fluid" style="padding: 50px 0px 50px 100px;">
         <form method="" id="searchEmployeeForm">
         <div class="form-group d-flex justify-content-center">
         <h3><strong>Employee List</strong></h3>

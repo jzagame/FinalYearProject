@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-  include ("../../includes/assest/database.php");
+  include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -17,9 +17,9 @@
     <body>
       <div class="container-fluid" style="padding-top: 50px;" id="ShowEditForm">
         <form method="" id="searchAccessRightForm">
-        <div class="form-group d-flex justify-content-center">
-        <h3><strong>Access Right</strong></h3>
-        </div>
+        <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active"><h5 class="m-0">Access Right List</h5></li>
+        </ul>
         <hr class="bdr-light">
           <div class="container-fluid" id="SearchAccessRightDiv">
             <div class="row">

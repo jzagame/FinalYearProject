@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-    include ("../../includes/assest/database.php");
+    include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -17,20 +17,24 @@
     <body>
         <div class="container-fluid" style="padding-top: 50px;">
 		<form method="" id="AddAccessRightForm">
-			<div class="form-group d-flex justify-content-center">
-				<h3><strong>Create Access Right</strong></h3>
-			</div>
+            <ul class="list-group mt-2 mb-2">
+                <li class="list-group-item active"><h5 class="m-0">Create Access Right</h5></li>
+            </ul>
             <hr class="bdr-light">
             <div class="container-fluid">
-				<div class="form-group">
-					<label class="col-form-label">Access Right Level</label>
-					<div class="col-12">
+				<div class="form-group row">
+                    <div class="col-2">
+                        <label class="col-form-label">Access Right Level</label>
+                    </div>
+					<div class="col-10">
                         <input type="number" class="form-control" placeholder="Enter Access Right Level" name="txtAccessRoghtLevel" min="0" step="1">	
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-form-label">Description</label>
-					<div class="col-12">
+				<div class="form-group row">
+                    <div class="col-2">
+                        <label class="col-form-label">Description</label>
+                    </div>
+					<div class="col-10">
                         <textarea class="form-control" placeholder="Enter Description" name="txtAccessRightDescription" rows="4"></textarea>	
 					</div>
 				</div>
