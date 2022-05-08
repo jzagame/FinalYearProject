@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-  include ("../../includes/assest/library/database.php");
+  include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -15,22 +15,22 @@
     </head>
 
     <body>
-    <div class="container" style="padding: 50px 0px 50px 100px;">
+    <div class="container-fluid" style="padding-top: 50px;">
         <form method="" id="searchEmployeeForm">
-        <div class="form-group d-flex justify-content-center">
-        <h3><strong>Employee List</strong></h3>
-        </div>
+        <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
+        </ul>
         <hr class="bdr-light">
-          <div class="container">
+          <div class="container-fluid">
             <div class="row">
               <div class="col">
                 <div class="ml-12">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-sm-11" style="padding: 0px 20px 20px 0px;">
+                      <div class="col-11" style="padding: 0px 20px 20px 0px;">
                         <input type="text" class="form-control" placeholder="Search" name="txtSearchEmployee">	
                       </div>
-                      <div class="col-sm-1" style="text-align: center;">
+                      <div class="col-1" style="text-align: center;">
                         <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchEmployee()">
                       </div>
                     </div>
@@ -38,13 +38,14 @@
                       <h4 class="card-title">Score</h4>
                     </div> -->
                     <div class="table-responsive" id="showSearchTable">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
-                            <th scope="col"></th>
+                          <th scope="col"></th>
                           <th scope="col">No.</th>
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Employee Name</th>
+                          <th scope="col" style="vertical-align:middle">Department</th>
                           <th scope="col" style="vertical-align:middle">Email</th>
                         </tr>
                       </thead>

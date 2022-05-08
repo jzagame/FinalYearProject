@@ -241,7 +241,6 @@ function btnedititemf(itemid2){
         }
     });
 }
-
 //Employee
 function AddAccessRight(){
 	$.ajax({

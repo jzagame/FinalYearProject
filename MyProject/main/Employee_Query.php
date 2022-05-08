@@ -118,25 +118,29 @@
         {
             $row = mysqli_fetch_array($SearchResult);
 ?>
-            <div class="container-fluid" style="padding-top: 50px;">
+            <div class="container-fluid" style="padding-top: 30px;">
             <form method="" id="UpdateAccessRightForm">
-                <div class="form-group d-flex justify-content-center">
-                    <h3><strong>Edit Access Right</strong></h3>
-                </div>
+                <ul class="list-group mt-2 mb-2">
+                    <li class="list-group-item active"><h5 class="m-0">Edit Access Right</h5></li>
+                </ul>
                 <hr class="bdr-light">
                 <div class="container-fluid">
-                    <div class="form-group">
-                        <label class="col-form-label">Access Right Level</label>
-                        <div class="col-12">
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label class="col-form-label">Access Right Level</label>
+                        </div>
+                        <div class="col-10">
                             <input type="number" class="form-control" value="<?php echo $row['AR_Level'];?>" name="txtAccessRoghtLevel" min="0" step="1">	
                         </div>
                     </div>
-                    <div class="form-group">
-					    <label class="col-form-label">Description</label>
-                        <div class="col-12">
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label class="col-form-label">Description</label>
+                        </div>
+                        <div class="col-10">
                             <textarea class="form-control" name="txtAccessRightDescription" rows="4"><?php echo $row['AR_Description'];?></textarea>	
                         </div>
-				    </div>
+                    </div>
                     <div class="form-group">
                     <div class="col-sm-12" style="text-align: center;">
                         <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditPosition.php'">

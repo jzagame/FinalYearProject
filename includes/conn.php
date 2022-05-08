@@ -5,5 +5,4 @@
     $mydb = "dbkpcc";
 
     $conn = new mysqli($localhost,$username,$password,$mydb);
-    
 ?>

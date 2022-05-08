@@ -1,7 +1,7 @@
 <?php 
   session_start();
   error_reporting(0);
-  include ("../../includes/assest/library/database.php");
+  include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 <!DOCTYPE html>
@@ -32,5 +32,5 @@
 
 
 </body>
-<script src="../../includes/assest/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>
