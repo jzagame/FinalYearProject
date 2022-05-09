@@ -12,6 +12,15 @@ td, th {
     max-width: 200px;
 	word-wrap: break-word;
 }
+.table-responsive {
+    max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 </style>
 </head>
 
@@ -59,8 +68,8 @@ td, th {
       <div class="col-10">
         <select name="selstatus" class="form-control custom-select">
           <option value="">Both</option>
-          <option value="A">Active</option>
-          <option value="I">Inactive</option>
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
         </select>
       </div>
     </div>
@@ -114,7 +123,7 @@ td, th {
               echo "<td>" . $row2[ 'Im_lvl_Description' ] . "</td>";
             }
           }
-          if ( $row[ 'Im_Status' ] == "A" ) {
+          if ( $row[ 'Im_Status' ] == "1" ) {
             echo "<td>Active</td>";
           } else {
             echo "<td>Inactive</td>";

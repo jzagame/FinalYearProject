@@ -223,7 +223,6 @@ function sendedititem(itemid){
 }
 
 function btnedititemf(itemid2){
-	console.log($('#aitem').serializeArray());
     $.ajax({
         type:"POST",
         url:"Competencies_db_query.php",
@@ -241,170 +240,33 @@ function btnedititemf(itemid2){
         }
     });
 }
-//Employee
-function AddPosition(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"addPosition",formdata:$('#AddPositionForm').serializeArray()},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Position Category Create Successfully.');
-				document.getElementById("AddPositionForm").reset();
+//Excel
+$("form#aie").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+	if( document.getElementById("customFile").files.length == 0 ){
+    window.alert('Please update the excel file in .csv.');
+}
+    $.ajax({
+        url: "Competencies_db_query.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            if(data == "success"){
+				window.alert('Import successfully.');
+				window.location ="competencies_importexcel.php";
+				$('#customFile').next('label').html('Choose file');
 			}else if(data == "fail"){
-				window.alert('Position Category Create Failure.');
-			}else{
-				window.alert('Position Category Exist.');
+				window.alert('Import failure, Please check the format.');
 			}
-		}
-	});
-}
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
 
-function AddDepartment(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"addDepartment",formdata:$('#AddDepartmentForm').serializeArray()},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Add Department Successfully.');
-				document.getElementById("AddDepartmentForm").reset();
-			}else if(data == "fail"){
-				window.alert('Create Department Failed.');
-			}else{
-				window.alert('Department is Existed.');
-			}
-		}
-		});
-	}
+$('#btnexcelclear').click(function(){
+    $('#customFile').next('label').html('Choose file');
 
-function SearchPosition(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"searchPosition",formdata:$('#searchPositionForm').serializeArray()},
-		success: function(data){
-			if(data == "fail"){
-				window.alert("Position Category Not Found");
-			}
-			else{
-				document.getElementById("showSearchTable").innerHTML = data;
-			}
-		}
-	});
-}
-
-function editPosition(pid){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"editPosition",position_ID:pid},
-		success: function(data){
-			document.getElementById("ShowEditForm").innerHTML = data;
-		}
-	});
-}
-
-function UpdatePosition(pid){
-	console.log($('#UpdatePositionForm').serializeArray());
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"updatePosition",formdata:$('#UpdatePositionForm').serializeArray(), position_ID:pid},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Update Position Successfully.');
-				location="Employee_ViewEditPosition.php";
-			}
-			else if(data == "fail"){
-				window.alert('Update Position Failure.');
-			}
-			else{
-				window.alert('Position Category Exist.');
-			}
-		}
-	});
-}
-
-function SearchEmployee(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"searchEmployee",formdata:$('#searchEmployeeForm').serializeArray()},
-		success: function(data){
-			if(data == "fail"){
-				window.alert("Employee Not Found");
-			}
-			else{
-				document.getElementById("showSearchTable").innerHTML = data;
-			}
-		}
-	});
-}
-
-function AddEmployee(pid){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"updatePosition",formdata:$('#UpdatePositionForm').serializeArray(), position_ID:pid},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Update Position Successfully.');
-				location="Employee_ViewEditPosition.php";
-			}
-			else if(data == "fail"){
-				window.alert('Update Position Failure.');
-			}
-			else{
-				window.alert('Position Category Exist.');
-			}
-		}
-	});
-}
-
-function SearchDepartment(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"searchDepartment",formdata:$('#searchDepartmentForm').serializeArray()},
-		success: function(data){
-			if(data == "fail"){
-				window.alert("Department Not Found");
-			}
-			else{
-				document.getElementById("showDepartTable").innerHTML = data;
-			}
-		}
-	});
-}
-
-function editDepartment(did){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"editDepartment",D_ID:did},
-		success: function(data){
-			document.getElementById("ShowEditForm").innerHTML = data;
-		}
-	});
-}
-
-function UpdateDepartment(did){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"updateDepartment",formdata:$('#UpdateDepartmentForm').serializeArray(), D_ID:did},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Update Department Successfully.');
-				location="Employee_ViewEditDepartment.php";
-			}
-			else if(data == "fail"){
-				window.alert('Update Department Failure.');
-			}
-			else{
-				window.alert('Department Does Not Exist.');
-			}
-		}
-	});
-}
+});

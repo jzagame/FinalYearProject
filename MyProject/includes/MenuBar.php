@@ -63,7 +63,7 @@
                     <li class="dropdown-item" role="button" onclick="location='competencies_searchitems.php'">View/Edit Items</li>
                   </ul>
                 </li>
-                <li class="dropdown-item" role="button" onclick="location=''">Import Excel (.csv)</li>
+                <li class="dropdown-item" role="button" onclick="location='competencies_importexcel.php'">Import Excel (.csv)</li>
               </ul>
             </div>
             <!--		Employee Traning-->
