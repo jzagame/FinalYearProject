@@ -15,10 +15,10 @@
     </head>
 
     <body>
-        <div class="container-fluid" style="padding-top: 50px;">
+        <div class="container-fluid">
 			<form method="" id="AddDepartmentForm">
 				<ul class="list-group mt-2 mb-2">
-                <li class="list-group-item active"><h5 class="m-0">Create Department</h5></li>
+                <li class="list-group-item active"><h5 class="m-0">Create Department Relationship</h5></li>
             </ul>
 				<hr class="bdr-light">
                 <div class="container-fluid">
@@ -27,14 +27,30 @@
 							<label>Department Name</label>
 						</div>
 						<div class="col-10">
-                            <input type="text" class="form-control" placeholder="Enter Department Name" name="txtDName">	
+                            <select class= "custom-select" name="sltD" required>
+                                        <option value=""></option>
+                                        <?php
+                                            $SCSQL = "SELECT * FROM t_memc_department";
+                                            $SCResult = mysqli_query($conn, $SCSQL);
+                                            if(mysqli_num_rows($SCResult)>0)
+                                            {
+                                                for($i=0;$i<mysqli_num_rows($SCResult);++$i)
+                                                {
+                                                    $scrow = mysqli_fetch_array($SCResult);
+                                        ?>
+                                                    <option><?php echo $scrow['D_DID']."-". $scrow['D_Name'];?></option>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>	
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-2">Head of Department</label>
 						<div class="col-10">
 <!--                            <input type="text" class="form-control" placeholder="Select Head of Department Name" name="txtHODName">	-->
-							<select class= "custom-select" name="sltHOD">
+							<select class= "custom-select" name="sltHOD" required>
                                         <option value=""></option>
                                         <?php
                                             $SCSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
@@ -56,12 +72,28 @@
 					<div class="form-group row">
 						<label class="col-2">Parent Department</label>
 						<div class="col-10">
-                            <input type="text" class="form-control" placeholder="Select Parent Department" name="sltNodes">	
+                            <select class= "custom-select" name="sltPD" required>
+                                        <option value=""></option>
+                                        <?php
+                                            $SCSQL = "SELECT * FROM t_memc_department";
+                                            $SCResult = mysqli_query($conn, $SCSQL);
+                                            if(mysqli_num_rows($SCResult)>0)
+                                            {
+                                                for($i=0;$i<mysqli_num_rows($SCResult);++$i)
+                                                {
+                                                    $scrow = mysqli_fetch_array($SCResult);
+                                        ?>
+                                                    <option><?php echo $scrow['D_DID']."-".$scrow['D_Name'];?></option>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>	
 						</div>
 					</div>
                     <div class="form-group">
 						<div class="col-sm-12" style="text-align: center;">
-						  	<input type="submit" class="btn btn-primary" name="btnCDep" value="Create" onclick="AddDepartment()">
+						  	<input type="button" class="btn btn-primary" name="btnCDep" value="Create" onclick="AddDepartment()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
 						</div>
 					</div>

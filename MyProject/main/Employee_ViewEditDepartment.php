@@ -15,7 +15,7 @@
     </head>
 
     <body>
-		<div class="container-fluid" style="padding-top: 50px;" id="ShowEditForm">
+		<div class="container-fluid" id="ShowEditForm">
             <form method="" id="searchDepartmentForm">
             <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Department List</h5></li>
@@ -50,7 +50,7 @@
                           </thead>
                           <tbody>
                             <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department_link, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department_link.D_HODID = t_memc_kpcc_employee_detail.Emp_ID ORDER BY D_ID";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -60,7 +60,7 @@
                                 echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
                                 echo "<td>".$row['D_ID']."</td>";
                                 echo "<td>".$row['D_Name']."</td>";
-                                echo "<td>".$row['D_HODID']."</td>";
+                                echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
 								echo "<td>".$row['D_HODNode']."</td>";
 								echo "<td>".$row['D_Status']."</td>";
                                 echo "</tr>";

@@ -272,8 +272,10 @@ function AddDepartment(){
 				document.getElementById("AddDepartmentForm").reset();
 			}else if(data == "fail"){
 				window.alert('Create Department Failed.');
+			}else if(data == "fill"){
+				window.alert('Fill in all the Blank');
 			}else{
-				window.alert('Department is Existed.');
+				window.alert('Department link is Existed.');
 			}
 		}
 		});
