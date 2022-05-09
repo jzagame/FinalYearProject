@@ -15,7 +15,7 @@
     </head>
 
     <body>
-		<div class="container-fluid" style="padding-top: 50px;" id="ShowEditForm">
+		<div class="container-fluid" id="ShowEditForm">
             <form method="" id="searchDepartmentForm">
             <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Department List</h5></li>
@@ -50,7 +50,7 @@
                           </thead>
                           <tbody>
                             <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department_link";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
