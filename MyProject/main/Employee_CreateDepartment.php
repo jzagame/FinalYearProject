@@ -18,7 +18,7 @@
         <div class="container-fluid">
 			<form method="" id="AddDepartmentForm">
 				<ul class="list-group mt-2 mb-2">
-                <li class="list-group-item active"><h5 class="m-0">Create Department</h5></li>
+                <li class="list-group-item active"><h5 class="m-0">Create Department Relationship</h5></li>
             </ul>
 				<hr class="bdr-light">
                 <div class="container-fluid">
