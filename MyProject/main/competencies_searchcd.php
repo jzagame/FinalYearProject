@@ -7,6 +7,17 @@ include( "../includes/MenuBar.php" );
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+	.table-responsive {
+max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+</style>
 </head>
 
 <body>
@@ -45,8 +56,8 @@ include( "../includes/MenuBar.php" );
       <div class="col-10">
         <select name="selstatus" class="form-control">
           <option value="">Both</option>
-          <option value="A">Active</option>
-          <option value="I">Inactive</option>
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
         </select>
       </div>
     </div>
@@ -84,7 +95,7 @@ include( "../includes/MenuBar.php" );
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Definition' ] . "</td>";
-          if ( $row[ 'Cd_status' ] == "A" ) {
+          if ( $row[ 'Cd_status' ] == "1" ) {
             echo "<td>Active</td>";
           } else {
             echo "<td>Inactive</td>";

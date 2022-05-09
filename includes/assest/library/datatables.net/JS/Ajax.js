@@ -223,7 +223,6 @@ function sendedititem(itemid){
 }
 
 function btnedititemf(itemid2){
-	console.log($('#aitem').serializeArray());
     $.ajax({
         type:"POST",
         url:"Competencies_db_query.php",
@@ -241,6 +240,37 @@ function btnedititemf(itemid2){
         }
     });
 }
+//Excel
+$("form#aie").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+	if( document.getElementById("customFile").files.length == 0 ){
+    window.alert('Please update the excel file in .csv.');
+}
+    $.ajax({
+        url: "Competencies_db_query.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            if(data == "success"){
+				window.alert('Import successfully.');
+				window.location ="competencies_importexcel.php";
+				$('#customFile').next('label').html('Choose file');
+			}else if(data == "fail"){
+				window.alert('Import failure, Please check the format.');
+			}
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+$('#btnexcelclear').click(function(){
+    $('#customFile').next('label').html('Choose file');
+
+});
+
 
 //Employee
 function AddAccessRight(){
