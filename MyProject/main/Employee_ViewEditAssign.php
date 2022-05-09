@@ -62,14 +62,18 @@
                             for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                             {
                               $row = mysqli_fetch_array($SearchResult);
+                              $SearchReportToNameSQL = "SELECT Emp_Name FROM t_memc_kpcc_employee_detail 
+                              WHERE Emp_ID = '".$row['Report_To_Emp_ID']."'";
+                              $SearchReportToNameResult = mysqli_query($conn, $SearchReportToNameSQL);
+                              $fetchrow = mysqli_fetch_array($SearchReportToNameResult);
                               echo "<tr>";
                               echo "<td><input type=\"checkbox\" value=\"".$row['Emp_ID']."\" name=\"chkEmployee[]\"></td>";
                               echo "<td>".($i+1)."</td>";
                               echo "<td>".$row['Emp_ID']."</td>";
                               echo "<td>".$row['Emp_Name']."</td>";
                               echo "<td>".$row['Emp_Department']."</td>";
-                              echo "<td>".$row['AR_Level']."</td>";
-                              echo "<td>".$row['Report_To_Emp_ID']."</td>";
+                              echo "<td>"."[".$row['AR_Level']."] ".$row['AR_Description']."</td>";
+                              echo "<td>"."[".$row['Report_To_Emp_ID']."] ".$fetchrow['Emp_Name']."</td>";
                               echo "</tr>";
                             }
                         }
