@@ -50,7 +50,7 @@
                 '".strtoupper(trim($formdata[0]['value']))."',
 				'".strtoupper(trim($formdata[1]['value']))."',
 				'".strtoupper(trim($formdata[2]['value']))."',
-                'A')";
+                '1')";
 			}
 			
 			else
@@ -63,7 +63,7 @@
                 '".strtoupper(trim($formdata[0]['value']))."',
 				'".strtoupper(trim($formdata[1]['value']))."',
 				'".strtoupper(trim($formdata[2]['value']))."',
-                'A')";
+                '1')";
 			}
 			
             $AddDepartmentResult = mysqli_query($conn, $AddDepartmentSQL);
@@ -311,8 +311,8 @@
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
-            echo "<table class=\"table table-hover\">";
-			echo "<thead class=\"thead-dark\">";
+            echo "<table class=\"table table-hover table-bordered\">";
+			echo "<thead";
                 echo "<tr>";
                     echo "<th scope=\"col\">No.</th>";
                     echo "<th scope=\"col\">Department Name</th>";
@@ -365,7 +365,7 @@
                             <select class= "custom-select" name="sltD">
                                         <option value=""></option>
                                         <?php
-                                            $SCSQLL = "SELECT * FROM t_memc_kpcc_department";
+                                            $SCSQLL = "SELECT * FROM t_memc_department";
 											//$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
                                             $SCResultt = mysqli_query($conn, $SCSQLL);
 							
@@ -420,7 +420,7 @@
                             <select class= "custom-select" name="sltPD">
                                         <option value=""></option>
                                         <?php
-                                            $SCSQLL = "SELECT * FROM t_memc_kpcc_department";
+                                            $SCSQLL = "SELECT * FROM t_memc_department";
 											//$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
                                             $SCResultt = mysqli_query($conn, $SCSQLL);
 							

@@ -50,7 +50,7 @@
                     D_HODID VARCHAR(50),
 					D_HODNode VARCHAR(50),
                     D_Status CHAR(1))",
-					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
+					"CREATE TABLE t_memc_department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
 					D_DID INT,
                     D_Name VARCHAR(50),
                     D_Status CHAR(1))",

@@ -18,7 +18,7 @@
         <div class="container-fluid">
 			<form method="" id="AddDepartmentForm">
 				<ul class="list-group mt-2 mb-2">
-                <li class="list-group-item active"><h5 class="m-0">Create Department</h5></li>
+                <li class="list-group-item active"><h5 class="m-0">Create Department Relationship</h5></li>
             </ul>
 				<hr class="bdr-light">
                 <div class="container-fluid">
@@ -30,7 +30,7 @@
                             <select class= "custom-select" name="sltD">
                                         <option value=""></option>
                                         <?php
-                                            $SCSQL = "SELECT * FROM t_memc_kpcc_Department";
+                                            $SCSQL = "SELECT * FROM t_memc_department";
                                             $SCResult = mysqli_query($conn, $SCSQL);
                                             if(mysqli_num_rows($SCResult)>0)
                                             {
@@ -75,7 +75,7 @@
                             <select class= "custom-select" name="sltPD">
                                         <option value=""></option>
                                         <?php
-                                            $SCSQL = "SELECT * FROM t_memc_kpcc_Department";
+                                            $SCSQL = "SELECT * FROM t_memc_department";
                                             $SCResult = mysqli_query($conn, $SCSQL);
                                             if(mysqli_num_rows($SCResult)>0)
                                             {
