@@ -50,7 +50,7 @@
                           </thead>
                           <tbody>
                             <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department_link";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {

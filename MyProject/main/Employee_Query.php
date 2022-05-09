@@ -31,21 +31,22 @@
 
 	if($_POST['action'] == "addDepartment"){
 
-		$SearchSQL= "SELECT * FROM t_memc_kpcc_department WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."'";
+		$SearchSQL= "SELECT * FROM t_memc_kpcc_department_link WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."' AND D_HODID = 
+		'".strtoupper(trim($formdata[1]['value']))."' AND D_HODNode = '".strtoupper(trim($formdata[2]['value']))."'";
 		//echo "I am in";
         $SearchResult = mysqli_query($conn,$SearchSQL);
 		if(mysqli_num_rows($SearchResult) > 0)
 		{
-            echo "Department Name is Existed";
+            echo "Department Link is Existed";
 		}
         else
         {
-            $SearchDepartmentSQL = "SELECT COUNT(D_ID) AS userFound FROM t_memc_kpcc_department";
+            $SearchDepartmentSQL = "SELECT COUNT(D_ID) AS userFound FROM t_memc_kpcc_department_link";
 			$Result = mysqli_query($conn, $SearchDepartmentSQL);
 			$row = mysqli_fetch_array($Result);
 			if($row['userFound'] == 0)
 			{
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_Name, D_HODID, D_HODNode, D_Status) VALUES(
+				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department_link(D_Name, D_HODID, D_HODNode, D_Status) VALUES(
                 '".strtoupper(trim($formdata[0]['value']))."',
 				'".strtoupper(trim($formdata[1]['value']))."',
 				'".strtoupper(trim($formdata[2]['value']))."',
@@ -57,7 +58,7 @@
 				$SID = "1" + $row['userFound'];
 				$EmpID = "DEP-".sprintf('%04d', $SID);
 				
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_ID, D_Name, D_HODID, D_HODNode, D_Status) VALUES(
+				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department_link(D_ID, D_Name, D_HODID, D_HODNode, D_Status) VALUES(
 				'$EmpID',
                 '".strtoupper(trim($formdata[0]['value']))."',
 				'".strtoupper(trim($formdata[1]['value']))."',
@@ -306,7 +307,7 @@
     }
 
 	if($_POST['action'] == "searchDepartment"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_department_link WHERE D_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -343,7 +344,7 @@
 
 	if($_POST['action'] == "editDepartment"){
         $did = $_POST['D_ID'];
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_department_link WHERE D_ID = $did";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -361,7 +362,28 @@
                         <label>Department Name</label>
 						</div>
                         <div class="col-10">
-                            <input type="text" class="form-control" value="<?php echo $row['D_Name'];?>" name="txtDepartmentName">	
+                            <select class= "custom-select" name="sltD">
+                                        <option value=""></option>
+                                        <?php
+                                            $SCSQLL = "SELECT * FROM t_memc_kpcc_department";
+											//$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
+                                            $SCResultt = mysqli_query($conn, $SCSQLL);
+							
+                                            if(mysqli_num_rows($SCResultt)>0)
+                                            {
+                                                for($i=0;$i<mysqli_num_rows($SCResultt);++$i)
+                                                {
+                                                    $scroww = mysqli_fetch_array($SCResultt);
+													$s = explode("-", $row['D_Name']);
+													//echo $s[0];
+													//echo "<script>alert('.$s[0].');</script>";
+                                        ?>
+                                                    <option value="<?php echo $scroww['D_DID']."-".$scroww['D_Name'];?>"<?php echo ($scroww['D_DID'] == $s[0]) ? "selected" : "" ;?>><?php echo $scroww['D_DID']; echo $scroww['D_Name'];?></option>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>	
                         </div>
                     </div>
                     <div class="form-group row">
@@ -395,7 +417,28 @@
                         <label>Parent Department</label>
 						</div>
                         <div class="col-10">
-                            <input type="text" class="form-control" value="<?php echo $row['D_HODNode'];?>" name="txtNode">	
+                            <select class= "custom-select" name="sltPD">
+                                        <option value=""></option>
+                                        <?php
+                                            $SCSQLL = "SELECT * FROM t_memc_kpcc_department";
+											//$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_ID = $did";
+                                            $SCResultt = mysqli_query($conn, $SCSQLL);
+							
+                                            if(mysqli_num_rows($SCResultt)>0)
+                                            {
+                                                for($i=0;$i<mysqli_num_rows($SCResultt);++$i)
+                                                {
+                                                    $scroww = mysqli_fetch_array($SCResultt);
+													$s = explode("-", $row['D_HODNode']);
+													//echo $s[0];
+													//echo "<script>alert('.$s[0].');</script>";
+                                        ?>
+                                                    <option value="<?php echo $scroww['D_DID']."-".$scroww['D_Name'];?>"<?php echo ($scroww['D_DID'] == $s[0]) ? "selected" : "" ;?>><?php echo $scroww['D_DID']; echo $scroww['D_Name'];?></option>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                    </select>	
                         </div>
                     </div>
                     <div class="form-group">
@@ -413,7 +456,7 @@
 	
 	if($_POST['action'] == 'updateDepartment'){
         $did = $_POST['D_ID'];
-            $UpdateSQL = "UPDATE t_memc_kpcc_department SET D_Name = '".strtoupper(trim($formdata[0]['value']))."',
+            $UpdateSQL = "UPDATE t_memc_kpcc_department_link SET D_Name = '".strtoupper(trim($formdata[0]['value']))."',
             D_HODID = '".strtoupper(trim($formdata[1]['value']))."',
 			D_HODNode = '".strtoupper(trim($formdata[2]['value']))."'
             WHERE D_ID = $did";
