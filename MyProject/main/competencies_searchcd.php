@@ -68,7 +68,7 @@ thead tr:nth-child(1) th{
       </div>
     </div>
   </form>
-  <div id="show_searchcd">
+  <div class="table-responsive" id="show_searchcd">
     <?php
     $sql = "SELECT * FROM t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension WHERE t_memc_kpcc_corecompetencies.Cc_ID = t_memc_kpcc_competenciesdimension.Cd_Cc_ID AND Cd_ID IS NOT NULL AND "; //Search Core competencies
     $sql .= "ORDER BY Cd_ID";

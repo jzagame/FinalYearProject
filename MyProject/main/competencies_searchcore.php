@@ -60,7 +60,7 @@ thead tr:nth-child(1) th{
       </div>
     </div>
   </form>
-  <div id="show_searchcc">
+  <div class="table-responsive" id="show_searchcc">
     <?php
     $sql = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_ID IS NOT NULL AND "; //Search major competencies
     $sql .= "ORDER BY Cc_ID";
