@@ -16,9 +16,9 @@
 
     <body>
       <div class="container-fluid">
-        <form method="" id="SearchAPForm">
+        <form method="" id="SearchVEPForm">
         <ul class="list-group mt-2 mb-2">
-                <li class="list-group-item active"><h5 class="m-0">Assign Access Right & Reporting-to</h5></li>
+                <li class="list-group-item active"><h5 class="m-0">View/Edit Reporting-to</h5></li>
             </ul>
         <hr class="bdr-light">
           <div class="container-fluid">
@@ -28,16 +28,16 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-11" style="padding: 0px 20px 20px 0px;">
-                        <input type="text" class="form-control" placeholder="Search" name="txtSearchAPEmployee">	
+                        <input type="text" class="form-control" placeholder="Search" name="txtSearchVEPEmployee">	
                       </div>
                       <div class="col-1" style="text-align: center;">
-                        <input type="button" class="btn btn-primary" name="btnSearchAPEmployee" value="Search" onclick="SearchAPEmployee()">
+                        <input type="button" class="btn btn-primary" name="btnSearchVEPEmployee" value="Search" onclick="SearchVEPEmployee()">
                       </div>
                     </div>
                     <!-- <div class="d-flex align-items-center mb-4">
                       <h4 class="card-title">Score</h4>
                     </div> -->
-                    <div class="table-responsive" id="showSearchAPTable">
+                    <div class="table-responsive" id="showSearchVEPTable">
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
@@ -46,11 +46,16 @@
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Name</th>
                           <th scope="col" style="vertical-align:middle">Department</th>
+                          <th scope="col" style="vertical-align:middle">Access Right</th>
+                          <th scope="col" style="vertical-align:middle">Reporting-To</th>
                         </tr>
                       </thead>
                       <tbody>
                       <?php
-                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 'A' AND EmpAssign_Status = 2";
+                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to 
+                        WHERE EmpDetail_Status = 'A' AND EmpAssign_Status = 1
+                        AND t_memc_kpcc_employee_detail.Emp_P_ID = t_memc_kpcc_access_right.AR_ID
+                        AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID";
                         $SearchResult = mysqli_query($conn, $SearchSQL);
                         if(mysqli_num_rows($SearchResult) > 0)
                         {
@@ -63,6 +68,8 @@
                               echo "<td>".$row['Emp_ID']."</td>";
                               echo "<td>".$row['Emp_Name']."</td>";
                               echo "<td>".$row['Emp_Department']."</td>";
+                              echo "<td>".$row['AR_Level']."</td>";
+                              echo "<td>".$row['Report_To_Emp_ID']."</td>";
                               echo "</tr>";
                             }
                         }
@@ -121,7 +128,7 @@
                     </div>
                     <div class="form-group">
                     <div class="col-sm-12" style="text-align: center;">
-                    <input type="button" class="btn btn-primary" name="btnAssignPosition" value="Assign" onclick="AssignPosition()">
+                    <input type="button" class="btn btn-primary" name="btnUpdatePosition" value="Update" onclick="UpdatePosition()">
                       <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                     </div>
                     </div>

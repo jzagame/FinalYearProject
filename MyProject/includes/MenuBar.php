@@ -50,7 +50,7 @@
                     <li class="dropdown-item"><a tabindex="-1" href="Employee_AddEmployee.php">Add</a></li>
                     <li class="dropdown-item"><a href="Employee_RemoveEmployee.php">Remove</a></li>
                     <li class="dropdown-item"><a href="Employee_AssignPosition.php">Assign Position</a></li>
-                    <li class="dropdown-item"><a href="#">View/Edit Position</a></li>
+                    <li class="dropdown-item"><a href="Employee_ViewEditAssign.php">View/Edit Position</a></li>
                   </ul>
                 </li>
               </ul>

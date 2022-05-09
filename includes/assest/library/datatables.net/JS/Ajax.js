@@ -398,11 +398,10 @@ function AddEmployee(){
 		success: function(data){
 			if(data == "success"){
 				window.alert('Employee Added Successfully.');
-				document.getElementById("searchEmployeeForm").reset();
+				location="Employee_AddEmployee.php";
 			}else{
 				window.alert('Employee Added Failure.');
 			}
-			// alert(data);
 		}
 	});
 }
@@ -431,9 +430,74 @@ function RemoveEmployee(){
 		success: function(data){
 			if(data == "success"){
 				window.alert('Employee Remove Successfully.');
-				document.getElementById("searchRemoveEmployeeForm").reset();
+				location="Employee_RemoveEmployee.php";
 			}else{
 				window.alert('Employee Remove Failure.');
+			}
+		}
+	});
+}
+
+function SearchAPEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchAPEmployee",formdata:$('#SearchAPForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchAPTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function AssignPosition(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"assignPosition",formdata:$('#SearchAPForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Assign Successfully.');
+				location="Employee_AssignPosition.php";
+			}else{
+				window.alert('Employee Assign Failure.');
+			}
+			// alert(data);
+		}
+	});
+}
+
+function SearchVEPEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchVEPEmployee",formdata:$('#SearchVEPForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchVEPTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function UpdatePosition(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updatePosition",formdata:$('#SearchVEPForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Access Right & Report-to Update Successfully');
+				location="Employee_ViewEditAssign.php";
+			}else{
+				window.alert('Access Right & Report-to Update Failure');
 			}
 			// alert(data);
 		}

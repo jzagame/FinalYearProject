@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <form method="" id="searchRemoveEmployeeForm">
         <ul class="list-group mt-2 mb-2">
-            <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
+            <li class="list-group-item active"><h5 class="m-0">Employee Access Right List</h5></li>
         </ul>
         <hr class="bdr-light">
           <div class="container-fluid">
