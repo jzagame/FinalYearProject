@@ -30,54 +30,61 @@
     }
 
 	if($_POST['action'] == "addDepartment"){
-
-		$SearchSQL= "SELECT * FROM t_memc_kpcc_department_link WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."' AND D_HODID = 
-		'".strtoupper(trim($formdata[1]['value']))."' AND D_HODNode = '".strtoupper(trim($formdata[2]['value']))."'";
-		//echo "I am in";
-        $SearchResult = mysqli_query($conn,$SearchSQL);
-		if(mysqli_num_rows($SearchResult) > 0)
+		
+		if(strtoupper(trim($formdata[0]['value'])) == "" || strtoupper(trim($formdata[1]['value'])) == "" || strtoupper(trim($formdata[2]['value'])) == "")
 		{
-            echo "Department Link is Existed";
+			echo "fill";
 		}
-        else
-        {
-            $SearchDepartmentSQL = "SELECT COUNT(D_ID) AS userFound FROM t_memc_kpcc_department_link";
-			$Result = mysqli_query($conn, $SearchDepartmentSQL);
-			$row = mysqli_fetch_array($Result);
-			if($row['userFound'] == 0)
+		else
+		{
+			$SearchSQL= "SELECT * FROM t_memc_kpcc_department_link WHERE D_Name = '".strtoupper(trim($formdata[0]['value']))."' AND D_HODID = 
+			'".strtoupper(trim($formdata[1]['value']))."' AND D_HODNode = '".strtoupper(trim($formdata[2]['value']))."'";
+			//echo "I am in";
+			$SearchResult = mysqli_query($conn,$SearchSQL);
+			if(mysqli_num_rows($SearchResult) > 0)
 			{
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department_link(D_Name, D_HODID, D_HODNode, D_Status) VALUES(
-                '".strtoupper(trim($formdata[0]['value']))."',
-				'".strtoupper(trim($formdata[1]['value']))."',
-				'".strtoupper(trim($formdata[2]['value']))."',
-                '1')";
+				echo "Department Link is Existed";
 			}
-			
 			else
 			{
-				$SID = "1" + $row['userFound'];
-				$EmpID = "DEP-".sprintf('%04d', $SID);
-				
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department_link(D_ID, D_Name, D_HODID, D_HODNode, D_Status) VALUES(
-				'$EmpID',
-                '".strtoupper(trim($formdata[0]['value']))."',
-				'".strtoupper(trim($formdata[1]['value']))."',
-				'".strtoupper(trim($formdata[2]['value']))."',
-                '1')";
-			}
-			
-            $AddDepartmentResult = mysqli_query($conn, $AddDepartmentSQL);
-            if($AddDepartmentResult)
-            {
-                echo "success";
-            }
-            else
-            {
-                echo "fail";
-            }
+				$SearchDepartmentSQL = "SELECT COUNT(D_ID) AS userFound FROM t_memc_kpcc_department_link";
+				$Result = mysqli_query($conn, $SearchDepartmentSQL);
+				$row = mysqli_fetch_array($Result);
+				if($row['userFound'] == 0)
+				{
+					$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department_link(D_Name, D_HODID, D_HODNode, D_Status) VALUES(
+					'".strtoupper(trim($formdata[0]['value']))."',
+					'".strtoupper(trim($formdata[1]['value']))."',
+					'".strtoupper(trim($formdata[2]['value']))."',
+					'1')";
+				}
 
-        }
-    }
+				else
+				{
+					$SID = "1" + $row['userFound'];
+					$EmpID = "DEP-".sprintf('%04d', $SID);
+
+					$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department_link(D_ID, D_Name, D_HODID, D_HODNode, D_Status) VALUES(
+					'$EmpID',
+					'".strtoupper(trim($formdata[0]['value']))."',
+					'".strtoupper(trim($formdata[1]['value']))."',
+					'".strtoupper(trim($formdata[2]['value']))."',
+					'1')";
+				}
+
+				$AddDepartmentResult = mysqli_query($conn, $AddDepartmentSQL);
+				if($AddDepartmentResult)
+				{
+					echo "success";
+				}
+				else
+				{
+					echo "fail";
+				}
+
+			}
+		}
+	}
 
     if($_POST['action'] == "searchAccessRight"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level LIKE '%".trim($formdata[0]['value'])."%'";

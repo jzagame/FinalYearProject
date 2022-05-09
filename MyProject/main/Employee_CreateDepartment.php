@@ -27,7 +27,7 @@
 							<label>Department Name</label>
 						</div>
 						<div class="col-10">
-                            <select class= "custom-select" name="sltD">
+                            <select class= "custom-select" name="sltD" required>
                                         <option value=""></option>
                                         <?php
                                             $SCSQL = "SELECT * FROM t_memc_department";
@@ -50,7 +50,7 @@
 						<label class="col-2">Head of Department</label>
 						<div class="col-10">
 <!--                            <input type="text" class="form-control" placeholder="Select Head of Department Name" name="txtHODName">	-->
-							<select class= "custom-select" name="sltHOD">
+							<select class= "custom-select" name="sltHOD" required>
                                         <option value=""></option>
                                         <?php
                                             $SCSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
@@ -72,7 +72,7 @@
 					<div class="form-group row">
 						<label class="col-2">Parent Department</label>
 						<div class="col-10">
-                            <select class= "custom-select" name="sltPD">
+                            <select class= "custom-select" name="sltPD" required>
                                         <option value=""></option>
                                         <?php
                                             $SCSQL = "SELECT * FROM t_memc_department";
@@ -93,7 +93,7 @@
 					</div>
                     <div class="form-group">
 						<div class="col-sm-12" style="text-align: center;">
-						  	<input type="submit" class="btn btn-primary" name="btnCDep" value="Create" onclick="AddDepartment()">
+						  	<input type="button" class="btn btn-primary" name="btnCDep" value="Create" onclick="AddDepartment()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
 						</div>
 					</div>
