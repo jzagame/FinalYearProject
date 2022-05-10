@@ -134,7 +134,7 @@ if ($next == "Comp_Card") { // Add competecies form content
                 </td>
                 <td scope="col" style="width:10%;"><label for="Cat<?php echo $num; ?>" class="col-form-label">Category</label></td>
                 <td scope="col" colspan="2">
-                    <Select class="custom-select form-control" id="Cat<?php echo $num; ?>" name="Cat[]" >
+                    <Select class="custom-select form-control" id="Cat<?php echo $num; ?>" name="Cat[]">
                         <option <?php if ($found['Ei_Category'] == "sub") {
                                     echo "selected";
                                 } ?> value="sub">Sub-Core Competencies</option>
@@ -145,7 +145,24 @@ if ($next == "Comp_Card") { // Add competecies form content
                 </td>
                 <td scope="col" style="width:10%;"><label for="score<?php echo $num; ?>" class="col-form-label">Score</label></td>
                 <td scope="col" colspan="2">
-                    <input type="text" class="form-control" id="score<?php echo $num; ?>" name="score[]">
+                    <select class="custom-select form-control" name="score[]" id="score<?php echo $num; ?>">
+                        <option>choose...</option>
+                        <?php
+                        if ($search != null) {
+                            $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Status = 'A' and Im_lvl_Im_ID = " . $found['Im_ID'] . "";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                        ?>
+                                <option <?php
+                                        if ($found['Ei_Score'] == $row['Im_lvl_ID']) {
+                                            echo "selected";
+                                        }
+                                        ?> value="<?php echo $row['Im_lvl_ID']; ?>"><?php echo $row['Im_lvl_Name']; ?></option>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -430,12 +447,21 @@ if ($action == "AddButton_1") {
     $_SESSION['start'] = $_SESSION['start'] + 1;
     $_SESSION['total'] = $_SESSION['total'] + 1;
 }
-if ($action == "targetItemDesc") {
+if ($action == "targetItemDescForTarget") {
     $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Im_ID = " . $search . " and Im_lvl_Status = 'A'";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
     ?>
         <option class="tooltip" data-toggle="tooltip" data-placement="bottom" value="<?php echo $row['Im_lvl_ID'] ?>" title=""><?php echo $row['Im_lvl_Name'] . " - " . $row['Im_lvl_Description']; ?></option>
+<?php
+    }
+}
+if ($action == "targetItemDescForScore") {
+    $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_Im_ID = " . $search . " and Im_lvl_Status = 'A'";
+    $result = $conn->query($sql);
+    while ($row = $result->fetch_assoc()) {
+    ?>
+        <option class="tooltip" data-toggle="tooltip" data-placement="bottom" value="<?php echo $row['Im_lvl_ID'] ?>" title=""><?php echo $row['Im_lvl_Name'] ; ?></option>
 <?php
     }
 }

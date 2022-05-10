@@ -152,9 +152,18 @@ function ItemSelected(a){
     $.ajax({
         type:"POST",
         url:"Assessment_plug.php",
-        data: {action:"targetItemDesc",search:$("#Itm" + a).val()},
+        data: {action:"targetItemDescForTarget",search:$("#Itm" + a).val()},
         success:function(data){
             document.getElementById("target" + a).innerHTML = data;
+            filterTarget(a);
+        }
+    });
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data: {action:"targetItemDescForScore",search:$("#Itm" + a).val()},
+        success:function(data){
+            document.getElementById("score" + a).innerHTML = data;
             filterTarget(a);
         }
     });
