@@ -7,6 +7,17 @@ include( "../includes/MenuBar.php" );
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+	.table-responsive {
+max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+</style>
 </head>
 
 <body>
@@ -45,8 +56,8 @@ include( "../includes/MenuBar.php" );
       <div class="col-10">
         <select name="selstatus" class="form-control">
           <option value="">Both</option>
-          <option value="A">Active</option>
-          <option value="I">Inactive</option>
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
         </select>
       </div>
     </div>
@@ -57,7 +68,7 @@ include( "../includes/MenuBar.php" );
       </div>
     </div>
   </form>
-  <div id="show_searchcd">
+  <div class="table-responsive" id="show_searchcd">
     <?php
     $sql = "SELECT * FROM t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension WHERE t_memc_kpcc_corecompetencies.Cc_ID = t_memc_kpcc_competenciesdimension.Cd_Cc_ID AND Cd_ID IS NOT NULL AND "; //Search Core competencies
     $sql .= "ORDER BY Cd_ID";
@@ -80,11 +91,11 @@ include( "../includes/MenuBar.php" );
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
           echo "<tr role=\"button\" onClick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\">";
-          echo "<td>" . $row[ 'Cd_ID' ] . "</td>";
+          echo "<td>" . ( $i + 1 ) . "</td>";
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Definition' ] . "</td>";
-          if ( $row[ 'Cd_status' ] == "A" ) {
+          if ( $row[ 'Cd_status' ] == "1" ) {
             echo "<td>Active</td>";
           } else {
             echo "<td>Inactive</td>";

@@ -50,19 +50,19 @@ if ( $_POST[ 'action' ] == "showaddcc" ) {
       <select class="custom-select form-control col-5" id="Position" name="selstatus">
         <?php
         if ( $ccid1 != "" ) {
-          if ( $row[ 'Cc_status' ] == "A" ) {
-            echo "<option selected=\"selected\" value=\"A\">Active</option>";
-            echo "<option value=\"I\">Inactive</option>";
+          if ( $row[ 'Cc_status' ] == "1" ) {
+            echo "<option selected=\"selected\" value=\"1\">Active</option>";
+            echo "<option value=\"2\">Inactive</option>";
           } else {
-            echo "<option selected=\"selected\" value=\"I\">Inactive</option>";
-            echo "<option value=\"A\">Active</option>";
+            echo "<option selected=\"selected\" value=\"2\">Inactive</option>";
+            echo "<option value=\"1\">Active</option>";
           }
         } else {
 
 
           ?>
-        <option value="A">Active</option>
-        <option value="I">Inactive</option>
+        <option value="1">Active</option>
+        <option value="2">Inactive</option>
         <?php
         }
         ?>
@@ -118,7 +118,12 @@ if ( $_POST[ 'action' ] == "showaddcd" ) {
     <div class="col-10">
       <select class="custom-select form-control" id="Position" name="selccid">
         <?php
-        $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+        if ( $cdid1 != "" ) {
+          $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+        } else {
+          $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_Status <> 'I'";
+        }
+
         $view = mysqli_query( $conn, $catesql );
         if ( mysqli_num_rows( $view ) > 0 ) {
           for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
@@ -159,19 +164,19 @@ if ( $_POST[ 'action' ] == "showaddcd" ) {
       <select class="custom-select form-control col-5" name="selstatus">
         <?php
         if ( $cdid1 != "" ) {
-          if ( $row[ 'Cd_status' ] == "A" ) {
+          if ( $row[ 'Cd_status' ] == "1" ) {
             echo "<option selected=\"selected\" value=\"" . $row[ 'Cc_status' ] . "\">Active</option>";
-            echo "<option value=\"I\">Inactive</option>";
+            echo "<option value=\"2\">Inactive</option>";
           } else {
             echo "<option selected=\"selected\" value=\"" . $row[ 'Cc_status' ] . "\">Inactive</option>";
-            echo "<option value=\"A\">Active</option>";
+            echo "<option value=\"1\">Active</option>";
           }
         } else {
 
 
           ?>
-        <option value="A">Active</option>
-        <option value="I">Inactive</option>
+        <option value="1">Active</option>
+        <option value="2">Inactive</option>
         <?php
         }
         ?>
@@ -231,6 +236,15 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
   </div>
   <hr class="bdr-light">
   <form class="form-card" id="aitem" style="margin: 10px" onSubmit="event.preventDefault(); <?php if($itemid1!=""){echo "btnedititemf(".$itemid1.")";}else echo "btnadditemf()"; ?>">
+	    <div class="form-group row">
+    <div class="col-2">
+      <label class="form-control-label ">Unique ID</label>
+    </div>
+    <div class="col-10">
+      <input type="text" class="form-control" placeholder="Enter Unique ID" name="txtuid" value="<?php if($itemid1 !="")echo $row['Im_UID']; ?>" required="required">
+    </div>
+  </div>
+	  
     <div class="form-group row">
       <div class="col-2">
         <label>Core Competencies</label>
@@ -240,7 +254,7 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
           <?php
           $first;
           $selected;
-          $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";
+            $catesql = "SELECT * FROM t_memc_kpcc_corecompetencies";          
           $view = mysqli_query( $conn, $catesql );
           if ( mysqli_num_rows( $view ) > 0 ) {
             for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
@@ -266,7 +280,7 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
           if ( $itemid1 != "" ) {
             $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $selected . "";
           } else {
-            $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $first . " AND Cd_status = 'A'";
+            $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $first . "";
           }
           $view = mysqli_query( $conn, $catesql );
           if ( mysqli_num_rows( $view ) > 0 ) {
@@ -352,19 +366,19 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
         <select class="custom-select form-control" name="selstatus">
           <?php
           if ( $itemid1 != "" ) {
-            if ( $row[ 'Im_Status' ] == "A" ) {
+            if ( $row[ 'Im_Status' ] == "1" ) {
               echo "<option selected=\"selected\" value=\"" . $row[ 'Im_Status' ] . "\">Active</option>";
-              echo "<option value=\"I\">Inactive</option>";
+              echo "<option value=\"2\">Inactive</option>";
             } else {
               echo "<option selected=\"selected\" value=\"" . $row[ 'Im_Status' ] . "\">Inactive</option>";
-              echo "<option value=\"A\">Active</option>";
+              echo "<option value=\"1\">Active</option>";
             }
           } else {
 
 
             ?>
-          <option value="A">Active</option>
-          <option value="I">Inactive</option>
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
           <?php
           }
           ?>
@@ -387,7 +401,8 @@ if ( $_POST[ 'action' ] == "showadditemcd" ) {
   ?>
 <select class="custom-select form-control" id="Position" required="required" name="selcdid">
   <?php
-  $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $_POST[ 'value1' ] . " AND Cd_status = 'A'";
+    $catesql = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Cc_ID = " . $_POST[ 'value1' ] . "";
+
   $view = mysqli_query( $conn, $catesql );
   if ( mysqli_num_rows( $view ) > 0 ) {
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {

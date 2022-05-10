@@ -14,6 +14,7 @@
 				    Cd_status CHAR(1)) character set = utf8mb4",
                     "CREATE TABLE t_memc_kpcc_Items (Im_ID INT AUTO_INCREMENT PRIMARY KEY,
                     Im_Cd_ID INT,
+					Im_UID VARCHAR(30),
 				    Im_Name VARCHAR(1000),
 				    Im_Definition LONGTEXT,
 				    Im_Status CHAR(1)) character set = utf8mb4",
