@@ -83,7 +83,7 @@ thead tr:nth-child(1) th{
 
           echo "<tr role=\"button\" onClick=\"sendeditcc('" . $row[ 'Cc_ID' ] . "')\">";
 
-          echo "<td>" . $row[ 'Cc_ID' ] . "</td>";
+          echo "<td>" . ( $i + 1 ) . "</td>";
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           if ( $row[ 'Cc_status' ] == "1" ) {
             echo "<td>Active</td>";
