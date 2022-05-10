@@ -9,6 +9,7 @@ function showaddf(){
 		}
 	});
 }
+
 function btnaddccf(){
 		$.ajax({
 			type:"POST",
@@ -276,9 +277,8 @@ $('#btnexcelclear').click(function(){
 
 });
 
-
-
 //Employee
+//Access Right
 function AddAccessRight(){
 	$.ajax({
 		type: "POST",
@@ -290,32 +290,17 @@ function AddAccessRight(){
 				document.getElementById("AddAccessRightForm").reset();
 			}else if(data == "fail"){
 				window.alert('Access Right Create Failure.');
-			}else{
-				window.alert('Access Right Exist.');
+			}
+			else if(data == "AR Null")
+			{
+				window.alert('Please Insert Access Right Level');
+			}
+			else{
+				window.alert('Access Right Level Exist.');
 			}
 		}
 	});
 }
-
-function AddDepartment(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"addDepartment",formdata:$('#AddDepartmentForm').serializeArray()},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Add Department Successfully.');
-				document.getElementById("AddDepartmentForm").reset();
-			}else if(data == "fail"){
-				window.alert('Create Department Failed.');
-			}else if(data == "fill"){
-				window.alert('Fill in all the Blank');
-			}else{
-				window.alert('Department link is Existed.');
-			}
-		}
-		});
-	}
 
 function SearchAccessRight(){
 	$.ajax({
@@ -358,12 +343,36 @@ function UpdateAccessRight(arid){
 			else if(data == "fail"){
 				window.alert('Update Position Failure.');
 			}
+			else if(data == "AR Null")
+			{
+				window.alert('Please Insert Access Right Level');
+			}
 			else{
 				window.alert('Access Right Exist.');
 			}
 		}
 	});
 }
+
+function AddDepartment(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addDepartment",formdata:$('#AddDepartmentForm').serializeArray()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Add Department Successfully.');
+				document.getElementById("AddDepartmentForm").reset();
+			}else if(data == "fail"){
+				window.alert('Create Department Failed.');
+			}else if(data == "fill"){
+				window.alert('Fill in all the Blank');
+			}else{
+				window.alert('Department link is Existed.');
+			}
+		}
+		});
+	}
 
 function SearchDepartment(){
 	$.ajax({
@@ -412,6 +421,7 @@ function UpdateDepartment(did){
 	});
 }
 
+//Add Employee
 function SearchEmployee(){
 	$.ajax({
 		type: "POST",
@@ -444,6 +454,7 @@ function AddEmployee(){
 	});
 }
 
+//Remove Employee
 function SearchRemoveEmployee(){
 	$.ajax({
 		type: "POST",
@@ -476,6 +487,7 @@ function RemoveEmployee(){
 	});
 }
 
+//Assign Position
 function SearchAPEmployee(){
 	$.ajax({
 		type: "POST",
@@ -509,6 +521,7 @@ function AssignPosition(){
 	});
 }
 
+//View/Edit Position
 function SearchVEPEmployee(){
 	$.ajax({
 		type: "POST",

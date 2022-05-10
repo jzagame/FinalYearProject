@@ -2,7 +2,8 @@
     error_reporting(0);
     include ("../../includes/database.php");
 	$formdata = $_POST['formdata'];
-	$flag = false; 
+	$flag = false;
+    //Add Access Right
     if($_POST['action'] == "addAccessRight"){
 		
 		$SearchSQL= "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."'";
@@ -11,11 +12,16 @@
 		{
             echo "same";
 		}
+        else if(trim($formdata[0]['value']) == "")
+        {
+            echo "AR Null";
+        }
         else
         {
-            $AddAccessRightSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description) VALUES(
+            $AddAccessRightSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description, AR_Status) VALUES(
                 '".trim($formdata[0]['value'])."',
-                '".$formdata[1]['value']."'
+                '".$formdata[1]['value']."',
+                '".$formdata[2]['value']."'
             )";
             $AddAccessRightResult = mysqli_query($conn, $AddAccessRightSQL);
             if($AddAccessRightResult)
@@ -86,6 +92,7 @@
 		}
 	}
 
+    //Search Access Right
     if($_POST['action'] == "searchAccessRight"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level LIKE '%".trim($formdata[0]['value'])."%'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -97,6 +104,7 @@
                     echo "<th scope=\"col\">No.</th>";
                     echo "<th scope=\"col\">Level</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Description</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -107,6 +115,14 @@
                         echo "<td>".($i+1)."</td>";
                         echo "<td>".$row['AR_Level']."</td>";
                         echo "<td>".$row['AR_Description']."</td>";
+                        if($row['AR_Status'] == 1)
+                        {
+                            echo "<td>ACTIVE</td>";
+                        }
+                        else
+                        {
+                            echo "<td>INACTIVE</td>";
+                        }
                         echo "</tr>";
                     }
                 echo "</tbody>";
@@ -118,6 +134,7 @@
         }
     }
 
+    //Edit Access Right
     if($_POST['action'] == "editAccessRight"){
         $arid = $_POST['accessright_ID'];
         $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_ID = $arid";
@@ -149,6 +166,17 @@
                             <textarea class="form-control" name="txtAccessRightDescription" rows="4"><?php echo $row['AR_Description'];?></textarea>	
                         </div>
                     </div>
+                    <div class="form-group row">
+                    <div class="col-2">
+                        <label class="col-form-label">Status</label>
+                    </div>
+					<div class="col-10">
+                        <select class="form-control custom-select" name="txtARStatus">
+                            <option value="1" <?php echo ($row['AR_Status'] == 1) ?  "selected" : "" ;  ?>>Active</option>
+                            <option value="2" <?php echo ($row['AR_Status'] == 2) ?  "selected" : "" ;  ?>>Inactive</option>
+                        </select>	
+					</div>
+				</div>
                     <div class="form-group">
                     <div class="col-sm-12" style="text-align: center;">
                         <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditPosition.php'">
@@ -162,6 +190,7 @@
         }
     }
 
+    //Update Access Right
     if($_POST['action'] == 'updateAccessRight'){
         $arid = $_POST['accessright_ID'];
         $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."' AND AR_ID != $arid";
@@ -170,10 +199,15 @@
         {
             echo "same";
         }
+        else if(trim($formdata[0]['value']) == "")
+        {
+            echo "AR Null";
+        }
         else
         {
             $UpdateSQL = "UPDATE t_memc_kpcc_access_right SET AR_Level = '".trim($formdata[0]['value'])."',
-            AR_Description = '".(trim($formdata[1]['value']))."'
+            AR_Description = '".(trim($formdata[1]['value']))."',
+            AR_Status = '".$formdata[2]['value']."'
             WHERE AR_ID = $arid";
             $UpdateResult = mysqli_query($conn, $UpdateSQL);
             if($UpdateResult)
@@ -187,6 +221,7 @@
         }
     }
 
+    //Search Add Employee
     if($_POST['action'] == "searchEmployee"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' AND EmpDetail_Status <> 'A'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -229,6 +264,7 @@
         }
     }
 
+    //Add Employee
     if($_POST['action'] == "addEmployee"){
 		$data = array();
         parse_str($formdata, $data);
@@ -248,6 +284,7 @@
         }
     }
 
+    //Search Remove Employee
     if($_POST['action'] == "searchRemoveEmployee"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' AND EmpDetail_Status = 'A'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -290,6 +327,7 @@
         }
     }
 
+    //Remove Employee
     if($_POST['action'] == "removeEmployee"){
 		$data = array();
         parse_str($formdata, $data);
@@ -309,6 +347,7 @@
         }
     }
 
+    //Seacrh Assign Position Employee
     if($_POST['action'] == "searchAPEmployee"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' AND EmpDetail_Status = 'A' AND EmpAssign_Status = 2";
         $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -345,6 +384,7 @@
         }
     }
 
+    //Assign Position
     if($_POST['action'] == "assignPosition"){
 		$data = array();
         parse_str($formdata, $data);
@@ -372,6 +412,7 @@
         }
     }
 
+    //Seacrh View/Edit Assign Position
     if($_POST['action'] == "searchVEPEmployee"){
         $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to 
         WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' 
@@ -416,6 +457,7 @@
         }
     }
 
+    //Update Position
     if($_POST['action'] == "updatePosition"){
 		$data = array();
         parse_str($formdata, $data);

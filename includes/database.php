@@ -46,7 +46,7 @@
 					Emp_Name VARCHAR(99),
 					Emp_Department VARCHAR(50),
 					Emp_JobBand INT,
-                    EmpDetail_Status VARCHAR(20),
+                    EmpDetail_Status INT),
 					EmpAssign_Status INT)",
 					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
                     D_Name VARCHAR(50),
@@ -59,11 +59,11 @@
           			"CREATE TABLE t_memc_kpcc_Access_Right (AR_ID INT AUTO_INCREMENT PRIMARY KEY,
                     AR_Level INT,
                     AR_Description VARCHAR(99),
-					AR_Status VARCHAR(10))"
+					AR_Status INT)"
                     
                     
     );
-	$conn = mysqli_connect($localhost,$username,$password) or die(mysql_error()); 
+	$conn = mysqli_connect($localhost,$username,$password); 
 	//$conn = mysqli_connect($localhost,$username,$password);
 	if($conn)
 	{
@@ -79,10 +79,21 @@
 		{
 			mysqli_query($conn,$tables[$i]);	
 		}
+
+		$ARSearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = 0";
+		$ARSearchResult = mysqli_query($conn, $ARSearchSQL);
+		if(mysqli_num_rows($ARSearchResult)>0)
+		{
+			//Nothing
+		}
+		else
+		{
+			$DefaultSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description, AR_Status) VALUES(0, 'Superuser', 0)";
+			$DefaultResult = mysqli_query($conn, $DefaultSQL);	
+		}
 	}
 	else
 	{
 		echo "Fail connecting to Database Server.";
 	}
-
 ?>
