@@ -39,10 +39,10 @@ session_start();
         </li>
         <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Employee</a>
           <ul class="dropdown-menu">
-            <li class="dropdown-item" role="button" onclick="location='Employee_CreateDepartment.php'">Add</li>
-            <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditDepartment.php'">Remove</li>
-            <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditDepartment.php'">Assign Access Right</li>
-            <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditDepartment.php'">View/Edit Access Right</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_AddEmployee.php'">Add</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_RemoveEmployee.php'">Remove</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_AssignPosition.php'">Assign Access Right</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditAssign.php'">View/Edit Access Right</li>
           </ul>
         </li>
       </ul>
