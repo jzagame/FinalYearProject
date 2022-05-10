@@ -46,6 +46,7 @@
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Name</th>
                           <th scope="col" style="vertical-align:middle">Department</th>
+                          <th scope="col" style="vertical-align:middle">Job Band</th>
                           <th scope="col" style="vertical-align:middle">Access Right</th>
                           <th scope="col" style="vertical-align:middle">Reporting-To</th>
                         </tr>
@@ -53,7 +54,7 @@
                       <tbody>
                       <?php
                         $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to 
-                        WHERE EmpDetail_Status = 'A' AND EmpAssign_Status = 1
+                        WHERE EmpDetail_Status = 1 AND EmpAssign_Status = 1
                         AND t_memc_kpcc_employee_detail.Emp_P_ID = t_memc_kpcc_access_right.AR_ID
                         AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID";
                         $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -72,6 +73,7 @@
                               echo "<td>".$row['Emp_ID']."</td>";
                               echo "<td>".$row['Emp_Name']."</td>";
                               echo "<td>".$row['Emp_Department']."</td>";
+                              echo "<td>".$row['Emp_JobBand']."</td>";
                               echo "<td>"."[".$row['AR_Level']."] ".$row['AR_Description']."</td>";
                               echo "<td>"."[".$row['Report_To_Emp_ID']."] ".$fetchrow['Emp_Name']."</td>";
                               echo "</tr>";
@@ -92,7 +94,7 @@
                         <select class="form-control custom-select" name="txtAccessRight">
                           <option value=""></option>
                         <?php
-                          $AccessRightSQL = "SELECT * from t_memc_kpcc_access_right";
+                          $AccessRightSQL = "SELECT * from t_memc_kpcc_access_right WHERE AR_Level <> 0 AND AR_Status <> 2";
                           $AccessRightResult = mysqli_query($conn, $AccessRightSQL);
                           if(mysqli_num_rows($AccessRightResult) > 0)
                           {
@@ -114,7 +116,7 @@
                       <select class="form-control custom-select" name="txtReportingTo">
                           <option value=""></option>
                         <?php
-                          $ReportToSQL = "SELECT * from t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 'A'";
+                          $ReportToSQL = "SELECT * from t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1";
                           $ReportToResult = mysqli_query($conn, $ReportToSQL);
                           if(mysqli_num_rows($ReportToResult) > 0)
                           {

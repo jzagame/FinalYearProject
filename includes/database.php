@@ -46,7 +46,7 @@
 					Emp_Name VARCHAR(99),
 					Emp_Department VARCHAR(50),
 					Emp_JobBand INT,
-                    EmpDetail_Status INT),
+                    EmpDetail_Status INT,
 					EmpAssign_Status INT)",
 					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
                     D_Name VARCHAR(50),

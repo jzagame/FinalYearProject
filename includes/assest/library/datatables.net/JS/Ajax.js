@@ -447,7 +447,12 @@ function AddEmployee(){
 			if(data == "success"){
 				window.alert('Employee Added Successfully.');
 				location="Employee_AddEmployee.php";
-			}else{
+			}
+			else if(data == "Nothing")
+			{
+				window.alert('Please Select Employee');
+			}
+			else{
 				window.alert('Employee Added Failure.');
 			}
 		}
@@ -480,7 +485,12 @@ function RemoveEmployee(){
 			if(data == "success"){
 				window.alert('Employee Remove Successfully.');
 				location="Employee_RemoveEmployee.php";
-			}else{
+			}
+			else if(data == "Nothing")
+			{
+				window.alert('Please Select Employee');
+			}
+			else{
 				window.alert('Employee Remove Failure.');
 			}
 		}
@@ -513,7 +523,24 @@ function AssignPosition(){
 			if(data == "success"){
 				window.alert('Employee Assign Successfully.');
 				location="Employee_AssignPosition.php";
-			}else{
+			}
+			else if(data == "No Employee")
+			{
+				window.alert('Please Select Employee');
+			}
+			else if(data == "No AR")
+			{
+				window.alert('Please Select Access Right');
+			}
+			else if(data == "No RT")
+			{
+				window.alert('Please Select Reporting-To');
+			}
+			else if(data == "Same ID")
+			{
+				window.alert('Employee cannot report to himself');
+			}
+			else{
 				window.alert('Employee Assign Failure.');
 			}
 			// alert(data);
@@ -547,7 +574,24 @@ function UpdatePosition(){
 			if(data == "success"){
 				window.alert('Access Right & Report-to Update Successfully');
 				location="Employee_ViewEditAssign.php";
-			}else{
+			}
+			else if(data == "No Employee")
+			{
+				window.alert('Please Select Employee');
+			}
+			else if(data == "No AR")
+			{
+				window.alert('Please Select Access Right');
+			}
+			else if(data == "No RT")
+			{
+				window.alert('Please Select Reporting-To');
+			}
+			else if(data == "Same ID")
+			{
+				window.alert('Employee cannot report to himself');
+			}
+			else{
 				window.alert('Access Right & Report-to Update Failure');
 			}
 			// alert(data);
