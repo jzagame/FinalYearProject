@@ -92,6 +92,7 @@ thead tr:nth-child(1) th{
       <thead>
         <tr>
           <th nowrap>ID</th>
+			<th nowrap>Unique ID</th>
           <th nowrap>Core Competency</th>
           <th nowrap>Competencies Dimension</th>
           <th nowrap>Item Name</th>
@@ -109,7 +110,8 @@ thead tr:nth-child(1) th{
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
           echo "<tr role=\"button\" onClick=\"sendedititem('" . $row[ 'Im_ID' ] . "')\">";
-          echo "<td>" . $row[ 'Im_ID' ] . "</td>";
+          echo "<td>" . ($i+1) . "</td>";
+			echo "<td>" . $row[ 'Im_UID' ] . "</td>";
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
           echo "<td>" . $row[ 'Im_Name' ] . "</td>";

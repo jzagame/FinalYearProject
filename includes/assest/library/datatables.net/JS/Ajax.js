@@ -252,12 +252,17 @@ $("form#aie").submit(function(e) {
         type: 'POST',
         data: formData,
         success: function (data) {
-            if(data == "success"){
-				window.alert('Import successfully.');
+			var subupdate = data.substring(0,7);
+			var subupdatedone = data.substring(7);
+			var splitsuccess = subupdatedone.split(",");
+			if(data == "fail"){
+				window.alert('Import failure, Please check the format.');
+			}else if(subupdate=="updated"){
+				window.alert('Import successfully, There have '+ splitsuccess[0] + ' data has been updated and ' + splitsuccess[1] + ' has been insert.');
+			}else if(subupdate=="success"){
+				window.alert('Import successfully, There have '+ subupdatedone + ' data has been insert.');
 				window.location ="competencies_importexcel.php";
 				$('#customFile').next('label').html('Choose file');
-			}else if(data == "fail"){
-				window.alert('Import failure, Please check the format.');
 			}
         },
         cache: false,

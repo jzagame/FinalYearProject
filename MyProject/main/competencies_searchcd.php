@@ -91,7 +91,7 @@ thead tr:nth-child(1) th{
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
           echo "<tr role=\"button\" onClick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\">";
-          echo "<td>" . $row[ 'Cd_ID' ] . "</td>";
+          echo "<td>" . ( $i + 1 ) . "</td>";
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Definition' ] . "</td>";

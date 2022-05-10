@@ -48,8 +48,8 @@
     </div>
     <div class="col-10">
       <select class="custom-select form-control" id="Position" name="seltype">
+		<option value="o">Override</option>
 		<option value="a">Append</option>
-        <option value="o">Override</option>
       </select>
     </div>
   </div>

@@ -236,6 +236,15 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
   </div>
   <hr class="bdr-light">
   <form class="form-card" id="aitem" style="margin: 10px" onSubmit="event.preventDefault(); <?php if($itemid1!=""){echo "btnedititemf(".$itemid1.")";}else echo "btnadditemf()"; ?>">
+	    <div class="form-group row">
+    <div class="col-2">
+      <label class="form-control-label ">Unique ID</label>
+    </div>
+    <div class="col-10">
+      <input type="text" class="form-control" placeholder="Enter Unique ID" name="txtuid" value="<?php if($itemid1 !="")echo $row['Im_UID']; ?>" required="required">
+    </div>
+  </div>
+	  
     <div class="form-group row">
       <div class="col-2">
         <label>Core Competencies</label>
