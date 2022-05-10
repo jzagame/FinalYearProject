@@ -25,7 +25,6 @@ session_start();
         <!-- <li class="dropdown-item"><a href="#">Some action</a></li>
                 <li class="dropdown-item"><a href="#">Some other action</a></li>
                 <li class="dropdown-divider"></li> -->
-        
         <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Access right</a>
           <ul class="dropdown-menu">
             <li class="dropdown-item" role="button" onclick="location='Employee_CreatePosition.php'">Add</li>

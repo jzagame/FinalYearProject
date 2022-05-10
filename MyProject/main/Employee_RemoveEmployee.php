@@ -16,9 +16,9 @@
 
     <body>
     <div class="container-fluid">
-        <form method="" id="searchEmployeeForm">
+        <form method="" id="searchRemoveEmployeeForm">
         <ul class="list-group mt-2 mb-2">
-            <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
+            <li class="list-group-item active"><h5 class="m-0">Employee Access Right List</h5></li>
         </ul>
         <hr class="bdr-light">
           <div class="container-fluid">
@@ -28,16 +28,16 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-11" style="padding: 0px 20px 20px 0px;">
-                        <input type="text" class="form-control" placeholder="Search" name="txtSearchEmployee">	
+                        <input type="text" class="form-control" placeholder="Search" name="txtSearchRemoveEmployee">	
                       </div>
                       <div class="col-1" style="text-align: center;">
-                        <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchEmployee()">
+                        <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchRemoveEmployee()">
                       </div>
                     </div>
                     <!-- <div class="d-flex align-items-center mb-4">
                       <h4 class="card-title">Score</h4>
                     </div> -->
-                    <div class="table-responsive" id="showSearchTable">
+                    <div class="table-responsive" id="showSearchRemoveTable">
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
@@ -50,7 +50,7 @@
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 'A'";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -58,25 +58,25 @@
                               {
                                 $row = mysqli_fetch_array($SearchResult);
                                 echo "<tr>";
-                                echo "<td><input type=\"checkbox\" name=\"".$row['Emp_Detail_ID']."\"></td>";
+                                echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['Emp_ID']."</td>";
                                 echo "<td>".$row['Emp_Name']."</td>";
-                                echo "<td>".$row['Emp_Email']."</td>";
+                                echo "<td>".$row['Emp_Department']."</td>";
                                 echo "</tr>";
                               }
                           }
                           else
                           {
                             echo "<script> alert('No Record Found');
-						    location='index.php'; </script>";
+						                location='index.php'; </script>";
                           }
                         ?>
                       </tbody>
                     </table>
                     <div class="form-group">
-                        <div class="col-sm-12" style="text-align: center;">
-                            <input type="button" class="btn btn-primary" name="btnAddEmployee" value="Add" onclick="RemoveEmployee()">
+                        <div class="col-12" style="text-align: center;">
+                            <input type="button" class="btn btn-primary" name="btnRemoveEmployee" value="Remove" onclick="RemoveEmployee()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                         </div>
                     </div>
@@ -89,5 +89,5 @@
         </form>
     </div>
     </body>
-<script src="../../includes/assest/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>

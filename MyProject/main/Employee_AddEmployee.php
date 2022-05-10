@@ -50,7 +50,7 @@
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status != 'A'";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status <> 'A'";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {

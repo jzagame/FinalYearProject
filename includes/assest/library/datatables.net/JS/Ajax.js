@@ -308,8 +308,10 @@ function AddDepartment(){
 				document.getElementById("AddDepartmentForm").reset();
 			}else if(data == "fail"){
 				window.alert('Create Department Failed.');
+			}else if(data == "fill"){
+				window.alert('Fill in all the Blank');
 			}else{
-				window.alert('Department is Existed.');
+				window.alert('Department link is Existed.');
 			}
 		}
 		});
@@ -434,9 +436,106 @@ function AddEmployee(){
 		success: function(data){
 			if(data == "success"){
 				window.alert('Employee Added Successfully.');
-				document.getElementById("searchEmployeeForm").reset();
+				location="Employee_AddEmployee.php";
 			}else{
 				window.alert('Employee Added Failure.');
+			}
+		}
+	});
+}
+
+function SearchRemoveEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchRemoveEmployee",formdata:$('#searchRemoveEmployeeForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchRemoveTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function RemoveEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"removeEmployee",formdata:$('#searchRemoveEmployeeForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Remove Successfully.');
+				location="Employee_RemoveEmployee.php";
+			}else{
+				window.alert('Employee Remove Failure.');
+			}
+		}
+	});
+}
+
+function SearchAPEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchAPEmployee",formdata:$('#SearchAPForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchAPTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function AssignPosition(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"assignPosition",formdata:$('#SearchAPForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Assign Successfully.');
+				location="Employee_AssignPosition.php";
+			}else{
+				window.alert('Employee Assign Failure.');
+			}
+			// alert(data);
+		}
+	});
+}
+
+function SearchVEPEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchVEPEmployee",formdata:$('#SearchVEPForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchVEPTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function UpdatePosition(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updatePosition",formdata:$('#SearchVEPForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Access Right & Report-to Update Successfully');
+				location="Employee_ViewEditAssign.php";
+			}else{
+				window.alert('Access Right & Report-to Update Failure');
 			}
 			// alert(data);
 		}
