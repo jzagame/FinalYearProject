@@ -440,7 +440,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         $checkempty += 1;
       }
     }
-    if ( $checkempty != 10 ) {
+    if ( $checkempty != 10 && trim($str[0] !="") {
       //Append
       if ( $totalcolumn == 10 && $_POST[ 'seltype' ] == "a" ) {
 
