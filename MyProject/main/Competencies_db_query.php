@@ -9,7 +9,7 @@ $totalcolumn = 0;
 $totalrow = 0;
 $success = 0;
 $same = 0;
-$updatedone =0;
+$updatedone = 0;
 //Core Competecies
 if ( $_POST[ 'action' ] == "createcc" ) {
 
@@ -425,6 +425,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
   $file_open = fopen( $file, "r" );
   fgets( $file_open );
   while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+    $checkempty = 0;
     $totalrow += 1;
     for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
       $tempArray[ $i ] = $csv[ $i ];
@@ -434,162 +435,170 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
       array_push( $str, $tempstr );
       if ( $totalrow == 1 )$totalcolumn += 1;
     }
-    //Append
-    if ( $totalcolumn == 10 && $_POST[ 'seltype' ] == "a" ) {
+    for ( $x = 0; $x < count( $str ); ++$x ) {
+      if ( trim( $str[ $x ] ) == "" ) {
+        $checkempty += 1;
+      }
+    }
+    if ( $checkempty != 10 ) {
+      //Append
+      if ( $totalcolumn == 10 && $_POST[ 'seltype' ] == "a" ) {
 
-      $sql2 = "SELECT * FROM t_memc_kpcc_items";
-      $result2 = mysqli_query( $conn, $sql2 );
-      if ( mysqli_num_rows( $result2 ) > 0 ) {
-        for ( $i = 0, $xx = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
-          $row2 = mysqli_fetch_array( $result2 );
-          if ( $str[ 0 ] == $row2[ 'Im_UID' ] ) {
-            $xx = 1;
+        $sql2 = "SELECT * FROM t_memc_kpcc_items";
+        $result2 = mysqli_query( $conn, $sql2 );
+        if ( mysqli_num_rows( $result2 ) > 0 ) {
+          for ( $i = 0, $xx = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
+            $row2 = mysqli_fetch_array( $result2 );
+            if ( $str[ 0 ] == $row2[ 'Im_UID' ] ) {
+              $xx = 1;
+            }
           }
         }
-      }
-      if ( $xx == 1 ) {
-        $same += 1;
-      } else {
+        if ( $xx == 1 ) {
+          $same += 1;
+        } else {
 
-        $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . $str[ 1 ] . "',
+          $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . $str[ 1 ] . "',
 			'1')";
-        $addccsql = mysqli_query( $conn, $addcc );
-        if ( $addccsql ) {
-          $success += 1;
-        }
-        $last_ccid = mysqli_insert_id( $conn );
-        $addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('" . $last_ccid . "',
+          $addccsql = mysqli_query( $conn, $addcc );
+          if ( $addccsql ) {
+            $success += 1;
+          }
+          $last_ccid = mysqli_insert_id( $conn );
+          $addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('" . $last_ccid . "',
 			'" . $str[ 2 ] . "','','1')";
 
-        $addcdsql = mysqli_query( $conn, $addcd );
-        if ( $addcdsql ) {
-          $success += 1;
-        }
+          $addcdsql = mysqli_query( $conn, $addcd );
+          if ( $addcdsql ) {
+            $success += 1;
+          }
 
-        $last_cdid = mysqli_insert_id( $conn );
-        $additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_UID,Im_Name,Im_Definition,Im_Status) VALUES('" . $last_cdid . "',
+          $last_cdid = mysqli_insert_id( $conn );
+          $additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_UID,Im_Name,Im_Definition,Im_Status) VALUES('" . $last_cdid . "',
 	  '" . $str[ 0 ] . "',
 			'" . $str[ 3 ] . "',
 			'" . $str[ 4 ] . "',
 			'1')";
 
-        $additemsql = mysqli_query( $conn, $additem );
-        $last_itemid = mysqli_insert_id( $conn );
+          $additemsql = mysqli_query( $conn, $additem );
+          $last_itemid = mysqli_insert_id( $conn );
 
-        for ( $i = 0, $c = 0; $i < 5; ++$i ) {
-          $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
+          for ( $i = 0, $c = 0; $i < 5; ++$i ) {
+            $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
 				'level " . trim( ( $i + 1 ) ) . "',
 				'" . trim( $str[ 5 + $i ] ) . "',
 				'1'
 			)";
-          $additemlvlsql = mysqli_query( $conn, $additem2 );
-          if ( $additemlvlsql ) {
-            ++$c;
+            $additemlvlsql = mysqli_query( $conn, $additem2 );
+            if ( $additemlvlsql ) {
+              ++$c;
+            }
+          }
+          if ( $additemsql && $c == 5 ) {
+            $success += 1;
           }
         }
-        if ( $additemsql && $c == 5 ) {
-          $success += 1;
-        }
-      }
-      //Override
-    } elseif ( $totalcolumn == 10 && $_POST[ 'seltype' ] == "o" ) {
-      $matchimid;
-      $sql2 = "SELECT * FROM t_memc_kpcc_items";
-      $result2 = mysqli_query( $conn, $sql2 );
-      if ( mysqli_num_rows( $result2 ) > 0 ) {
-        for ( $i = 0, $xx = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
-          $row2 = mysqli_fetch_array( $result2 );
-          if ( $str[ 0 ] == $row2[ 'Im_UID' ] ) {
-            $xx = 1;
-            $matchimid = $row2[ 'Im_ID' ];
+        //Override
+      } elseif ( $totalcolumn == 10 && $_POST[ 'seltype' ] == "o" ) {
+        $matchimid;
+        $sql2 = "SELECT * FROM t_memc_kpcc_items";
+        $result2 = mysqli_query( $conn, $sql2 );
+        if ( mysqli_num_rows( $result2 ) > 0 ) {
+          for ( $i = 0, $xx = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
+            $row2 = mysqli_fetch_array( $result2 );
+            if ( $str[ 0 ] == $row2[ 'Im_UID' ] ) {
+              $xx = 1;
+              $matchimid = $row2[ 'Im_ID' ];
+            }
           }
         }
-      }
-      if ( $xx == 1 ) {
-        $same += 1;
-        $uppcd = "UPDATE t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension,t_memc_kpcc_items SET	Im_Name='" . $str[ 3 ] . "',
+        if ( $xx == 1 ) {
+          $same += 1;
+          $uppcd = "UPDATE t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension,t_memc_kpcc_items SET	Im_Name='" . $str[ 3 ] . "',
 			  Cc_name='" . $str[ 1 ] . "',
 			  Cd_Name='" . $str[ 2 ] . "',
 			  Im_Definition ='" . $str[ 4 ] . "' WHERE t_memc_kpcc_items.Im_Cd_ID = t_memc_kpcc_competenciesdimension.Cd_ID AND t_memc_kpcc_corecompetencies.Cc_ID = t_memc_kpcc_competenciesdimension.Cd_Cc_ID AND Im_ID ='" . $matchimid . "'";
 
-        $lvlidarray = array();
-        $getlvlid = "SELECT * FROM t_memc_kpcc_Items_lvl_desc WHERE Im_lvl_Im_ID = '" . $matchimid . "'";
-        $view2 = mysqli_query( $conn, $getlvlid );
-        if ( mysqli_num_rows( $view2 ) > 0 ) {
-          for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
-            $row2 = mysqli_fetch_array( $view2 );
-            array_push( $lvlidarray, $row2[ 'Im_lvl_ID' ] );
+          $lvlidarray = array();
+          $getlvlid = "SELECT * FROM t_memc_kpcc_Items_lvl_desc WHERE Im_lvl_Im_ID = '" . $matchimid . "'";
+          $view2 = mysqli_query( $conn, $getlvlid );
+          if ( mysqli_num_rows( $view2 ) > 0 ) {
+            for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
+              $row2 = mysqli_fetch_array( $view2 );
+              array_push( $lvlidarray, $row2[ 'Im_lvl_ID' ] );
+            }
           }
-        }
 
-        for ( $i = 0,$c=0; $i < 5; ++$i ) {
-          $uppitemlvl = "UPDATE t_memc_kpcc_Items_lvl_desc SET Im_lvl_Description = '" . trim( $str[ 5 + $i ] ) . "'
+          for ( $i = 0, $c = 0; $i < 5; ++$i ) {
+            $uppitemlvl = "UPDATE t_memc_kpcc_Items_lvl_desc SET Im_lvl_Description = '" . trim( $str[ 5 + $i ] ) . "'
 			 WHERE Im_lvl_Im_ID = '" . $matchimid . "' AND Im_lvl_ID = " . $lvlidarray[ $i ] . "";
-          $additemlvlsql = mysqli_query( $conn, $uppitemlvl );
-          if ( $additemlvlsql ) {
-            ++$c;
+            $additemlvlsql = mysqli_query( $conn, $uppitemlvl );
+            if ( $additemlvlsql ) {
+              ++$c;
+            }
           }
-        }
 
-        if ( mysqli_query( $conn, $uppcd ) && $c == 5 ) {
+          if ( mysqli_query( $conn, $uppcd ) && $c == 5 ) {
 
-          $updatedone +=1;
+            $updatedone += 1;
 
-        }
-      } else {
+          }
+        } else {
 
-        $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . $str[ 1 ] . "',
+          $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . $str[ 1 ] . "',
 			'1')";
-        $addccsql = mysqli_query( $conn, $addcc );
-        if ( $addccsql ) {
-          $success += 1;
-        }
-        $last_ccid = mysqli_insert_id( $conn );
-        $addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('" . $last_ccid . "',
+          $addccsql = mysqli_query( $conn, $addcc );
+          if ( $addccsql ) {
+            $success += 1;
+          }
+          $last_ccid = mysqli_insert_id( $conn );
+          $addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('" . $last_ccid . "',
 			'" . $str[ 2 ] . "','','1')";
 
-        $addcdsql = mysqli_query( $conn, $addcd );
-        if ( $addcdsql ) {
-          $success += 1;
-        }
+          $addcdsql = mysqli_query( $conn, $addcd );
+          if ( $addcdsql ) {
+            $success += 1;
+          }
 
-        $last_cdid = mysqli_insert_id( $conn );
-        $additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_UID,Im_Name,Im_Definition,Im_Status) VALUES('" . $last_cdid . "',
+          $last_cdid = mysqli_insert_id( $conn );
+          $additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_UID,Im_Name,Im_Definition,Im_Status) VALUES('" . $last_cdid . "',
 	  '" . $str[ 0 ] . "',
 			'" . $str[ 3 ] . "',
 			'" . $str[ 4 ] . "',
 			'1')";
 
-        $additemsql = mysqli_query( $conn, $additem );
-        $last_itemid = mysqli_insert_id( $conn );
+          $additemsql = mysqli_query( $conn, $additem );
+          $last_itemid = mysqli_insert_id( $conn );
 
-        for ( $i = 0, $c = 0; $i < 5; ++$i ) {
-          $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
+          for ( $i = 0, $c = 0; $i < 5; ++$i ) {
+            $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
 				'level " . trim( ( $i + 1 ) ) . "',
 				'" . trim( $str[ 5 + $i ] ) . "',
 				'1'
 			)";
-          $additemlvlsql = mysqli_query( $conn, $additem2 );
-          if ( $additemlvlsql ) {
-            ++$c;
+            $additemlvlsql = mysqli_query( $conn, $additem2 );
+            if ( $additemlvlsql ) {
+              ++$c;
+            }
           }
-        }
-        if ( $additemsql && $c == 5 ) {
-          $success += 1;
+          if ( $additemsql && $c == 5 ) {
+            $success += 1;
+          }
+
         }
 
       }
-
-    }
+    }else{
+		$totalrow-=1;
+	}
 
 
   }
   if ( ( ( $totalrow - $same ) * 3 ) == $success && $totalcolumn == 10 && $_POST[ 'seltype' ] == "a" ) {
-    echo "success".($success/3);
-  } else if(( ( $totalrow - $same ) * 3 ) == $success && $totalcolumn == 10 && $_POST[ 'seltype' ] == "o" ){
-	  echo "updated".$updatedone.",".($success/3);
-  }
-else {
+    echo "success" . ( $success / 3 );
+  } else if ( ( ( $totalrow - $same ) * 3 ) == $success && $totalcolumn == 10 && $_POST[ 'seltype' ] == "o" ) {
+    echo "updated" . $updatedone . "," . ( $success / 3 );
+  } else {
     echo "fail";
   }
 
