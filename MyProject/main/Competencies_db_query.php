@@ -440,7 +440,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         $checkempty += 1;
       }
     }
-    if ( $checkempty != 10 && trim($str[0] !="")) {
+    if ( $checkempty != 10 && trim($str[0] !="") && strlen(trim($str[0])) == 5) {
       //Append
       if ( $totalcolumn == 10 && $_POST[ 'seltype' ] == "a" ) {
 
@@ -449,7 +449,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         if ( mysqli_num_rows( $result2 ) > 0 ) {
           for ( $i = 0, $xx = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
             $row2 = mysqli_fetch_array( $result2 );
-            if ( $str[ 0 ] == $row2[ 'Im_UID' ] ) {
+            if ( trim($str[ 0 ]) == $row2[ 'Im_UID' ] ) {
               $xx = 1;
             }
           }
@@ -475,7 +475,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
 
           $last_cdid = mysqli_insert_id( $conn );
           $additem = "INSERT INTO t_memc_kpcc_items (Im_Cd_ID,Im_UID,Im_Name,Im_Definition,Im_Status) VALUES('" . $last_cdid . "',
-	  '" . $str[ 0 ] . "',
+	  '" . trim($str[ 0 ]) . "',
 			'" . $str[ 3 ] . "',
 			'" . $str[ 4 ] . "',
 			'1')";
@@ -506,7 +506,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         if ( mysqli_num_rows( $result2 ) > 0 ) {
           for ( $i = 0, $xx = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
             $row2 = mysqli_fetch_array( $result2 );
-            if ( $str[ 0 ] == $row2[ 'Im_UID' ] ) {
+            if ( trim($str[ 0 ]) == $row2[ 'Im_UID' ] ) {
               $xx = 1;
               $matchimid = $row2[ 'Im_ID' ];
             }

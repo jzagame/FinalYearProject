@@ -241,7 +241,7 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
       <label class="form-control-label ">Unique ID</label>
     </div>
     <div class="col-10">
-      <input type="text" class="form-control" placeholder="Enter Unique ID" name="txtuid" value="<?php if($itemid1 !="")echo $row['Im_UID']; ?>" required="required">
+      <input type="text" class="form-control" placeholder="Enter Unique ID" name="txtuid" value="<?php if($itemid1 !="")echo $row['Im_UID']; ?>" required="required" maxlength="5">
     </div>
   </div>
 	  
