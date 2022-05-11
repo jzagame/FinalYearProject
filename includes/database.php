@@ -59,10 +59,30 @@
           			"CREATE TABLE t_memc_kpcc_Access_Right (AR_ID INT AUTO_INCREMENT PRIMARY KEY,
                     AR_Level INT,
                     AR_Description VARCHAR(99),
-					AR_Status INT)"
-                    
-                    
+					AR_Status INT)",
+					"CREATE TABLE t_memc_staff(stf_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+					stf_password VARCHAR(200),
+					stf_name VARCHAR(200),
+					stf_position_id INT(11),
+					stf_department_id INT(11),
+					stf_report_to_user_id INT(11),
+					stf_type VARCHAR(20),
+					stf_employee_number VARCHAR(20),
+					stf_email VARCHAR(200),
+					stf_user_status INT(11),
+					stf_gender VARCHAR(20),
+					stf_shift_id INT(11),
+					stf_plant VARCHAR(20),
+					stf_position_category VARCHAR(20),
+					stf_grade INT(11)
+					)",
+					"CREATE TABLE t_memc_department(dpt_id INT(11) Primary Key NOT NULL,
+					dpt_name VARCHAR(200)
+					)",
+					"CREATE TABLE t_memc_position(pos_id INT(11) PRIMARY KEY NOT NULL,
+					pos_name VARCHAR(200))"
     );
+	
 	$conn = mysqli_connect($localhost,$username,$password); 
 	//$conn = mysqli_connect($localhost,$username,$password);
 	if($conn)

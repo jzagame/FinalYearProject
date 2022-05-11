@@ -737,5 +737,45 @@
             {
                 echo "fail";
             }
+    }
+
+    if ( $_FILES[ "staffexcelname" ][ "name" ] != "" ) {
+        $file = $_FILES[ "staffexcelname" ][ "tmp_name" ];
+        $file_open = fopen( $file, "r" );
+        fgets( $file_open );
+        while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+          $totalrow += 1;
+          for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
+            $tempArray[ $i ] = $csv[ $i ];
+          }
+          for ( $i = 0, $str = array(); $i < count( $tempArray ); ++$i ) {
+            $tempstr = str_replace( "'", "\'", $tempArray[ $i ] );
+            array_push( $str, $tempstr );
+            if ( $totalrow == 1 )$totalcolumn += 1;
+          }
+          //Append
+          if ( $totalcolumn == 14) {
+              $addcc = "INSERT INTO t_memc_staff(stf_password, stf_name, stf_position_id, stf_department_id, stf_report_to_user_id, stf_type, stf_employee_number, stf_email, stf_user_status, stf_gender, stf_shift_id, stf_plant, stf_position_category, stf_grade) 
+              VALUES('" . $str[ 0 ] . "',
+              '" . $str[ 1 ] . "',
+              '" . $str[ 2 ] . "',
+              '" . $str[ 3 ] . "',
+              '" . $str[ 4 ] . "',
+              '" . $str[ 5 ] . "',
+              '" . $str[ 6 ] . "',
+              '" . $str[ 7 ] . "',
+              '" . $str[ 8 ] . "',
+              '" . $str[ 9 ] . "',
+              '" . $str[ 10 ] . "',
+              '" . $str[ 11 ] . "',
+              '" . $str[ 12 ] . "',
+              '" . $str[ 13 ] . "'
+              )";
+              $addccsql = mysqli_query( $conn, $addcc );
+              if ( $addccsql ) {
+                $success += 1;
+              }
+          }
         }
+      }
 ?>
