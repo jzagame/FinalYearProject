@@ -739,6 +739,7 @@
             }
     }
 
+    //Staff Excel
     if ( $_FILES[ "staffexcelname" ][ "name" ] != "" ) {
         $file = $_FILES[ "staffexcelname" ][ "tmp_name" ];
         $file_open = fopen( $file, "r" );
@@ -770,6 +771,64 @@
               '" . $str[ 11 ] . "',
               '" . $str[ 12 ] . "',
               '" . $str[ 13 ] . "'
+              )";
+              $addccsql = mysqli_query( $conn, $addcc );
+              if ( $addccsql ) {
+                $success += 1;
+              }
+          }
+        }
+      }
+
+      //Department Excel
+      if ( $_FILES[ "departmentexcelname" ][ "name" ] != "" ) {
+        $file = $_FILES[ "departmentexcelname" ][ "tmp_name" ];
+        $file_open = fopen( $file, "r" );
+        fgets( $file_open );
+        while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+          $totalrow += 1;
+          for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
+            $tempArray[ $i ] = $csv[ $i ];
+          }
+          for ( $i = 0, $str = array(); $i < count( $tempArray ); ++$i ) {
+            $tempstr = str_replace( "'", "\'", $tempArray[ $i ] );
+            array_push( $str, $tempstr );
+            if ( $totalrow == 1 )$totalcolumn += 1;
+          }
+          //Append
+          if ( $totalcolumn == 2) {
+              $addcc = "INSERT INTO t_memc_department(dpt_id, dpt_name) 
+              VALUES('" . $str[ 0 ] . "',
+              '" . $str[ 1 ] . "'
+              )";
+              $addccsql = mysqli_query( $conn, $addcc );
+              if ( $addccsql ) {
+                $success += 1;
+              }
+          }
+        }
+      }
+
+      //Position Excel
+      if ( $_FILES[ "positionexcelname" ][ "name" ] != "" ) {
+        $file = $_FILES[ "positionexcelname" ][ "tmp_name" ];
+        $file_open = fopen( $file, "r" );
+        fgets( $file_open );
+        while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+          $totalrow += 1;
+          for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
+            $tempArray[ $i ] = $csv[ $i ];
+          }
+          for ( $i = 0, $str = array(); $i < count( $tempArray ); ++$i ) {
+            $tempstr = str_replace( "'", "\'", $tempArray[ $i ] );
+            array_push( $str, $tempstr );
+            if ( $totalrow == 1 )$totalcolumn += 1;
+          }
+          //Append
+          if ( $totalcolumn == 2) {
+              $addcc = "INSERT INTO t_memc_position(pos_id, pos_name) 
+              VALUES('" . $str[ 0 ] . "',
+              '" . $str[ 1 ] . "'
               )";
               $addccsql = mysqli_query( $conn, $addcc );
               if ( $addccsql ) {
