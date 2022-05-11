@@ -46,11 +46,12 @@
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Employee Name</th>
                           <th scope="col" style="vertical-align:middle">Department</th>
+                          <th scope="col" style="vertical-align:middle">Job Band</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status <> 'A'";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status <> 1";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -63,6 +64,7 @@
                                 echo "<td>".$row['Emp_ID']."</td>";
                                 echo "<td>".$row['Emp_Name']."</td>";
                                 echo "<td>".$row['Emp_Department']."</td>";
+                                echo "<td>".$row['Emp_JobBand']."</td>";
                                 echo "</tr>";
                               }
                           }

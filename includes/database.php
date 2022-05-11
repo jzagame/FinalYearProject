@@ -63,7 +63,7 @@
                     
                     
     );
-	$conn = mysqli_connect($localhost,$username,$password) or die(mysql_error()); 
+	$conn = mysqli_connect($localhost,$username,$password); 
 	//$conn = mysqli_connect($localhost,$username,$password);
 	if($conn)
 	{
@@ -79,10 +79,21 @@
 		{
 			mysqli_query($conn,$tables[$i]);	
 		}
+
+		$ARSearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = 0";
+		$ARSearchResult = mysqli_query($conn, $ARSearchSQL);
+		if(mysqli_num_rows($ARSearchResult)>0)
+		{
+			//Nothing
+		}
+		else
+		{
+			$DefaultSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description, AR_Status) VALUES(0, 'Superuser', 0)";
+			$DefaultResult = mysqli_query($conn, $DefaultSQL);	
+		}
 	}
 	else
 	{
 		echo "Fail connecting to Database Server.";
 	}
-
 ?>

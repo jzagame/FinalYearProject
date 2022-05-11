@@ -27,7 +27,7 @@
                         <label class="col-form-label">Access Right Level</label>
                     </div>
 					<div class="col-10">
-                        <input type="number" class="form-control" placeholder="Enter Access Right Level" name="txtAccessRoghtLevel" min="0" step="1">	
+                        <input type="number" class="form-control" placeholder="Enter Access Right Level" name="txtAccessRoghtLevel" min="1" step="1" required>	
 					</div>
 				</div>
 				<div class="form-group row">
@@ -36,6 +36,17 @@
                     </div>
 					<div class="col-10">
                         <textarea class="form-control" placeholder="Enter Description" name="txtAccessRightDescription" rows="4"></textarea>	
+					</div>
+				</div>
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label class="col-form-label">Status</label>
+                    </div>
+					<div class="col-10">
+                        <select class="form-control custom-select" name="txtARStatus">
+                            <option value="1">Active</option>
+                            <option value="2">Inactive</option>
+                        </select>	
 					</div>
 				</div>
                 <div class="form-group">

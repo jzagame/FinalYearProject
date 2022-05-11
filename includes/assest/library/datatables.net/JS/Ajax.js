@@ -9,6 +9,7 @@ function showaddf(){
 		}
 	});
 }
+
 function btnaddccf(){
 		$.ajax({
 			type:"POST",
@@ -276,9 +277,8 @@ $('#btnexcelclear').click(function(){
 
 });
 
-
-
 //Employee
+//Access Right
 function AddAccessRight(){
 	$.ajax({
 		type: "POST",
@@ -290,32 +290,17 @@ function AddAccessRight(){
 				document.getElementById("AddAccessRightForm").reset();
 			}else if(data == "fail"){
 				window.alert('Access Right Create Failure.');
-			}else{
-				window.alert('Access Right Exist.');
+			}
+			else if(data == "AR Null")
+			{
+				window.alert('Please Insert Access Right Level');
+			}
+			else{
+				window.alert('Access Right Level Exist.');
 			}
 		}
 	});
 }
-
-function AddDepartment(){
-	$.ajax({
-		type: "POST",
-		url: "Employee_Query.php",
-		data: {action:"addDepartment",formdata:$('#AddDepartmentForm').serializeArray()},
-		success: function(data){
-			if(data == "success"){
-				window.alert('Add Department Successfully.');
-				document.getElementById("AddDepartmentForm").reset();
-			}else if(data == "fail"){
-				window.alert('Create Department Failed.');
-			}else if(data == "fill"){
-				window.alert('Fill in all the Blank');
-			}else{
-				window.alert('Department link is Existed.');
-			}
-		}
-		});
-	}
 
 function SearchAccessRight(){
 	$.ajax({
@@ -358,12 +343,36 @@ function UpdateAccessRight(arid){
 			else if(data == "fail"){
 				window.alert('Update Position Failure.');
 			}
+			else if(data == "AR Null")
+			{
+				window.alert('Please Insert Access Right Level');
+			}
 			else{
 				window.alert('Access Right Exist.');
 			}
 		}
 	});
 }
+
+function AddDepartment(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addDepartment",formdata:$('#AddDepartmentForm').serializeArray()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Add Department Successfully.');
+				document.getElementById("AddDepartmentForm").reset();
+			}else if(data == "fail"){
+				window.alert('Create Department Failed.');
+			}else if(data == "fill"){
+				window.alert('Fill in all the Blank');
+			}else{
+				window.alert('Department link is Existed.');
+			}
+		}
+		});
+	}
 
 function SearchDepartment(){
 	$.ajax({
@@ -412,6 +421,7 @@ function UpdateDepartment(did){
 	});
 }
 
+//Add Employee
 function SearchEmployee(){
 	$.ajax({
 		type: "POST",
@@ -437,13 +447,19 @@ function AddEmployee(){
 			if(data == "success"){
 				window.alert('Employee Added Successfully.');
 				location="Employee_AddEmployee.php";
-			}else{
+			}
+			else if(data == "Nothing")
+			{
+				window.alert('Please Select Employee');
+			}
+			else{
 				window.alert('Employee Added Failure.');
 			}
 		}
 	});
 }
 
+//Remove Employee
 function SearchRemoveEmployee(){
 	$.ajax({
 		type: "POST",
@@ -469,13 +485,19 @@ function RemoveEmployee(){
 			if(data == "success"){
 				window.alert('Employee Remove Successfully.');
 				location="Employee_RemoveEmployee.php";
-			}else{
+			}
+			else if(data == "Nothing")
+			{
+				window.alert('Please Select Employee');
+			}
+			else{
 				window.alert('Employee Remove Failure.');
 			}
 		}
 	});
 }
 
+//Assign Position
 function SearchAPEmployee(){
 	$.ajax({
 		type: "POST",
@@ -501,7 +523,24 @@ function AssignPosition(){
 			if(data == "success"){
 				window.alert('Employee Assign Successfully.');
 				location="Employee_AssignPosition.php";
-			}else{
+			}
+			else if(data == "No Employee")
+			{
+				window.alert('Please Select Employee');
+			}
+			else if(data == "No AR")
+			{
+				window.alert('Please Select Access Right');
+			}
+			else if(data == "No RT")
+			{
+				window.alert('Please Select Reporting-To');
+			}
+			else if(data == "Same ID")
+			{
+				window.alert('Employee cannot report to himself');
+			}
+			else{
 				window.alert('Employee Assign Failure.');
 			}
 			// alert(data);
@@ -509,6 +548,7 @@ function AssignPosition(){
 	});
 }
 
+//View/Edit Position
 function SearchVEPEmployee(){
 	$.ajax({
 		type: "POST",
@@ -534,7 +574,24 @@ function UpdatePosition(){
 			if(data == "success"){
 				window.alert('Access Right & Report-to Update Successfully');
 				location="Employee_ViewEditAssign.php";
-			}else{
+			}
+			else if(data == "No Employee")
+			{
+				window.alert('Please Select Employee');
+			}
+			else if(data == "No AR")
+			{
+				window.alert('Please Select Access Right');
+			}
+			else if(data == "No RT")
+			{
+				window.alert('Please Select Reporting-To');
+			}
+			else if(data == "Same ID")
+			{
+				window.alert('Employee cannot report to himself');
+			}
+			else{
 				window.alert('Access Right & Report-to Update Failure');
 			}
 			// alert(data);
