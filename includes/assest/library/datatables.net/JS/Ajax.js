@@ -678,3 +678,96 @@ function UpdatePosition(){
 		}
 	});
 }
+
+//Staff Excel
+$("form#staffexcelform").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+	if( document.getElementById("staffexcelid").files.length == 0 ){
+    window.alert('Please update the excel file in .csv.');
+}
+    $.ajax({
+        url: "Employee_Query.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+			var subupdate = data.substring(0,7);
+			var subupdatedone = data.substring(7);
+			var splitsuccess = subupdatedone.split(",");
+			if(data == "fail"){
+				window.alert('Import failure, Please check the format.');
+			}else if(subupdate=="updated"){
+				window.alert('Import successfully, There have '+ splitsuccess[0] + ' data has been updated and ' + splitsuccess[1] + ' has been insert.');
+			}else if(subupdate=="success"){
+				window.alert('Import successfully, There have '+ subupdatedone + ' data has been insert.');
+				window.location ="ImportStaff.php";
+				$('#staffexcelid').next('label').html('Choose file');
+			}
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+//Department Excel
+$("form#departmentexcelform").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+	if( document.getElementById("departmentexcelid").files.length == 0 ){
+    window.alert('Please update the excel file in .csv.');
+}
+    $.ajax({
+        url: "Employee_Query.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+			var subupdate = data.substring(0,7);
+			var subupdatedone = data.substring(7);
+			var splitsuccess = subupdatedone.split(",");
+			if(data == "fail"){
+				window.alert('Import failure, Please check the format.');
+			}else if(subupdate=="updated"){
+				window.alert('Import successfully, There have '+ splitsuccess[0] + ' data has been updated and ' + splitsuccess[1] + ' has been insert.');
+			}else if(subupdate=="success"){
+				window.alert('Import successfully, There have '+ subupdatedone + ' data has been insert.');
+				window.location ="ImportDepartment.php";
+				$('#departmentexcelid').next('label').html('Choose file');
+			}
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+//Position Excel
+$("form#positionexcelform").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+	if( document.getElementById("positionexcelid").files.length == 0 ){
+    window.alert('Please update the excel file in .csv.');
+}
+    $.ajax({
+        url: "Employee_Query.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+			var subupdate = data.substring(0,7);
+			var subupdatedone = data.substring(7);
+			var splitsuccess = subupdatedone.split(",");
+			if(data == "fail"){
+				window.alert('Import failure, Please check the format.');
+			}else if(subupdate=="updated"){
+				window.alert('Import successfully, There have '+ splitsuccess[0] + ' data has been updated and ' + splitsuccess[1] + ' has been insert.');
+			}else if(subupdate=="success"){
+				window.alert('Import successfully, There have '+ subupdatedone + ' data has been insert.');
+				window.location ="Importposition.php";
+				$('#positionexcelid').next('label').html('Choose file');
+			}
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});

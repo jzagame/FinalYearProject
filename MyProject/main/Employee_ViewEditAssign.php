@@ -5,6 +5,22 @@
     include("../includes/MenuBar.php");
 ?>
 
+<style>
+td, th {
+    max-width: 200px;
+	word-wrap: break-word;
+}
+.table-responsive {
+    max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+</style>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,10 +69,12 @@
                       </thead>
                       <tbody>
                       <?php
-                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to 
+                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to, t_memc_staff, t_memc_department
                         WHERE EmpDetail_Status = 1 AND EmpAssign_Status = 1
                         AND t_memc_kpcc_employee_detail.Emp_P_ID = t_memc_kpcc_access_right.AR_ID
-                        AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID";
+                        AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID
+                        AND Emp_ID = stf_employee_number
+                        AND stf_department_id = dpt_id";
                         $SearchResult = mysqli_query($conn, $SearchSQL);
                         if(mysqli_num_rows($SearchResult) > 0)
                         {
@@ -72,8 +90,8 @@
                               echo "<td>".($i+1)."</td>";
                               echo "<td>".$row['Emp_ID']."</td>";
                               echo "<td>".$row['Emp_Name']."</td>";
-                              echo "<td>".$row['Emp_Department']."</td>";
-                              echo "<td>".$row['Emp_JobBand']."</td>";
+                              echo "<td>".$row['dpt_name']."</td>";
+                              echo "<td>".$row['stf_grade']."</td>";
                               echo "<td>"."[".$row['AR_Level']."] ".$row['AR_Description']."</td>";
                               echo "<td>"."[".$row['Report_To_Emp_ID']."] ".$fetchrow['Emp_Name']."</td>";
                               echo "</tr>";

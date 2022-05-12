@@ -5,6 +5,22 @@
     include("../includes/MenuBar.php");
 ?>
 
+<style>
+td, th {
+    max-width: 200px;
+	word-wrap: break-word;
+}
+.table-responsive {
+    max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+</style>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,7 +67,19 @@
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status <> 1";
+                          $IsEmptyEmployeeDetailSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
+                          $IsEmptyEmployeeDetailResult = mysqli_query($conn, $IsEmptyEmployeeDetailSQL);
+                          if(mysqli_num_rows($IsEmptyEmployeeDetailResult) <= 0)
+                          {
+                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE t_memc_staff.stf_department_id = t_memc_department.dpt_id
+                            AND stf_user_status = 1";
+                          }
+                          else
+                          {
+                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_department_id = dpt_id
+                            AND stf_employee_number NOT IN (SELECT Emp_ID FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
+                          }
+
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -59,12 +87,12 @@
                               {
                                 $row = mysqli_fetch_array($SearchResult);
                                 echo "<tr>";
-                                echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
+                                echo "<td><input type=\"checkbox\" value=\"".$row['stf_employee_number']."\" name=\"txtEmployeePass[]\"></td>";
                                 echo "<td>".($i+1)."</td>";
-                                echo "<td>".$row['Emp_ID']."</td>";
-                                echo "<td>".$row['Emp_Name']."</td>";
-                                echo "<td>".$row['Emp_Department']."</td>";
-                                echo "<td>".$row['Emp_JobBand']."</td>";
+                                echo "<td>".$row['stf_employee_number']."</td>";
+                                echo "<td>".$row['stf_name']."</td>";
+                                echo "<td>".$row['dpt_name']."</td>";
+                                echo "<td>".$row['stf_grade']."</td>";
                                 echo "</tr>";
                               }
                           }
@@ -76,12 +104,12 @@
                         ?>
                       </tbody>
                     </table>
-                    <div class="form-group">
+                    </div>
+                    <div class="form-group" style="padding-top: 10px;">
                         <div class="col-12" style="text-align: center;">
                             <input type="button" class="btn btn-primary" name="btnAddEmployee" value="Add" onclick="AddEmployee()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                         </div>
-                    </div>
                     </div>
                   </div>
                 </div>
