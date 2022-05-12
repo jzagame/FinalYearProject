@@ -241,6 +241,86 @@ function btnedititemf(itemid2){
         }
     });
 }
+
+//Plan Type
+function showaddfpt(){
+	$.ajax({
+		type: "POST",
+		url: "Competencies_showform.php",
+		data: {  action:"showaddpt"},
+		success: function(data){
+			document.getElementById("show_addpt").innerHTML = data;
+		}
+	});
+}
+
+function btnaddptf(){
+		$.ajax({
+			type:"POST",
+			url:"Competencies_db_query.php",
+			data: {action:"creatept",formdata:$('#apt').serializeArray()},
+			success: function(data){
+				if(data == "success"){
+					window.alert('Created successfully.');
+					document.getElementById("apt").reset();
+				}else if(data == "fail"){
+					window.alert('Create failure.');
+				}else{
+					window.alert('Same Plan Type Exist.');
+				}
+
+			}
+		});
+}
+
+function btneditptf(ptid2){
+    $.ajax({
+        type:"POST",
+        url:"Competencies_db_query.php",
+        data: {action:"editpt",formdata:$('#apt').serializeArray(),ptidd:ptid2},
+        success: function(data){
+            if(data == "updated"){
+				window.alert('Updated successfully.');
+				window.location ="competencies_searchpt.php";
+			}else if(data == "fail"){
+				window.alert('Update failure.');
+			}else{
+				window.alert('Same Plan Type Exist.');
+			}
+			
+        }
+    });
+}
+
+$('#btnptsearch').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url:"Competencies_db_query.php",
+        data: {action:"searchpt",formdata:$('#spt').serializeArray()},
+        success: function(data){
+			if(data =="nf")
+			{
+				window.alert('Not found');
+				document.getElementById("spt").reset();
+			}else
+			document.getElementById("show_searchpt").innerHTML = data;
+			
+        }
+    });
+});
+
+function sendeditpt(ptid){
+	$.ajax({
+		type: "POST",
+		url: "Competencies_showform.php",
+		data: { action:"showaddpt", ptid1: ptid},
+		success: function(data){
+			document.getElementById("show_editpt").innerHTML = data;
+		}
+	});
+}
+
 //Excel
 $("form#aie").submit(function(e) {
     e.preventDefault();    
