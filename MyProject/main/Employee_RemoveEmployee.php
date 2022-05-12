@@ -5,6 +5,22 @@
     include("../includes/MenuBar.php");
 ?>
 
+<style>
+td, th {
+    max-width: 200px;
+	word-wrap: break-word;
+}
+.table-responsive {
+    max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+</style>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,7 +67,9 @@
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE EmpDetail_Status = 1 
+                          AND stf_employee_number = Emp_ID
+                          AND stf_department_id = dpt_id";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -61,10 +79,10 @@
                                 echo "<tr>";
                                 echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
                                 echo "<td>".($i+1)."</td>";
-                                echo "<td>".$row['Emp_ID']."</td>";
-                                echo "<td>".$row['Emp_Name']."</td>";
-                                echo "<td>".$row['Emp_Department']."</td>";
-                                echo "<td>".$row['Emp_JobBand']."</td>";
+                                echo "<td>".$row['stf_employee_number']."</td>";
+                                echo "<td>".$row['stf_name']."</td>";
+                                echo "<td>".$row['dpt_name']."</td>";
+                                echo "<td>".$row['stf_grade']."</td>";
                                 echo "</tr>";
                               }
                           }
@@ -76,12 +94,12 @@
                         ?>
                       </tbody>
                     </table>
-                    <div class="form-group">
+                    </div>
+                    <div class="form-group" style="padding-top: 10px;">
                         <div class="col-12" style="text-align: center;">
                             <input type="button" class="btn btn-primary" name="btnRemoveEmployee" value="Remove" onclick="RemoveEmployee()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                         </div>
-                    </div>
                     </div>
                   </div>
                 </div>
