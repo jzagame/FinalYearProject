@@ -15,7 +15,7 @@
         }
         else if(mysqli_num_rows($SearchResult) > 0)
         {
-            echo "same";
+            echo "";
         }
         else
         {
