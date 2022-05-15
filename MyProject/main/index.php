@@ -58,7 +58,7 @@
 			<select class= "custom-select" name="sltD" id="selectdepartment" onchange="ChangeY()" required>
 					<option value=""></option>
 					<?php
-						$SCSQLL = "SELECT D_Name FROM t_memc_kpcc_department";
+						$SCSQLL = "SELECT dpt_name FROM t_memc_department";
 						$SCResultt = mysqli_query($conn, $SCSQLL);
 						if(mysqli_num_rows($SCResultt)>0)
 						{
@@ -66,7 +66,7 @@
 							{
 								$scroww = mysqli_fetch_array($SCResultt);
 					?>
-								<option value="<?php echo $scroww['D_Name'];?>"><?php echo $scroww['D_Name']?></option>
+								<option value="<?php echo $scroww['dpt_name'];?>"><?php echo $scroww['dpt_name']?></option>
 					<?php
 							}
 						}

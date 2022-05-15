@@ -503,7 +503,7 @@ if ( $_POST[ 'action' ] == "updatePosition" ) {
 }
 
 if ( $_POST[ 'action' ] == "searchDepartment" ) {
-	$SearchSQL = "SELECT * FROM t_memc_kpcc_department_link WHERE D_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'";
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
 	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
 		echo "<table class=\"table table-hover table-bordered\">";
@@ -665,7 +665,7 @@ if ( $_POST[ 'action' ] == 'changeyear' ) {
 	// Overall Chart - 11/5/2022
 	//echo HAHA;
 	//echo strtoupper(trim($formdata[0]['value']));
-	$find = "SELECT * FROM t_memc_kpcc_employee_item, t_memc_kpcc_quarter, t_memc_kpcc_employee_detail, t_memc_kpcc_department WHERE t_memc_kpcc_quarter.Q_ID = t_memc_kpcc_employee_item.Ei_Quarter_ID AND Q_Year = '" . trim( $formdata[ 0 ][ 'value' ] ) . "' AND Q_Name = '" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "' AND t_memc_kpcc_employee_item.Ei_EMP_ID = t_memc_kpcc_employee_detail.Emp_ID AND t_memc_kpcc_employee_detail.EMP_D_ID = t_memc_kpcc_department.D_ID AND t_memc_kpcc_department.D_Name = '" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "'";
+	$find = "SELECT * FROM t_memc_kpcc_employee_item, t_memc_kpcc_quarter, t_memc_kpcc_employee_detail, t_memc_department WHERE t_memc_kpcc_quarter.Q_ID = t_memc_kpcc_employee_item.Ei_Quarter_ID AND Q_Year = '" . trim( $formdata[ 0 ][ 'value' ] ) . "' AND Q_Name = '" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "' AND t_memc_kpcc_employee_item.Ei_EMP_ID = t_memc_kpcc_employee_detail.Emp_ID AND t_memc_kpcc_employee_detail.EMP_D_ID = t_memc_department.dpt_id AND t_memc_department.dpt_name = '" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "'";
 
 	$result = mysqli_query( $conn, $find );
 	if ( mysqli_num_rows( $result ) > 0 ) {
