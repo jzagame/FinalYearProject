@@ -8,10 +8,10 @@ if ( $_POST[ 'action' ] == "addAccessRight" ) {
 
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '" . trim( $formdata[ 0 ][ 'value' ] ) . "'";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
-	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
-		echo "same";
-	} else if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
+	if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
 		echo "AR Null";
+	} else if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "same";
 	} else {
 		$AddAccessRightSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description, AR_Status) VALUES(
                 '" . trim( $formdata[ 0 ][ 'value' ] ) . "',
@@ -71,7 +71,8 @@ if ( $_POST[ 'action' ] == "addDepartment" ) {
 
 //Search Access Right
 if ( $_POST[ 'action' ] == "searchAccessRight" ) {
-	$SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Description LIKE '%" . trim( $formdata[ 0 ][ 'value' ] ) . "%'";
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Description LIKE '%" . trim( $formdata[ 0 ][ 'value' ] ) . "%'
+    AND AR_Status <> 0";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
 	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
 		echo "<table class=\"table table-hover table-bordered\">";
@@ -166,10 +167,10 @@ if ( $_POST[ 'action' ] == 'updateAccessRight' ) {
 	$arid = $_POST[ 'accessright_ID' ];
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '" . trim( $formdata[ 0 ][ 'value' ] ) . "' AND AR_ID != $arid";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
-	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
-		echo "same";
-	} else if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
+	if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
 		echo "AR Null";
+	} else if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "same";
 	} else {
 		$UpdateSQL = "UPDATE t_memc_kpcc_access_right SET AR_Level = '" . trim( $formdata[ 0 ][ 'value' ] ) . "',
             AR_Description = '" . ( trim( $formdata[ 1 ][ 'value' ] ) ) . "',
@@ -252,7 +253,7 @@ if ( $_POST[ 'action' ] == "addEmployee" ) {
 				$InsertEmployeeSQL = "INSERT INTO t_memc_kpcc_employee_detail(EMP_D_ID, Emp_ID, Emp_Name, Emp_Department, Emp_JobBand, EmpDetail_Status, EmpAssign_Status) VALUES(
                     '" . $getinforow[ 'stf_department_id' ] . "',
                     '" . $getinforow[ 'stf_employee_number' ] . "',
-                    '" . $getinforow[ 'stf_name' ] . "',
+                    '" . str_replace( "'", "\'", $getinforow[ 'stf_name' ] ) . "',
                     '" . $getinforow[ 'dpt_name' ] . "',
                     '" . $getinforow[ 'stf_grade' ] . "',
                     '1',

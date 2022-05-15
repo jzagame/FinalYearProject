@@ -43,7 +43,7 @@
 					EMP_D_ID INT,
                     Emp_ID VARCHAR(30),
                     Emp_P_ID INT,
-					Emp_Name VARCHAR(99),
+					Emp_Name VARCHAR(200),
 					Emp_Department VARCHAR(50),
 					Emp_JobBand INT,
                     EmpDetail_Status INT,
