@@ -12,7 +12,7 @@ session_start();
 <link href="../../includes/assest/library/datatables.net/CSS/Menuhover.css" rel="stylesheet" media="all">
 <nav class="navbar navbar-expand-lg navbar-light bg-ligh">
 
-<a class="navbar-brand" href="MenuBar.php">LONGi</a>
+<a class="navbar-brand" href="index.php">LONGi</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 <div class="collapse navbar-collapse" id="navbarNavDropdown">
 <ul class="navbar-nav">

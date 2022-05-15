@@ -1,3 +1,4 @@
+
 <?php 
     error_reporting(0);
     include ("../../includes/database.php");
@@ -603,5 +604,111 @@
             {
                 echo "fail";
             }
-        }
+        }	
+
+	if($_POST['action'] == 'changeyear'){
+		// Overall Chart - 11/5/2022
+		//echo HAHA;
+		//echo strtoupper(trim($formdata[0]['value']));
+			$find = "SELECT * FROM t_memc_kpcc_employee_item, t_memc_kpcc_quarter, t_memc_kpcc_employee_detail, t_memc_kpcc_department WHERE t_memc_kpcc_quarter.Q_ID = t_memc_kpcc_employee_item.Ei_Quarter_ID AND Q_Year = '".trim($formdata[0]['value'])."' AND Q_Name = '".strtoupper(trim($formdata[2]['value']))."' AND t_memc_kpcc_employee_item.Ei_EMP_ID = t_memc_kpcc_employee_detail.Emp_ID AND t_memc_kpcc_employee_detail.EMP_D_ID = t_memc_kpcc_department.D_ID AND t_memc_kpcc_department.D_Name = '".strtoupper(trim($formdata[1]['value']))."'";
+
+			$result = mysqli_query($conn, $find);
+			if(mysqli_num_rows($result)>0)
+			{
+				$zero = 0;
+				$one = 0;
+				$two = 0;
+				$three = 0;
+				$four = 0;
+				$five = 0;
+				for($i=0;$i<mysqli_num_rows($result);++$i)
+				{
+					$row = mysqli_fetch_array($result);
+					if($row['Q_Name'] == strtoupper(trim($formdata[2]['value'])))
+					{
+						if($row['Ei_Score'] == 1)
+						{
+							$one += 1;
+						}
+						else if($row['Ei_Score'] == 2)
+						{
+							$two += 1;
+						}
+						else if($row['Ei_Score'] == 3)
+						{
+							$three += 1;
+						}
+						else if($row['Ei_Score'] == 4)
+						{
+							$four += 1;
+						}
+						else if($row['Ei_Score'] == 5)
+						{
+							$five += 1;
+						}
+						else
+						{
+							$zero += 1;
+						}
+					}
+				}
+				
+			}
+		echo "One:".$one.","."Two:".$two."|"."Three:".$three."-"."Four:".$four."_"."Five:".$five."^"."Zero:".$zero."&";
+		
+//		$find2 = "SELECT * FROM t_memc_kpcc_employee_item, t_memc_kpcc_quarter WHERE t_memc_kpcc_quarter.Q_ID = t_memc_kpcc_employee_item.Ei_Quarter_ID AND Q_Year = '".trim($formdata[0]['value'])."' AND Q_Name = 'Q2'";
+//
+//			$result2 = mysqli_query($conn, $find2);
+//			if(mysqli_num_rows($result2)>0)
+//			{
+//				$pass2 = 0;
+//				$fail2 = 0;
+//				for($i=0;$i<mysqli_num_rows($result2);++$i)
+//				{
+//					$row2 = mysqli_fetch_array($result2);
+//					if($row2['Q_Name'] == "Q2")
+//					{
+//						if($row2['Ei_Score'] >= $row2['Ei_Target_Score'])
+//						{
+//							$pass2 += 1;
+//						}
+//						else
+//						{
+//							$fail2 += 1;
+//						}
+//					}
+//				}
+//				
+//			}
+//		echo "Pass2:".$pass2."A"."Fail2:".$fail2."B";
+		//echo "success";?>
+		
+	
+    <div class="row d-flex">
+		<div class="col justify-content-end">
+			<h3 style="text-align: left;">Marking Score</h3>
+		</div>
+<!--
+		<div class="col">
+			<h3 style="text-align: left;">Quarter 2 </h3>
+		</div>
+-->
+	</div>
+	<div class="row d-flex">
+	<div class="col justify-content-end">
+            <div id="chart"></div>
+          </div>
+<!--
+	<div class="col">
+            <div id="chartt"></div>
+          </div>
+-->
+	</div>
+
+
+
+<?php
+     	}
 ?>
+
+
