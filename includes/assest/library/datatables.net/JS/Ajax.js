@@ -1,3 +1,4 @@
+
 //Core Competecies
 function showaddf(){
 	$.ajax({
@@ -679,6 +680,70 @@ function UpdatePosition(){
 	});
 }
 
+function ChangeY(){
+	//alert("HAHA");
+		$.ajax({
+			type:"POST",
+			url:"Employee_Query.php",
+			data: {action:"changeyear",formdata:$('#piepie').serializeArray()},
+			success: function(data){
+				if(data != "success"){
+					//alert(data.substring(2,3));
+					//alert(data.substring(4,5));
+					//alert(data.substring((data.indexOf("Fail:")+6),data.indexOf("|")));
+					document.getElementById("piechart").innerHTML = data.substring(161);
+					
+					var options = {
+					  series: [parseInt(data.substring((data.indexOf("Zero:")+5),data.indexOf("&"))),parseInt(data.substring((data.indexOf("One:")+4),data.indexOf(","))),parseInt(data.substring((data.indexOf(",Two:")+5),data.indexOf("|"))), parseInt(data.substring((data.indexOf("|Three:")+7),data.indexOf("-"))), parseInt(data.substring((data.indexOf("-Four:")+6),data.indexOf("_"))), parseInt(data.substring((data.indexOf("_Five:")+6),data.indexOf("^")))],
+					  chart: {
+					  width: 380,
+					  type: 'pie',
+					},
+					labels: ['Zero Mark', 'One Mark', 'Two Marks', 'Three Marks', 'Four Marks', 'Five Marks'],
+							colors: ['#F44336', '#E91E63', '#9C27B0', '#808000', '#FFA500', '#FFC0CB'],
+					responsive: [{
+					  breakpoint: 480,
+					  options: {
+						chart: {
+						  width: 200
+						},
+						legend: {
+						  position: 'bottom'
+						},
+					  }
+					}]
+					};
+					
+					//alert(data.substring((data.indexOf("Pass2:")+7),data.indexOf(",")));
+//					var optionss = {
+//					  series: [parseInt(data.substring((data.indexOf("Pass2:")+6),data.indexOf("A"))),parseInt(data.substring((data.indexOf("Fail2:")+6),data.indexOf("B")))],
+//					  chart: {
+//					  width: 380,
+//					  type: 'pie',
+//					},
+//					labels: ['Completed', 'Incompleted'],
+//					responsive: [{
+//					  breakpoint: 480,
+//					  options: {
+//						chart: {
+//						  width: 200
+//						},
+//						legend: {
+//						  position: 'bottom'
+//						}
+//					  }
+//					}]
+//					};
+				var chart = new ApexCharts(document.querySelector("#chart"), options);
+//				var chartt = new ApexCharts(document.querySelector("#chartt"), optionss);
+
+				chart.render();
+//				chartt.render();
+				}
+
+			}
+		});
+}
 //Staff Excel
 $("form#staffexcelform").submit(function(e) {
     e.preventDefault();    

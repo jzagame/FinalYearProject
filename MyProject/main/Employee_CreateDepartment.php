@@ -38,7 +38,7 @@
                                                 {
                                                     $scrow = mysqli_fetch_array($SCResult);
                                         ?>
-                                                    <option><?php echo $scrow['D_DID']."-". $scrow['D_Name'];?></option>
+                                                    <option><?php echo $scrow['dpt_id']."-". $scrow['dpt_name'];?></option>
                                         <?php
                                                 }
                                             }
@@ -61,7 +61,7 @@
                                                 {
                                                     $scrow = mysqli_fetch_array($SCResult);
                                         ?>
-                                                    <option value="<?php echo $scrow['Emp_ID'];?>"><?php echo $scrow['Emp_ID']; echo $scrow['Emp_Name'];?></option>
+                                                    <option value="<?php echo $scrow['Emp_ID'];?>"><?php echo $scrow['Emp_ID']."-".$scrow['Emp_Name'];?></option>
                                         <?php
                                                 }
                                             }
@@ -83,7 +83,7 @@
                                                 {
                                                     $scrow = mysqli_fetch_array($SCResult);
                                         ?>
-                                                    <option><?php echo $scrow['D_DID']."-".$scrow['D_Name'];?></option>
+                                                    <option><?php echo $scrow['dpt_id']."-".$scrow['dpt_name'];?></option>
                                         <?php
                                                 }
                                             }

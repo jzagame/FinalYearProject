@@ -50,7 +50,7 @@
                           </thead>
                           <tbody>
                             <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department_link, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department_link.D_HODID = t_memc_kpcc_employee_detail.Emp_ID ORDER BY D_ID";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department.D_HODID = t_memc_kpcc_employee_detail.Emp_ID ORDER BY D_ID";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
