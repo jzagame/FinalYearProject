@@ -1,3 +1,4 @@
+
 //Core Competecies
 function showaddf(){
 	$.ajax({
@@ -88,7 +89,6 @@ function showaddfcd(){
 		}
 	});
 }
-
 function btnaddcdf(){
 		$.ajax({
 			type:"POST",
@@ -107,7 +107,6 @@ function btnaddcdf(){
 			}
 		});
 }
-
 function btneditcdf(cdid2){
     $.ajax({
         type:"POST",
@@ -166,7 +165,6 @@ function showaddfitem(){
 		}
 	});
 }
-
 function changecd(selectObject){
   var value = selectObject.value;  
 	$.ajax({
