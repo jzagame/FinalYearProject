@@ -7,15 +7,15 @@
     //Add Access Right
     if($_POST['action'] == "addAccessRight"){
 		
-		$SearchSQL= "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."'";
+        $SearchSQL= "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."'";
         $SearchResult = mysqli_query($conn,$SearchSQL);
-		if(mysqli_num_rows($SearchResult) > 0)
-		{
-            echo "same";
-		}
-        else if(trim($formdata[0]['value']) == "")
+        if(trim($formdata[0]['value']) == "")
         {
             echo "AR Null";
+        }
+        else if(mysqli_num_rows($SearchResult) > 0)
+        {
+            echo "same";
         }
         else
         {

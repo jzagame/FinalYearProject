@@ -27,7 +27,7 @@
                         <label class="col-form-label">Access Right Level</label>
                     </div>
 					<div class="col-10">
-                        <input type="number" class="form-control" placeholder="Enter Access Right Level" name="txtAccessRoghtLevel" min="1" step="1" required>	
+                        <input type="number" class="form-control" placeholder="Enter Access Right Level" name="txtAccessRoghtLevel" min="1" step="1">	
 					</div>
 				</div>
 				<div class="form-group row">
