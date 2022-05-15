@@ -44,11 +44,12 @@
                           <th scope="col">No.</th>
                           <th scope="col">Level</th>
                           <th scope="col" style="vertical-align:middle">Description</th>
+                          <th scope="col" style="vertical-align:middle">Status</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right";
+                          $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level <> 0";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -59,6 +60,14 @@
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['AR_Level']."</td>";
                                 echo "<td>".$row['AR_Description']."</td>";
+                                if($row['AR_Status'] == 1)
+                                {
+                                  echo "<td>ACTIVE</td>";
+                                }
+                                else
+                                {
+                                  echo "<td>INACTIVE</td>";
+                                }
                                 echo "</tr>";
                               }
                           }

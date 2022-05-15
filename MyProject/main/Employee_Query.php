@@ -3,7 +3,8 @@
     error_reporting(0);
     include ("../../includes/database.php");
 	$formdata = $_POST['formdata'];
-	$flag = false; 
+	$flag = false;
+    //Add Access Right
     if($_POST['action'] == "addAccessRight"){
 		
 		$SearchSQL= "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."'";
@@ -12,11 +13,16 @@
 		{
             echo "same";
 		}
+        else if(trim($formdata[0]['value']) == "")
+        {
+            echo "AR Null";
+        }
         else
         {
-            $AddAccessRightSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description) VALUES(
+            $AddAccessRightSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description, AR_Status) VALUES(
                 '".trim($formdata[0]['value'])."',
-                '".$formdata[1]['value']."'
+                '".$formdata[1]['value']."',
+                '".$formdata[2]['value']."'
             )";
             $AddAccessRightResult = mysqli_query($conn, $AddAccessRightSQL);
             if($AddAccessRightResult)
@@ -87,8 +93,9 @@
 		}
 	}
 
+    //Search Access Right
     if($_POST['action'] == "searchAccessRight"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level LIKE '%".trim($formdata[0]['value'])."%'";
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Description LIKE '%".trim($formdata[0]['value'])."%'";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -98,6 +105,7 @@
                     echo "<th scope=\"col\">No.</th>";
                     echo "<th scope=\"col\">Level</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Description</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -108,6 +116,14 @@
                         echo "<td>".($i+1)."</td>";
                         echo "<td>".$row['AR_Level']."</td>";
                         echo "<td>".$row['AR_Description']."</td>";
+                        if($row['AR_Status'] == 1)
+                        {
+                            echo "<td>ACTIVE</td>";
+                        }
+                        else
+                        {
+                            echo "<td>INACTIVE</td>";
+                        }
                         echo "</tr>";
                     }
                 echo "</tbody>";
@@ -119,6 +135,7 @@
         }
     }
 
+    //Edit Access Right
     if($_POST['action'] == "editAccessRight"){
         $arid = $_POST['accessright_ID'];
         $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_ID = $arid";
@@ -150,6 +167,17 @@
                             <textarea class="form-control" name="txtAccessRightDescription" rows="4"><?php echo $row['AR_Description'];?></textarea>	
                         </div>
                     </div>
+                    <div class="form-group row">
+                    <div class="col-2">
+                        <label class="col-form-label">Status</label>
+                    </div>
+					<div class="col-10">
+                        <select class="form-control custom-select" name="txtARStatus">
+                            <option value="1" <?php echo ($row['AR_Status'] == 1) ?  "selected" : "" ;  ?>>Active</option>
+                            <option value="2" <?php echo ($row['AR_Status'] == 2) ?  "selected" : "" ;  ?>>Inactive</option>
+                        </select>	
+					</div>
+				</div>
                     <div class="form-group">
                     <div class="col-sm-12" style="text-align: center;">
                         <input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditPosition.php'">
@@ -163,6 +191,7 @@
         }
     }
 
+    //Update Access Right
     if($_POST['action'] == 'updateAccessRight'){
         $arid = $_POST['accessright_ID'];
         $SearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = '".trim($formdata[0]['value'])."' AND AR_ID != $arid";
@@ -171,10 +200,15 @@
         {
             echo "same";
         }
+        else if(trim($formdata[0]['value']) == "")
+        {
+            echo "AR Null";
+        }
         else
         {
             $UpdateSQL = "UPDATE t_memc_kpcc_access_right SET AR_Level = '".trim($formdata[0]['value'])."',
-            AR_Description = '".(trim($formdata[1]['value']))."'
+            AR_Description = '".(trim($formdata[1]['value']))."',
+            AR_Status = '".$formdata[2]['value']."'
             WHERE AR_ID = $arid";
             $UpdateResult = mysqli_query($conn, $UpdateSQL);
             if($UpdateResult)
@@ -188,8 +222,24 @@
         }
     }
 
+    //Search Add Employee
     if($_POST['action'] == "searchEmployee"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' AND EmpDetail_Status <> 'A'";
+        $IsEmptyEmployeeDetailSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
+        $IsEmptyEmployeeDetailResult = mysqli_query($conn, $IsEmptyEmployeeDetailSQL);
+        if(mysqli_num_rows($IsEmptyEmployeeDetailResult) <= 0)
+        {
+          $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'
+          AND t_memc_staff.stf_department_id = t_memc_department.dpt_id
+          AND stf_user_status = 1";
+        }
+        else
+        {
+          $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE 
+          stf_name LIKE '%".strtoupper(trim($formdata[0]['value']))."%'
+          AND t_memc_staff.stf_department_id = t_memc_department.dpt_id 
+          AND stf_employee_number NOT IN (SELECT Emp_ID FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
+        }
+        
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -201,6 +251,7 @@
                     echo "<th scope=\"col\">Employee Number</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -208,21 +259,16 @@
                     {
                         $row = mysqli_fetch_array($SearchResult);
                         echo "<tr>";
-                        echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
+                        echo "<td><input type=\"checkbox\" value=\"".$row['stf_employee_number']."\" name=\"txtEmployeePass[]\"></td>";
                         echo "<td>".($i+1)."</td>";
-                        echo "<td>".$row['Emp_ID']."</td>";
-                        echo "<td>".$row['Emp_Name']."</td>";
-                        echo "<td>".$row['Emp_Department']."</td>";
+                        echo "<td>".$row['stf_employee_number']."</td>";
+                        echo "<td>".$row['stf_name']."</td>";
+                        echo "<td>".$row['dpt_name']."</td>";
+                        echo "<td>".$row['stf_grade']."</td>";
                         echo "</tr>";
                     }
                 echo "</tbody>";
             echo "</table>";
-            echo "<div class=\"form-group\">";
-                echo "<div class=\"col-12\" style=\"text-align: center;\">";
-                    echo "<input type=\"button\" class=\"btn btn-primary mr-2\" name=\"btnAddEmployee\" value=\"Add\" onclick=\"AddEmployee()\">";
-                    echo "<input type=\"reset\" class=\"btn btn-primary\" name=\"btnClear\" value=\"Clear\">";
-                echo "</div>";
-            echo "</div>";
         }
         else
         {
@@ -230,27 +276,59 @@
         }
     }
 
+    //Add Employee
     if($_POST['action'] == "addEmployee"){
 		$data = array();
         parse_str($formdata, $data);
-        for($i = 0; $i < count($data['txtEmployeePass']); $i++)
+        if(count($data['txtEmployeePass']) <= 0)
         {
-            $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 'A' WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
-            $UpdateEmployeeResult = mysqli_query($conn,$UpdateEmployeeSQL);
+            echo "Nothing";
         }
-        
-		if($UpdateEmployeeResult)
-		{
-            echo "success";
-		}
         else
         {
-            echo "fail";
+            for($i = 0; $i < count($data['txtEmployeePass']); $i++)
+            {
+                $CheckExistSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_ID = '".$data['txtEmployeePass'][$i]."'";
+                $CheckExistResult = mysqli_query($conn, $CheckExistSQL);
+                if(mysqli_num_rows($CheckExistResult) > 0)
+                {
+                    $UpdateSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 1 WHERE Emp_ID = '".$data['txtEmployeePass'][$i]."'";
+                    $Result = mysqli_query($conn, $UpdateSQL);
+                }
+                else
+                {
+                    $GetInfoSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_employee_number = '".$data['txtEmployeePass'][$i]."' 
+                    AND stf_department_id = dpt_id";
+                    $GetInfoResult = mysqli_query($conn, $GetInfoSQL);
+                    $getinforow = mysqli_fetch_array($GetInfoResult);
+                    $InsertEmployeeSQL = "INSERT INTO t_memc_kpcc_employee_detail(EMP_D_ID, Emp_ID, Emp_Name, Emp_Department, Emp_JobBand, EmpDetail_Status, EmpAssign_Status) VALUES(
+                    '".$getinforow['stf_department_id']."',
+                    '".$getinforow['stf_employee_number']."',
+                    '".$getinforow['stf_name']."',
+                    '".$getinforow['dpt_name']."',
+                    '".$getinforow['stf_grade']."',
+                    '1',
+                    '2')";
+    
+                    $Result = mysqli_query($conn,$InsertEmployeeSQL);
+                }
+            }
+            
+            if($Result)
+            {
+                echo "success";
+            }
+            else
+            {
+                echo "fail";
+            }
         }
     }
 
+    //Search Remove Employee
     if($_POST['action'] == "searchRemoveEmployee"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' AND EmpDetail_Status = 'A'";
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' 
+        AND EmpDetail_Status = 1 AND stf_department_id = dpt_id AND Emp_ID = stf_employee_number";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -262,6 +340,7 @@
                     echo "<th scope=\"col\">Employee Number</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -271,19 +350,14 @@
                         echo "<tr>";
                         echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"txtEmployeePass[]\"></td>";
                         echo "<td>".($i+1)."</td>";
-                        echo "<td>".$row['Emp_ID']."</td>";
+                        echo "<td>".$row['stf_employee_number']."</td>";
                         echo "<td>".$row['Emp_Name']."</td>";
-                        echo "<td>".$row['Emp_Department']."</td>";
+                        echo "<td>".$row['dpt_name']."</td>";
+                        echo "<td>".$row['stf_grade']."</td>";
                         echo "</tr>";
                     }
                 echo "</tbody>";
             echo "</table>";
-            echo "<div class=\"form-group\">";
-                echo "<div class=\"col-12\" style=\"text-align: center;\">";
-                    echo "<input type=\"button\" class=\"btn btn-primary mr-2\" name=\"btnRemoveEmployee\" value=\"Remove\" onclick=\"RemoveEmployee()\">";
-                    echo "<input type=\"reset\" class=\"btn btn-primary\" name=\"btnClear\" value=\"Clear\">";
-                echo "</div>";
-            echo "</div>";
         }
         else
         {
@@ -291,27 +365,40 @@
         }
     }
 
+    //Remove Employee
     if($_POST['action'] == "removeEmployee"){
 		$data = array();
         parse_str($formdata, $data);
-        for($i = 0; $i < count($data['txtEmployeePass']); $i++)
+        if(count($data['txtEmployeePass']) <= 0)
         {
-            $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 'D' WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
-            $UpdateEmployeeResult = mysqli_query($conn,$UpdateEmployeeSQL);
+            echo "Nothing";
         }
-        
-		if($UpdateEmployeeResult)
-		{
-            echo "success";
-		}
         else
         {
-            echo "fail";
+            for($i = 0; $i < count($data['txtEmployeePass']); $i++)
+            {
+                $UpdateEmployeeSQL = "UPDATE t_memc_kpcc_employee_detail SET EmpDetail_Status = 2 WHERE EmpDetail_ID = '".$data['txtEmployeePass'][$i]."'";
+                $UpdateEmployeeResult = mysqli_query($conn,$UpdateEmployeeSQL);
+            }
+            
+            if($UpdateEmployeeResult)
+            {
+                echo "success";
+            }
+            else
+            {
+                echo "fail";
+            }
         }
     }
 
+    //Seacrh Assign Position Employee
     if($_POST['action'] == "searchAPEmployee"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' AND EmpDetail_Status = 'A' AND EmpAssign_Status = 2";
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' 
+        AND EmpDetail_Status = 1 
+        AND EmpAssign_Status <> 1
+        AND stf_employee_number = Emp_ID
+        AND stf_department_id = dpt_id";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -323,6 +410,7 @@
                     echo "<th scope=\"col\">Employee Number</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -330,11 +418,12 @@
                     {
                         $row = mysqli_fetch_array($SearchResult);
                         echo "<tr>";
-                        echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"chkEmployee[]\"></td>";
+                        echo "<td><input type=\"checkbox\" value=\"".$row['stf_employee_number']."\" name=\"chkEmployee[]\"></td>";
                         echo "<td>".($i+1)."</td>";
-                        echo "<td>".$row['Emp_ID']."</td>";
-                        echo "<td>".$row['Emp_Name']."</td>";
-                        echo "<td>".$row['Emp_Department']."</td>";
+                        echo "<td>".$row['stf_employee_number']."</td>";
+                        echo "<td>".$row['stf_name']."</td>";
+                        echo "<td>".$row['dpt_name']."</td>";
+                        echo "<td>".$row['stf_grade']."</td>";
                         echo "</tr>";
                     }
                 echo "</tbody>";
@@ -346,39 +435,76 @@
         }
     }
 
+    //Assign Position
     if($_POST['action'] == "assignPosition"){
 		$data = array();
         parse_str($formdata, $data);
-        for($i = 0; $i < count($data['chkEmployee']); $i++)
+        $errorchecking = false;
+        if(count($data['chkEmployee']) <= 0)
         {
-            $AssignPositionSQL = "INSERT INTO t_memc_kpcc_report_to(RT_Emp_ID, Report_To_Emp_ID) VALUES(
-                '".$data['chkEmployee'][$i]."',
-                '".$data['txtReportingTo']."'
-                )";
-            $AssignPositionResult = mysqli_query($conn, $AssignPositionSQL);
-
-            $UpdateAPSQL = "UPDATE t_memc_kpcc_employee_detail SET Emp_P_ID = '".$data['txtAccessRight']."',
-            EmpAssign_Status = 1
-            WHERE Emp_ID = '".$data['chkEmployee'][$i]."'";
-            $UpdateAPResult = mysqli_query($conn, $UpdateAPSQL);
+            echo "No Employee";
         }
-        
-		if($AssignPositionResult && $UpdateAPResult)
-		{
-            echo "success";
-		}
+        else if($data['txtAccessRight'] == "")
+        {
+            echo "No AR";
+        }
+        else if($data['txtReportingTo'] == "")
+        {
+            echo "No RT";
+        }
         else
         {
-            echo "fail";
+            for($i = 0; $i < count($data['chkEmployee']); $i++)
+            {
+                if($data['txtReportingTo'] == $data['chkEmployee'][$i])
+                {
+                    $errorchecking = true;
+                    break;
+                }
+            }
+
+            if($errorchecking == false)
+            {
+                for($i = 0; $i < count($data['chkEmployee']); $i++)
+                {
+                    $AssignPositionSQL = "INSERT INTO t_memc_kpcc_report_to(RT_Emp_ID, Report_To_Emp_ID) VALUES(
+                        '".$data['chkEmployee'][$i]."',
+                        '".$data['txtReportingTo']."'
+                        )";
+                    $AssignPositionResult = mysqli_query($conn, $AssignPositionSQL);
+        
+                    $UpdateAPSQL = "UPDATE t_memc_kpcc_employee_detail SET Emp_P_ID = '".$data['txtAccessRight']."',
+                    EmpAssign_Status = 1
+                    WHERE Emp_ID = '".$data['chkEmployee'][$i]."'";
+                    $UpdateAPResult = mysqli_query($conn, $UpdateAPSQL);
+                }
+
+                if($AssignPositionResult && $UpdateAPResult)
+                {
+                    echo "success";
+                }
+                else
+                {
+                    echo "fail";
+                }
+            }
+            else
+            {
+                echo "Same ID";
+            }
         }
+        
     }
 
+    //Seacrh View/Edit Assign Position
     if($_POST['action'] == "searchVEPEmployee"){
-        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to 
+        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to, t_memc_staff, t_memc_department 
         WHERE Emp_Name LIKE '%".strtoupper(trim($formdata[0]['value']))."%' 
-        AND EmpDetail_Status = 'A' AND EmpAssign_Status = 1
+        AND EmpDetail_Status = 1 AND EmpAssign_Status = 1
         AND t_memc_kpcc_employee_detail.Emp_P_ID = t_memc_kpcc_access_right.AR_ID
-        AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID";
+        AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID
+        AND stf_employee_number = Emp_ID
+        AND stf_department_id = dpt_id";
         $SearchResult = mysqli_query($conn, $SearchSQL);
         if(mysqli_num_rows($SearchResult) > 0)
         {
@@ -390,6 +516,7 @@
                     echo "<th scope=\"col\">Employee Number</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+                    echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Access Right</th>";
                     echo "<th scope=\"col\" style=\"vertical-align:middle\">Reporting-To</th>";
                 echo "</tr>";
@@ -398,14 +525,19 @@
                     for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                     {
                         $row = mysqli_fetch_array($SearchResult);
+                        $SearchReportToNameSQL = "SELECT Emp_Name FROM t_memc_kpcc_employee_detail 
+                        WHERE Emp_ID = '".$row['Report_To_Emp_ID']."'";
+                        $SearchReportToNameResult = mysqli_query($conn, $SearchReportToNameSQL);
+                        $fetchrow = mysqli_fetch_array($SearchReportToNameResult);
                         echo "<tr>";
                         echo "<td><input type=\"checkbox\" value=\"".$row['EmpDetail_ID']."\" name=\"chkEmployee[]\"></td>";
                         echo "<td>".($i+1)."</td>";
                         echo "<td>".$row['Emp_ID']."</td>";
                         echo "<td>".$row['Emp_Name']."</td>";
-                        echo "<td>".$row['Emp_Department']."</td>";
-                        echo "<td>".$row['AR_Level']."</td>";
-                        echo "<td>".$row['Report_To_Emp_ID']."</td>";
+                        echo "<td>".$row['dpt_name']."</td>";
+                        echo "<td>".$row['stf_grade']."</td>";
+                        echo "<td>"."[".$row['AR_Level']."] ".$row['AR_Description']."</td>";
+                        echo "<td>"."[".$row['Report_To_Emp_ID']."] ".$fetchrow['Emp_Name']."</td>";
                         echo "</tr>";
                     }
                 echo "</tbody>";
@@ -417,27 +549,61 @@
         }
     }
 
+    //Update Position
     if($_POST['action'] == "updatePosition"){
 		$data = array();
         parse_str($formdata, $data);
-        for($i = 0; $i < count($data['chkEmployee']); $i++)
-        {
-            $UpdateAccessRightSQL = "UPDATE t_memc_kpcc_employee_detail SET Emp_P_ID = '".$data['txtAccessRight']."'
-            WHERE Emp_ID = '".$data['chkEmployee'][$i]."'";
-            $UpdateAccessRightResult = mysqli_query($conn, $UpdateAccessRightSQL);
+        $errorchecking = false;
 
-            $UpdateReportToSQL = "UPDATE t_memc_kpcc_report_to SET Report_To_Emp_ID = '".$data['txtReportingTo']."'
-            WHERE RT_Emp_ID = '".$data['chkEmployee'][$i]."'";
-            $UpdateReportToResult = mysqli_query($conn, $UpdateReportToSQL);
+        if(count($data['chkEmployee']) <= 0)
+        {
+            echo "No Employee";
         }
-        
-		if($UpdateAccessRightResult && $UpdateReportToResult)
-		{
-            echo "success";
-		}
+        else if($data['txtAccessRight'] == "")
+        {
+            echo "No AR";
+        }
+        else if($data['txtReportingTo'] == "")
+        {
+            echo "No RT";
+        }
         else
         {
-            echo "fail";
+            for($i = 0; $i < count($data['chkEmployee']); $i++)
+            {
+                if($data['txtReportingTo'] == $data['chkEmployee'][$i])
+                {
+                    $errorchecking = true;
+                    break;
+                }
+            }
+
+            if($errorchecking == false)
+            {
+                for($i = 0; $i < count($data['chkEmployee']); $i++)
+                {
+                    $UpdateAccessRightSQL = "UPDATE t_memc_kpcc_employee_detail SET Emp_P_ID = '".$data['txtAccessRight']."'
+                    WHERE Emp_ID = '".$data['chkEmployee'][$i]."'";
+                    $UpdateAccessRightResult = mysqli_query($conn, $UpdateAccessRightSQL);
+
+                    $UpdateReportToSQL = "UPDATE t_memc_kpcc_report_to SET Report_To_Emp_ID = '".$data['txtReportingTo']."'
+                    WHERE RT_Emp_ID = '".$data['chkEmployee'][$i]."'";
+                    $UpdateReportToResult = mysqli_query($conn, $UpdateReportToSQL);
+                }
+
+                if($UpdateAccessRightResult && $UpdateReportToResult)
+                {
+                    echo "success";
+                }
+                else
+                {
+                    echo "fail";
+                }
+            }
+            else
+            {
+                echo "Same ID";
+            }
         }
     }
 
@@ -709,6 +875,105 @@
 
 <?php
      	}
-?>
 
+
+    //Staff Excel
+    if ( $_FILES[ "staffexcelname" ][ "name" ] != "" ) {
+        $file = $_FILES[ "staffexcelname" ][ "tmp_name" ];
+        $file_open = fopen( $file, "r" );
+        fgets( $file_open );
+        while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+          $totalrow += 1;
+          for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
+            $tempArray[ $i ] = $csv[ $i ];
+          }
+          for ( $i = 0, $str = array(); $i < count( $tempArray ); ++$i ) {
+            $tempstr = str_replace( "'", "\'", $tempArray[ $i ] );
+            array_push( $str, $tempstr );
+            if ( $totalrow == 1 )$totalcolumn += 1;
+          }
+          //Append
+          if ( $totalcolumn == 14) {
+              $addcc = "INSERT INTO t_memc_staff(stf_password, stf_name, stf_position_id, stf_department_id, stf_report_to_user_id, stf_type, stf_employee_number, stf_email, stf_user_status, stf_gender, stf_shift_id, stf_plant, stf_position_category, stf_grade) 
+              VALUES('" . $str[ 0 ] . "',
+              '" . $str[ 1 ] . "',
+              '" . $str[ 2 ] . "',
+              '" . $str[ 3 ] . "',
+              '" . $str[ 4 ] . "',
+              '" . $str[ 5 ] . "',
+              '" . $str[ 6 ] . "',
+              '" . $str[ 7 ] . "',
+              '" . $str[ 8 ] . "',
+              '" . $str[ 9 ] . "',
+              '" . $str[ 10 ] . "',
+              '" . $str[ 11 ] . "',
+              '" . $str[ 12 ] . "',
+              '" . $str[ 13 ] . "'
+              )";
+              $addccsql = mysqli_query( $conn, $addcc );
+              if ( $addccsql ) {
+                $success += 1;
+              }
+          }
+        }
+      }
+
+      //Department Excel
+      if ( $_FILES[ "departmentexcelname" ][ "name" ] != "" ) {
+        $file = $_FILES[ "departmentexcelname" ][ "tmp_name" ];
+        $file_open = fopen( $file, "r" );
+        fgets( $file_open );
+        while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+          $totalrow += 1;
+          for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
+            $tempArray[ $i ] = $csv[ $i ];
+          }
+          for ( $i = 0, $str = array(); $i < count( $tempArray ); ++$i ) {
+            $tempstr = str_replace( "'", "\'", $tempArray[ $i ] );
+            array_push( $str, $tempstr );
+            if ( $totalrow == 1 )$totalcolumn += 1;
+          }
+          //Append
+          if ( $totalcolumn == 2) {
+              $addcc = "INSERT INTO t_memc_department(dpt_id, dpt_name) 
+              VALUES('" . $str[ 0 ] . "',
+              '" . $str[ 1 ] . "'
+              )";
+              $addccsql = mysqli_query( $conn, $addcc );
+              if ( $addccsql ) {
+                $success += 1;
+              }
+          }
+        }
+      }
+
+      //Position Excel
+      if ( $_FILES[ "positionexcelname" ][ "name" ] != "" ) {
+        $file = $_FILES[ "positionexcelname" ][ "tmp_name" ];
+        $file_open = fopen( $file, "r" );
+        fgets( $file_open );
+        while ( ( $csv = fgetcsv( $file_open, 1000, "," ) ) !== false ) {
+          $totalrow += 1;
+          for ( $i = 0, $tempArray = []; $i < count( $csv ); ++$i ) {
+            $tempArray[ $i ] = $csv[ $i ];
+          }
+          for ( $i = 0, $str = array(); $i < count( $tempArray ); ++$i ) {
+            $tempstr = str_replace( "'", "\'", $tempArray[ $i ] );
+            array_push( $str, $tempstr );
+            if ( $totalrow == 1 )$totalcolumn += 1;
+          }
+          //Append
+          if ( $totalcolumn == 2) {
+              $addcc = "INSERT INTO t_memc_position(pos_id, pos_name) 
+              VALUES('" . $str[ 0 ] . "',
+              '" . $str[ 1 ] . "'
+              )";
+              $addccsql = mysqli_query( $conn, $addcc );
+              if ( $addccsql ) {
+                $success += 1;
+              }
+          }
+        }
+      }
+?>
 

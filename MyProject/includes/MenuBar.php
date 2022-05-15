@@ -81,9 +81,9 @@ session_start();
     <!--		Additional-->
     <div class="dropdown"> <a class="nav-link dropdown-toggle" href="#" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Additional </a>
       <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-        <li class="dropdown-item"><a href="#">Some action</a></li>
-        <li class="dropdown-item"><a href="#">Some other action</a></li>
-        <li class="dropdown-item"><a href="#">Some other action</a></li>
+        <li class="dropdown-item"><a href="ImportStaff.php">Import Staff</a></li>
+        <li class="dropdown-item"><a href="ImportDepartment.php">Import Department</a></li>
+        <li class="dropdown-item"><a href="ImportPosition.php">Import Position</a></li>
         <li class="dropdown-item"><a href="#">Some other action</a></li>
       </ul>
     </div>

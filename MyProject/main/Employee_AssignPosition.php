@@ -5,6 +5,22 @@
     include("../includes/MenuBar.php");
 ?>
 
+<style>
+td, th {
+    max-width: 200px;
+	word-wrap: break-word;
+}
+.table-responsive {
+    max-height:500px;
+}
+thead tr:nth-child(1) th{
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+</style>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,16 +57,20 @@
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
-                            <th scope="col"></th>
+                          <th scope="col"></th>
                           <th scope="col">No.</th>
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Name</th>
                           <th scope="col" style="vertical-align:middle">Department</th>
+                          <th scope="col" style="vertical-align:middle">Job Band</th>
                         </tr>
                       </thead>
                       <tbody>
                       <?php
-                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 'A' AND EmpAssign_Status = 2";
+                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE EmpDetail_Status = 1 
+                        AND EmpAssign_Status = 2
+                        AND stf_employee_number = Emp_ID
+                        AND stf_department_id = dpt_id";
                         $SearchResult = mysqli_query($conn, $SearchSQL);
                         if(mysqli_num_rows($SearchResult) > 0)
                         {
@@ -58,11 +78,12 @@
                             {
                               $row = mysqli_fetch_array($SearchResult);
                               echo "<tr>";
-                              echo "<td><input type=\"checkbox\" value=\"".$row['Emp_ID']."\" name=\"chkEmployee[]\"></td>";
+                              echo "<td><input type=\"checkbox\" value=\"".$row['stf_employee_number']."\" name=\"chkEmployee[]\"></td>";
                               echo "<td>".($i+1)."</td>";
-                              echo "<td>".$row['Emp_ID']."</td>";
-                              echo "<td>".$row['Emp_Name']."</td>";
-                              echo "<td>".$row['Emp_Department']."</td>";
+                              echo "<td>".$row['stf_employee_number']."</td>";
+                              echo "<td>".$row['stf_name']."</td>";
+                              echo "<td>".$row['dpt_name']."</td>";
+                              echo "<td>".$row['stf_grade']."</td>";
                               echo "</tr>";
                             }
                         }
@@ -81,7 +102,7 @@
                         <select class="form-control custom-select" name="txtAccessRight">
                           <option value=""></option>
                         <?php
-                          $AccessRightSQL = "SELECT * from t_memc_kpcc_access_right";
+                          $AccessRightSQL = "SELECT * from t_memc_kpcc_access_right WHERE AR_Level <> 0 AND AR_Status = 1";
                           $AccessRightResult = mysqli_query($conn, $AccessRightSQL);
                           if(mysqli_num_rows($AccessRightResult) > 0)
                           {
@@ -103,7 +124,7 @@
                       <select class="form-control custom-select" name="txtReportingTo">
                           <option value=""></option>
                         <?php
-                          $ReportToSQL = "SELECT * from t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 'A'";
+                          $ReportToSQL = "SELECT * from t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1";
                           $ReportToResult = mysqli_query($conn, $ReportToSQL);
                           if(mysqli_num_rows($ReportToResult) > 0)
                           {
