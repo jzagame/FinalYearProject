@@ -565,14 +565,14 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         if ( $xx == 1 ) {
           $same += 1;
         } else {
-		$sql2 = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_name = '".$str[1]."'";
+		$sql2 = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_name = '".trim($str[1])."'";
         $result2 = mysqli_query( $conn, $sql2 );
         if ( mysqli_num_rows( $result2 ) > 0 ) {
             $row2 = mysqli_fetch_array( $result2 );
             $last_ccid = $row2['Cc_ID'];
 			$success += 1;
         }else{
-          $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . $str[ 1 ] . "',
+          $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . trim($str[ 1 ]) . "',
 			'1')";
           $addccsql = mysqli_query( $conn, $addcc );
           if ( $addccsql ) {
@@ -581,7 +581,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
           $last_ccid = mysqli_insert_id( $conn );
 		}
 			
-		$sql3 = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Name = '".$str[2]."'";
+		$sql3 = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Name = '".trim($str[2])."'";
         $result3 = mysqli_query( $conn, $sql3 );
         if ( mysqli_num_rows( $result3 ) > 0 ) {
             $row3 = mysqli_fetch_array( $result3 );
@@ -590,7 +590,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         }else{
 			
           $addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('" . $last_ccid . "',
-			'" . $str[ 2 ] . "','','1')";
+			'" . trim($str[ 2 ]) . "','','1')";
 
           $addcdsql = mysqli_query( $conn, $addcd );
           if ( $addcdsql ) {
@@ -670,14 +670,14 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
           }
         } else {
 
-          $sql2 = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_name = '".$str[1]."'";
+          $sql2 = "SELECT * FROM t_memc_kpcc_corecompetencies WHERE Cc_name = '".trim($str[1])."'";
         $result2 = mysqli_query( $conn, $sql2 );
         if ( mysqli_num_rows( $result2 ) > 0 ) {
             $row2 = mysqli_fetch_array( $result2 );
             $last_ccid = $row2['Cc_ID'];
 			$success += 1;
         }else{
-          $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . $str[ 1 ] . "',
+          $addcc = "INSERT INTO t_memc_kpcc_corecompetencies (Cc_name,Cc_status) VALUES('" . trim($str[ 1 ]) . "',
 			'1')";
           $addccsql = mysqli_query( $conn, $addcc );
           if ( $addccsql ) {
@@ -686,7 +686,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
           $last_ccid = mysqli_insert_id( $conn );
 		}
 			
-		$sql3 = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Name = '".$str[2]."'";
+		$sql3 = "SELECT * FROM t_memc_kpcc_competenciesdimension WHERE Cd_Name = '".trim($str[2])."'";
         $result3 = mysqli_query( $conn, $sql3 );
         if ( mysqli_num_rows( $result3 ) > 0 ) {
             $row3 = mysqli_fetch_array( $result3 );
@@ -695,7 +695,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
         }else{
 			
           $addcd = "INSERT INTO t_memc_kpcc_competenciesdimension (Cd_Cc_ID,Cd_Name,Cd_Definition,Cd_status) VALUES('" . $last_ccid . "',
-			'" . $str[ 2 ] . "','','1')";
+			'" . trim($str[ 2 ]) . "','','1')";
 
           $addcdsql = mysqli_query( $conn, $addcd );
           if ( $addcdsql ) {
