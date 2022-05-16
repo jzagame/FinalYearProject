@@ -691,12 +691,12 @@ function ChangeY(){
 					//alert(data.substring(2,3));
 					//alert(data.substring(4,5));
 					//alert(data.substring((data.indexOf("Fail:")+6),data.indexOf("|")));
-					document.getElementById("piechart").innerHTML = data.substring(161);
+					document.getElementById("piechart").innerHTML = data.substring(data.indexOf("&")+1);
 					
 					var options = {
 					  series: [parseInt(data.substring((data.indexOf("Zero:")+5),data.indexOf("&"))),parseInt(data.substring((data.indexOf("One:")+4),data.indexOf(","))),parseInt(data.substring((data.indexOf(",Two:")+5),data.indexOf("|"))), parseInt(data.substring((data.indexOf("|Three:")+7),data.indexOf("-"))), parseInt(data.substring((data.indexOf("-Four:")+6),data.indexOf("_"))), parseInt(data.substring((data.indexOf("_Five:")+6),data.indexOf("^")))],
 					  chart: {
-					  width: 380,
+					  width: 500,
 					  type: 'pie',
 					},
 					labels: ['Zero Mark', 'One Mark', 'Two Marks', 'Three Marks', 'Four Marks', 'Five Marks'],
@@ -705,7 +705,7 @@ function ChangeY(){
 					  breakpoint: 480,
 					  options: {
 						chart: {
-						  width: 200
+						  width: 350
 						},
 						legend: {
 						  position: 'bottom'
