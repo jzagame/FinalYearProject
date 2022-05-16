@@ -38,7 +38,7 @@
                                                 {
                                                     $scrow = mysqli_fetch_array($SCResult);
                                         ?>
-                                                    <option><?php echo $scrow['dpt_id']."-". $scrow['dpt_name'];?></option>
+                                                    <option value="<?php echo $scrow['dpt_id'];?>"><?php echo $scrow['dpt_id']."-". $scrow['dpt_name'];?></option>
                                         <?php
                                                 }
                                             }
@@ -83,7 +83,7 @@
                                                 {
                                                     $scrow = mysqli_fetch_array($SCResult);
                                         ?>
-                                                    <option><?php echo $scrow['dpt_id']."-".$scrow['dpt_name'];?></option>
+                                                    <option value="<?php echo $scrow['dpt_id'];?>"><?php echo $scrow['dpt_id']."-".$scrow['dpt_name'];?></option>
                                         <?php
                                                 }
                                             }

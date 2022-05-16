@@ -50,7 +50,7 @@
                           </thead>
                           <tbody>
                             <?php
-                          $SearchSQL = "SELECT * FROM t_memc_kpcc_department, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department.D_HODID = t_memc_kpcc_employee_detail.Emp_ID ORDER BY D_ID";
+                          $SearchSQL = "SELECT * FROM t_memc_department, t_memc_kpcc_department, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department.D_HODID = t_memc_kpcc_employee_detail.Emp_ID AND t_memc_kpcc_department.D_DID = t_memc_department.dpt_id ORDER BY D_ID";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
@@ -59,9 +59,9 @@
                                 $row = mysqli_fetch_array($SearchResult);
                                 echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
                                 echo "<td>".$row['D_ID']."</td>";
-                                echo "<td>".$row['D_Name']."</td>";
+                                echo "<td>".$row['D_DID']."-".$row['dpt_name']."</td>";
                                 echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
-								echo "<td>".$row['D_HODNode']."</td>";
+								echo "<td>".$row['D_DPID']."-".$row['dpt_name']."</td>";
 								echo "<td>".$row['D_Status']."</td>";
                                 echo "</tr>";
                               }
