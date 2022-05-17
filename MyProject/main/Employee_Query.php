@@ -507,7 +507,7 @@ if ( $_POST[ 'action' ] == "updatePosition" ) {
 }
 
 if ( $_POST[ 'action' ] == "searchDepartment" ) {
-	$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'";
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_department, t_memc_department, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department.D_DID = t_memc_department.dpt_id AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_department.D_HODID AND t_memc_department.dpt_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' ORDER BY D_ID";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
 	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
 		echo "<table class=\"table table-hover table-bordered\">";
@@ -521,16 +521,24 @@ if ( $_POST[ 'action' ] == "searchDepartment" ) {
 		echo "</tr>";
 		echo "</thead>";
 		echo "<tbody>";
-		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
-			$row = mysqli_fetch_array( $SearchResult );
-			echo "<tr role=\"button\" onClick=\"editDepartment('" . $row[ 'D_ID' ] . "')\">";
-			echo "<td>" . $row[ 'D_ID' ] . "</td>";
-			echo "<td>" . $row[ 'D_Name' ] . "</td>";
-			echo "<td>" . $row[ 'D_HODID' ] . "</td>";
-			echo "<td>" . $row[ 'D_HODNode' ] . "</td>";
-			echo "<td>" . $row[ 'D_Status' ] . "</td>";
-			echo "</tr>";
-		}
+		for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+		  {
+			$row = mysqli_fetch_array($SearchResult);
+			  $SearchSQL2 = "SELECT * FROM t_memc_department WHERE dpt_id = '".$row['D_DPID']."' ";
+			  $SearchResult2 = mysqli_query( $conn, $SearchSQL2 );
+				if ( mysqli_num_rows( $SearchResult2 ) > 0 ) 
+					{			
+						$row2 = mysqli_fetch_array( $SearchResult2 );
+						echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
+						echo "<td>".$row['D_ID']."</td>";
+						echo "<td>".$row['D_DID']."-".$row['dpt_name']."</td>";
+						echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
+						echo "<td>".$row['D_DPID']."-".$row2['dpt_name']."</td>";
+						echo "<td>".$row['D_Status']."</td>";
+						echo "</tr>";
+						
+		  			}
+		  }
 		echo "</tbody>";
 		echo "</table>";
 	} else {

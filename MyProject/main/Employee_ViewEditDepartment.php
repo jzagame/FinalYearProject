@@ -56,15 +56,24 @@
                           {
                               for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                               {
-                                $row = mysqli_fetch_array($SearchResult);
-                                echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
-                                echo "<td>".$row['D_ID']."</td>";
-                                echo "<td>".$row['D_DID']."-".$row['dpt_name']."</td>";
-                                echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
-								echo "<td>".$row['D_DPID']."-".$row['dpt_name']."</td>";
-								echo "<td>".$row['D_Status']."</td>";
-                                echo "</tr>";
+								  $SearchSQL2 = "SELECT * FROM t_memc_department, t_memc_kpcc_department WHERE t_memc_department.dpt_id = t_memc_kpcc_department.D_DPID";
+								  $SearchResult2 = mysqli_query( $conn, $SearchSQL2 );
+								if ( mysqli_num_rows( $SearchResult2 ) > 0 ) 
+								{
+									for($i = 0; $i < mysqli_num_rows($SearchResult2); ++$i)
+									{
+										$row = mysqli_fetch_array($SearchResult);
+										$row2 = mysqli_fetch_array( $SearchResult2 );
+										echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
+										echo "<td>".$row['D_ID']."</td>";
+										echo "<td>".$row['D_DID']."-".$row['dpt_name']."</td>";
+										echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
+										echo "<td>".$row['D_DPID']."-".$row2['dpt_name']."</td>";
+										echo "<td>".$row['D_Status']."</td>";
+										echo "</tr>";
+									}
                               }
+							  }
                           }
                           else
                           {
