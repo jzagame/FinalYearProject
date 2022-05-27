@@ -1,9 +1,9 @@
 <html>
 
 <head>
-    <?php 
-        error_reporting(0);
-        session_start();
+    <?php
+    error_reporting(0);
+    session_start();
     ?>
     <title>
         View Employee Data
@@ -12,9 +12,9 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row  m-3">
+        <div class="row">
             <?php
-            include "Menubar.php";
+            include "../includes/Menubar.php";
             ?>
         </div>
         <div class="container-fluid">
@@ -25,7 +25,14 @@
                 <div class="col-2">
                     <button class="btn btn-primary form-control" type="button" id="btn_search_emp" name="btn_search_emp">Search</button>
                 </div>
-                <div class="col-12 m-3">
+                <div class="col-12">
+                    <ul class="list-group mt-2 mb-2">
+                        <li class="list-group-item active">
+                            <h5 class="m-0">Staff</h5>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 mt-3">
                     <div>
                         <table class="table">
                             <thead>
@@ -33,7 +40,7 @@
                                     <td>Staff ID</td>
                                     <td>Staff Name</td>
                                     <td>Department</td>
-                                    <td>Position</td>
+                                    <!-- <td>Position</td> -->
                                     <td>Email</td>
                                     <td>View</td>
                                 </tr>
@@ -76,7 +83,7 @@
             </div>
         </div>
     </div>
-    <script src="javascript/Assessment_View_Employee.js"></script>
+    <script src="../../includes/assest/library/datatables.net/JS/Assessment_View_Employee.js"></script>
 </body>
 
 </html>

@@ -1,12 +1,12 @@
 <?php
 error_reporting(0);
 session_start();
-include "database/conn.php";
+include "../../includes/conn.php";
 $action = $_POST['action'];
 $search = $_POST['search'];
 if ($action == "SaveEmpTableData") {
     // when get into this page, get all the employee data within department and save into the session, after that go to the $action == ShowEmpTable
-    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_kpcc_department,t_memc_kpcc_position where EMP_D_ID = D_ID and Emp_P_ID = P_ID";
+    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_department,t_memc_staff where EMP_D_ID = dpt_id and stf_employee_number = Emp_ID";
     if ($search != null) {
         $sql .= " and Emp_ID like '%" . $search . "%'";
     }
@@ -35,9 +35,9 @@ if ($action == "ShowEmpTable") {
             <tr>
                 <td><?php echo $row[$i]['Emp_ID']; ?></td>
                 <td><?php echo $row[$i]['Emp_Name']; ?></td>
-                <td><?php echo $row[$i]['D_Name']; ?></td>
-                <td><?php echo $row[$i]['P_name']; ?></td>
-                <td><?php echo $row[$i]['Emp_Email']; ?></td>
+                <td><?php echo $row[$i]['dpt_name']; ?></td>
+                <!-- <td><?php echo $row[$i]['P_name']; ?></td> -->
+                <td><?php echo $row[$i]['stf_email']; ?></td>
                 <td><button type="button" class="btn btn-primary form-control" onclick="SearchEmp('<?php echo $row[$i]['Emp_ID']; ?>')">View</button></td>
             </tr>
         <?php
@@ -74,12 +74,18 @@ if ($action == "generatePageNum") {
 }
 if ($action == "ViewEmpData") {
     $sql = "select DISTINCT Q_Year from t_memc_kpcc_quarter order by Q_Year desc";
-    $year_data = $conn -> query($sql);
-    $sql = "select * from t_memc_kpcc_employee_item,t_memc_kpcc_employee_detail,t_memc_kpcc_department,t_memc_kpcc_position where 
-    Ei_EMP_ID = Emp_ID  and EMP_D_ID = D_ID and Emp_ID = '" . $search . "' and Emp_P_ID = P_ID";
+    $year_data = $conn->query($sql);
+    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_department where EMP_D_ID = dpt_id and Emp_ID = '" . $search . "'";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     ?>
+    <div class="col-12">
+        <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active">
+                <h5 class="m-0">Staff Information</h5>
+            </li>
+        </ul>
+    </div>
     <div class="col-4">
         <table class="table">
             <tr>
@@ -92,11 +98,7 @@ if ($action == "ViewEmpData") {
             </tr>
             <tr>
                 <td>Department : </td>
-                <td><?php echo $row['D_Name'] ?></td>
-            </tr>
-            <tr>
-                <td>Position : </td>
-                <td><?php echo $row['P_name'] ?></td>
+                <td><?php echo $row['dpt_name'] ?></td>
             </tr>
         </table>
     </div>
@@ -105,13 +107,13 @@ if ($action == "ViewEmpData") {
     </div>
     <div class="col-1" style="text-align: right;">
         <select class="form-control" name="" id="year_select" onchange="ChangeYear('<?php echo $row['Emp_ID']; ?>')">
-    <?php 
-        while($temp = $year_data -> fetch_assoc()){
-    ?>
-        <option value="<?php echo $temp['Q_Year']; ?>"><?php echo $temp['Q_Year']; ?></option>
-    <?php
-        }
-    ?>
+            <?php
+            while ($temp = $year_data->fetch_assoc()) {
+            ?>
+                <option value="<?php echo $temp['Q_Year']; ?>"><?php echo $temp['Q_Year']; ?></option>
+            <?php
+            }
+            ?>
         </select>
     </div>
     <div class="col-12">
@@ -119,7 +121,7 @@ if ($action == "ViewEmpData") {
 
         </div>
     </div>
-    <?php
+<?php
 }
 if ($action == "CompetenciesList") {
     if ($_POST['y'] == null) {
@@ -127,20 +129,22 @@ if ($action == "CompetenciesList") {
     } else {
         $year = $_POST['y'];
     }
+?>
+    <div class="col-12 mt-3">
+        <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active">
+                <h5 class="m-0">Core Competencies in <?php echo $year; ?></h5>
+            </li>
+        </ul>
+    </div>
+    <?php
     $sql = "select * from t_memc_kpcc_employee_item, t_memc_kpcc_items,t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension, t_memc_kpcc_quarter 
     where Ei_Quarter_ID = Q_ID and Ei_Im_ID = Im_ID and Ei_EMP_ID = '" . $search . "' and Q_Year = '" . $year . "' and Im_Cd_ID = Cd_ID and  
     Cd_Cc_ID = Cc_ID and Ei_Category = 'core' group by Ei_Im_ID";
     $result = $conn->query($sql);
     if (mysqli_num_rows($result) == 0) {
     ?>
-        <div class="col-12 mt-3">No Core Competencies Found</div>
-    <?php
-    } else {
-    ?>
-        <div class="col-12 mt-3">
-            <hr style="width: 80%;">
-            <h4>Core Competencies in <?php echo $year; ?></h4>
-        </div>
+        <div class="col-12 mt-3">No Record Found</div>
     <?php
     }
     while ($row = $result->fetch_assoc()) {
@@ -162,16 +166,18 @@ if ($action == "CompetenciesList") {
     where Ei_Quarter_ID = Q_ID and Ei_Im_ID = Im_ID and Ei_EMP_ID = '" . $search . "' and Q_Year = '" . $year . "' and Im_Cd_ID = Cd_ID and  
     Cd_Cc_ID = Cc_ID and Ei_Category = 'sub' group by Ei_Im_ID";
     $result = $conn->query($sql);
+    ?>
+    <div class="col-12 mt-3">
+        <ul class="list-group mt-2 mb-2">
+            <li class="list-group-item active">
+                <h5 class="m-0">Sub - Core Competencies in <?php echo $year; ?></h5>
+            </li>
+        </ul>
+    </div>
+    <?php
     if (mysqli_num_rows($result) == 0) {
     ?>
-        <div class="col-12">No Sub Core Competencies Found</div>
-    <?php
-    } else {
-    ?>
-        <div class="col-12 mt-3">
-            <hr style="width: 80%;">
-            <h4>Sub - Core Competencies in <?php echo $year; ?></h4>
-        </div>
+        <div class="col-12">No Record Found</div>
     <?php
     }
     while ($row = $result->fetch_assoc()) {
@@ -210,7 +216,7 @@ if ($action == "ViewAllCompetenciesEmp") {
             <?php
             for ($i = 0; $i < count($temp); $i++) {
             ?>
-                <td><?php echo $temp[$i]['Q_Year'] . " - ".  $temp[$i]['Q_Name']; ?></td>
+                <td><?php echo $temp[$i]['Q_Year'] . " - " .  $temp[$i]['Q_Name']; ?></td>
             <?php
             }
             ?>
@@ -226,17 +232,20 @@ if ($action == "ViewAllCompetenciesEmp") {
             ?>
         </tr>
         <tr>
-            <td>Score</td>
+            <td>Score | Target</td>
             <?php
             for ($i = 0; $i < count($temp); $i++) {
             ?>
                 <td><?php
-                    if ($temp[$i]['Ei_Score'] == null) {
-                        echo " pending ";
+                    if ($temp[$i]['Ei_Score'] == "-") {
+                        echo " - ";
                     } else {
-                        echo $temp[$i]['Ei_Score'];
+                        $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_ID = ".$temp[$i]['Ei_Score']."";
+                        $result = $conn -> query($sql);
+                        $row = $result -> fetch_assoc();
+                        echo $row['Im_lvl_Name'];
                     }
-                    echo  ' / ' . $temp[$i]['Im_lvl_Name'] . " ---- (Score / Target)"; ?></td>
+                    echo  ' / ' . $temp[$i]['Im_lvl_Name'] ; ?></td>
             <?php
             }
             ?>

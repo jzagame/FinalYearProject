@@ -1,9 +1,9 @@
 <html>
 
 <head>
-    <?php 
-        error_reporting(0);
-        session_start();
+    <?php
+    error_reporting(0);
+    session_start();
     ?>
     <title>Assign Competencies</title>
     <style>
@@ -17,21 +17,15 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row m-3">
+        <div class="row">
             <?php
-            include "Menubar.php";
+            include "../includes/Menubar.php";
             ?>
         </div>
     </div>
     <div class="container-fluid" id="body1">
-        <div class="row m-0">
-            <div class="col-12">
-                <div class="progress m-3">
-                    <div id="progress_Ass" class="progress-bar" role="progressbar" style="width: 33%;display:none" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
-                </div>
-            </div>
-        </div>
-        <div class="row m-0" id="Assessment_content">
+        <div id="progress_Ass" style="width: 33%;display:none" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
+        <div class="row justify-content-center" id="Assessment_content">
 
         </div>
         <div class="row m-0 mt-5" id="pagination_emp_container">
@@ -79,7 +73,6 @@
     </div>
 </body>
 
-<script src="javascript/Assessment_Assign.js"></script>
-<script src="javascript/Assessment_View_Employee.js"></script>
-
+<script src="../../includes/assest/library/datatables.net/JS/Assessment_Assign.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Assessment_View_Employee.js"></script>
 </html>
