@@ -26,35 +26,27 @@
 					"CREATE TABLE t_memc_kpcc_PlanType (Pt_ID INT AUTO_INCREMENT PRIMARY KEY,
 				    Pt_Name VARCHAR(1000),
 				    Pt_Status CHAR(1)) character set = utf8mb4",
-				    "CREATE TABLE t_memc_kpcc_Learning_Path(Lh_ID INT AUTO_INCREMENT PRIMARY KEY,
-				    Lh_Emp_ID VARCHAR(30),
-				    Lh_Total_Core INT,
-				    Lh_Total_Sub  INT,
-				    Lh_Status CHAR(1))",
                     "CREATE TABLE t_memc_kpcc_Employee_item(Ei_ID INT AUTO_INCREMENT PRIMARY KEY,
-                    Ei_Lh_ID INT,
+					Ei_EMP_ID VARCHAR(20),
                     Ei_Im_ID INT,
-                    Ei_Date_Assign VARCHAR(20),
-                    Ei_Date_Participate VARCHAR(20),
-					Ei_Date_End VARCHAR(20),
-					Ei_Description VARCHAR(2000),
+					Ei_ToDo_Desc VARCHAR(100000),
                     Ei_Category VARCHAR(20),
-                    Ei_Score VARCHAR(20),
+                    Ei_Score INT,
                     Ei_Target_Score INT,
-                    Ei_Status VARCHAR(10))",
+                    Ei_Status INT)",
                     "CREATE TABLE t_memc_kpcc_Employee_detail(EmpDetail_ID INT AUTO_INCREMENT PRIMARY KEY,
 					EMP_D_ID INT,
                     Emp_ID VARCHAR(30),
                     Emp_P_ID INT,
-					Emp_Name VARCHAR(99),
+					Emp_Name VARCHAR(200),
 					Emp_Department VARCHAR(50),
 					Emp_JobBand INT,
                     EmpDetail_Status INT,
 					EmpAssign_Status INT)",
 					"CREATE TABLE t_memc_kpcc_Department(D_ID INT AUTO_INCREMENT PRIMARY KEY,
-                    D_Name VARCHAR(50),
+                    D_DID VARCHAR(50),
                     D_HODID VARCHAR(50),
-					D_HODNode VARCHAR(50),
+					D_DPID VARCHAR(50),
                     D_Status CHAR(1))",
 					"CREATE TABLE t_memc_kpcc_Report_To(RT_ID INT AUTO_INCREMENT PRIMARY KEY,
 					RT_Emp_ID VARCHAR(30),
@@ -83,11 +75,15 @@
 					dpt_name VARCHAR(200)
 					)",
 					"CREATE TABLE t_memc_position(pos_id INT(11) PRIMARY KEY NOT NULL,
-					pos_name VARCHAR(200))"
-                    
-                    
+					pos_name VARCHAR(200)
+					)",
+					"CREATE TABLE t_memc_kpcc_quarter(Q_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+					Q_Name VARCHAR(20),
+					Q_Year VARCHAR(20),
+					Q_Status VARCHAR(10))"
     );
-	$conn = mysqli_connect($localhost,$username,$password) or die(mysql_error()); 
+	
+	$conn = mysqli_connect($localhost,$username,$password); 
 	//$conn = mysqli_connect($localhost,$username,$password);
 	if($conn)
 	{
@@ -103,10 +99,21 @@
 		{
 			mysqli_query($conn,$tables[$i]);	
 		}
+
+		$ARSearchSQL = "SELECT * FROM t_memc_kpcc_access_right WHERE AR_Level = 0";
+		$ARSearchResult = mysqli_query($conn, $ARSearchSQL);
+		if(mysqli_num_rows($ARSearchResult)>0)
+		{
+			//Nothing
+		}
+		else
+		{
+			$DefaultSQL = "INSERT INTO t_memc_kpcc_access_right(AR_Level, AR_Description, AR_Status) VALUES(0, 'Superuser', 0)";
+			$DefaultResult = mysqli_query($conn, $DefaultSQL);	
+		}
 	}
 	else
 	{
 		echo "Fail connecting to Database Server.";
 	}
-
 ?>
