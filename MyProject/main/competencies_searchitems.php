@@ -13,7 +13,7 @@ td, th {
 	word-wrap: break-word;
 }
 .table-responsive {
-    max-height:500px;
+    max-height:900px;
 }
 thead tr:nth-child(1) th{
     background: white;
