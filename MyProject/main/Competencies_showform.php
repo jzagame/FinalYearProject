@@ -420,10 +420,8 @@ if ( $_POST[ 'action' ] == "showadditemcd" ) {
   ?>
 </select>
 <?php
-	
+
 }
-
-
 
 //Plan Type
 if ( $_POST[ 'action' ] == "showaddpt" ) {
