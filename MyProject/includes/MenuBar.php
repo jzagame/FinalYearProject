@@ -45,6 +45,12 @@ session_start();
             <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditAssign.php'">View/Edit Access Right</li>
           </ul>
         </li>
+        <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Profile</a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" role="button" onclick="location='Employee_AddProfile.php'">Add</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditProfile.php'">View/Edit</li>
+          </ul>
+        </li>
       </ul>
     </div>
     <!--		Competencies-->
