@@ -502,6 +502,97 @@ if ( $_POST[ 'action' ] == "updatePosition" ) {
 	}
 }
 
+//Search Profile
+if ( $_POST[ 'action' ] == "searchAddProfile" ) {
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+	AND EmpDetail_Status = 1 AND stf_department_id = dpt_id AND Emp_ID = stf_employee_number";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Employee Number</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr role=\"button\" onClick=\"addProfile('" . $row[ 'stf_employee_number' ] . "')\">";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
+			echo "<td>" . $row[ 'stf_name' ] . "</td>";
+			echo "<td>" . $row[ 'dpt_name' ] . "</td>";
+			echo "<td>" . $row[ 'stf_grade' ] . "</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+if ( $_POST[ 'action' ] == "editAccessRight" ) {
+	$emp_id = $_POST[ 'emp_ID' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_profile";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		$row = mysqli_fetch_array( $SearchResult );
+		?>
+		<div class="container-fluid">
+			<form method="" id="UpdateAccessRightForm">
+				<ul class="list-group mt-2 mb-2">
+					<li class="list-group-item active">
+						<h5 class="m-0">Edit Access Right</h5>
+					</li>
+				</ul>
+				<hr class="bdr-light">
+				<div class="container-fluid">
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Access Right Level</label>
+						</div>
+						<div class="col-10">
+							<input type="number" class="form-control" value="<?php echo $row['AR_Level'];?>" name="txtAccessRoghtLevel" min="0" step="1">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Description</label>
+						</div>
+						<div class="col-10">
+							<textarea class="form-control" name="txtAccessRightDescription" rows="4"><?php echo $row['AR_Description'];?></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Status</label>
+						</div>
+						<div class="col-10">
+							<select class="form-control custom-select" name="txtARStatus">
+								<option value="1" <?php echo ($row[ 'AR_Status']==1 ) ? "selected" : "" ; ?>>Active</option>
+								<option value="2" <?php echo ($row[ 'AR_Status']==2 ) ? "selected" : "" ; ?>>Inactive</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12" style="text-align: center;">
+							<input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditPosition.php'">
+							<input type="button" class="btn btn-primary" name="btnUAccessRight" value="Update" onClick="UpdateAccessRight(<?php echo $row['AR_ID'];?>)">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
+}
+
+
 if ( $_POST[ 'action' ] == "searchDepartment" ) {
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );

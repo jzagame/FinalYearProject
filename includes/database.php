@@ -76,6 +76,12 @@
 					stf_position_category VARCHAR(20),
 					stf_grade INT(11)
 					)",
+					"CREATE TABLE t_memc_employee_profile(ep_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+					ep_number VARCHAR(200),
+					ep_workexperience VARCHAR(200),
+					ep_strength VARCHAR(200),
+					ep_weakness VARCHAR(200)
+					)",
 					"CREATE TABLE t_memc_department(dpt_id INT(11) Primary Key NOT NULL,
 					dpt_name VARCHAR(200)
 					)",

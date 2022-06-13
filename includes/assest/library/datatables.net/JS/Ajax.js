@@ -600,6 +600,34 @@ function UpdatePosition(){
 	});
 }
 
+//Profile
+function SearchAddProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchAddProfile",formdata:$('#searchAddProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function addProfile(apid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addProfile", emp_ID:apid},
+		success: function(data){
+			document.getElementById("ShowAddProfileForm").innerHTML = data;
+		}
+	});
+}
+
 function ChangeY(){
 	//alert("HAHA");
 		$.ajax({
@@ -664,6 +692,7 @@ function ChangeY(){
 			}
 		});
 }
+
 //Staff Excel
 $("form#staffexcelform").submit(function(e) {
     e.preventDefault();    
