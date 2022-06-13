@@ -358,6 +358,85 @@ $('#btnexcelclear').click(function(){
 
 });
 
+//Quarter
+function showaddfquarter(){
+	$.ajax({
+		type: "POST",
+		url: "Competencies_showform.php",
+		data: {  action:"showaddquarter"},
+		success: function(data){
+			document.getElementById("show_addquarter").innerHTML = data;
+		}
+	});
+}
+
+function btnaddquarterf(){
+		$.ajax({
+			type:"POST",
+			url:"Competencies_db_query.php",
+			data: {action:"createquarter",formdata:$('#aquarter').serializeArray()},
+			success: function(data){
+				if(data == "success"){
+					window.alert('Created successfully.');
+					document.getElementById("aquarter").reset();
+				}else if(data == "fail"){
+					window.alert('Create failure.');
+				}else{
+					window.alert('Same Plan Type Exist.');
+				}
+
+			}
+		});
+}
+
+function btneditquarterf(quarterid2){
+    $.ajax({
+        type:"POST",
+        url:"Competencies_db_query.php",
+        data: {action:"editquarter",formdata:$('#aquarter').serializeArray(),quarteridd:quarterid2},
+        success: function(data){
+            if(data == "updated"){
+				window.alert('Updated successfully.');
+				window.location ="competencies_searchquarter.php";
+			}else if(data == "fail"){
+				window.alert('Update failure.');
+			}else{
+				window.alert('Same quarter Exist.');
+			}
+			
+        }
+    });
+}
+
+$('#btnquartersearch').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url:"Competencies_db_query.php",
+        data: {action:"searchquarter",formdata:$('#squarter').serializeArray()},
+        success: function(data){
+			if(data =="nf")
+			{
+				window.alert('Not found');
+				document.getElementById("squarter").reset();
+			}else
+			document.getElementById("show_searchquarter").innerHTML = data;
+			
+        }
+    });
+});
+
+function sendeditquarter(quarterid){
+	$.ajax({
+		type: "POST",
+		url: "Competencies_showform.php",
+		data: { action:"showaddquarter", quarterid1: quarterid},
+		success: function(data){
+			document.getElementById("show_editquarter").innerHTML = data;
+		}
+	});
+}
+
 //Employee
 //Access Right
 function AddAccessRight(){

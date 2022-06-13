@@ -230,7 +230,7 @@ if ( $_POST[ 'action' ] == "searchcd" ) {
 }
 
 }
-
+//Item
 if ( $_POST[ 'action' ] == "createitem" ) {
   $sql2 = "SELECT * FROM t_memc_kpcc_items";
   $result2 = mysqli_query( $conn, $sql2 );
@@ -506,6 +506,119 @@ if ( $_POST[ 'action' ] == "searchpt" ) {
       echo "<td>" . ( $i + 1 ) . "</td>";
       echo "<td>" . $row[ 'Pt_Name' ] . "</td>";
       if ( $row[ 'Pt_Status' ] == "1" ) {
+        echo "<td>Active</td>";
+      } else {
+        echo "<td>Inactive</td>";
+      }
+      echo "</tr>";
+    }
+    ?>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<?php
+} else {
+  echo "nf";
+}
+
+}
+//Quarter
+if ( $_POST[ 'action' ] == "createquarter" ) {
+
+  $sql2 = "SELECT * FROM t_memc_kpcc_quarter";
+  $result2 = mysqli_query( $conn, $sql2 );
+  if ( mysqli_num_rows( $result2 ) > 0 ) {
+    for ( $i = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
+      $row2 = mysqli_fetch_array( $result2 );
+      if ( $formdata[ 1 ][ 'value' ] == $row2[ 'Q_Name' ] && $formdata[ 0 ][ 'value' ] == $row2[ 'Q_Year' ] ) {
+        $xx = 1;
+      }
+    }
+  }
+  if ( $xx == 1 ) {
+    echo "same";
+  } else {
+    $addquarter = "INSERT INTO t_memc_kpcc_quarter (Q_Name,Q_Year, Q_Status) VALUES('" . trim( $formdata[ 1 ][ 'value' ] ) . "',
+			'" . trim( $formdata[ 0 ][ 'value' ] ) . "',
+            '" . trim( $formdata[ 2 ][ 'value' ] ) . "'
+			)";
+    $addquartersql = mysqli_query( $conn, $addquarter );
+    if ( $addquartersql ) {
+
+      echo "success";
+    } else {
+      echo "fail";
+    }
+  }
+
+}
+
+
+if ( $_POST[ 'action' ] == "editquarter" ) {
+
+  $sql2 = "SELECT * FROM t_memc_kpcc_quarter";
+  $result2 = mysqli_query( $conn, $sql2 );
+  if ( mysqli_num_rows( $result2 ) > 0 ) {
+    for ( $i = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
+      $row2 = mysqli_fetch_array( $result2 );
+      if ( $formdata[ 0 ][ 'value' ] == $row2[ 'Q_Year' ] && $formdata[ 1 ][ 'value' ] == $row2[ 'Q_Name' ] &&  trim( $_POST[ 'quarteridd' ] ) != $row2[ 'Q_ID' ]) {
+        $xx = 1;
+      }
+    }
+  }
+  if ( $xx == 1 ) {
+    echo "same";
+  } else {
+    $uppquarter = "UPDATE t_memc_kpcc_quarter SET Q_Name='" . trim( $formdata[ 1 ][ 'value' ] ) . "', Q_Year='" . trim( $formdata[ 0 ][ 'value' ] ) . "',
+		Q_Status='" . trim( $formdata[ 2 ][ 'value' ] ) . "' WHERE Q_ID ='" . trim( $_POST[ 'quarteridd' ] ) . "'";
+    if ( mysqli_query( $conn, $uppquarter ) ) {
+
+      echo "updated";
+    } else {
+      echo "fail";
+    }
+  }
+}
+
+if ( $_POST[ 'action' ] == "searchquarter" ) {
+  $sql = "SELECT * FROM t_memc_kpcc_quarter WHERE Q_ID IS NOT NULL AND "; //Search quarter
+  if ( trim( $formdata[ 0 ][ 'value' ] ) != "" ) {
+    $sql .= "Q_Year = '" . trim( $formdata[ 0 ][ 'value' ] ) . "' AND ";
+  }
+    if ( trim( $formdata[ 1 ][ 'value' ] ) != "" ) {
+    $sql .= "Q_Name LIKE '%" . trim( $formdata[ 1 ][ 'value' ] ) . "%' AND ";
+  }
+  if ( trim( $formdata[ 2 ][ 'value' ] ) != "" ) {
+    $sql .= "Q_Status = '" . trim( $formdata[ 2 ][ 'value' ] ) . "' AND ";
+  }
+  $sql .= "ORDER BY Q_Year DESC";
+  $sql = str_replace( "AND ORDER", "ORDER", $sql );
+  $view = mysqli_query( $conn, $sql );
+  if ( mysqli_num_rows( $view ) > 0 ) {
+    ?>
+<table class="table table-hover table-bordered" style="margin-top:15px">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Year</th>
+      <th>Quarter</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
+      $row = mysqli_fetch_array( $view );
+
+      echo "<tr role=\"button\" onClick=\"sendeditquarter('" . $row[ 'Q_ID' ] . "')\">";
+
+      echo "<td>" . ( $i + 1 ) . "</td>";
+      echo "<td>" . $row[ 'Q_Year' ] . "</td>";
+        echo "<td>" . $row[ 'Q_Name' ] . "</td>";
+      if ( $row[ 'Q_Status' ] == "1" ) {
         echo "<td>Active</td>";
       } else {
         echo "<td>Inactive</td>";
