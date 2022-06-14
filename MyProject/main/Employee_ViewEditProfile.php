@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-  include ("../../includes/database.php");
+    include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -31,23 +31,23 @@ thead tr:nth-child(1) th{
     </head>
 
     <body>
-    <div class="container-fluid">
-        <form id="searchEmployeeForm">
+      <div class="container-fluid" id="ShowEditProfileForm">
+        <form method="" id="searchEditProfileForm">
         <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
         </ul>
         <hr class="bdr-light">
-          <div class="container-fluid">
+          <div class="container-fluid" id="SearchEditProfileDiv">
             <div class="row">
               <div class="col">
                 <div class="ml-12">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-11" style="padding: 0px 20px 20px 0px;">
-                        <input type="text" class="form-control" placeholder="Search" name="txtSearchEmployee">	
+                        <input type="text" class="form-control" placeholder="Search" name="txtSearchEditProfile">	
                       </div>
                       <div class="col-1" style="text-align: center;">
-                        <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchEmployee()">
+                        <input type="button" class="btn btn-primary" name="btnSearchEditProfile" value="Search" onclick="SearchEditProfile()">
                       </div>
                     </div>
                     <!-- <div class="d-flex align-items-center mb-4">
@@ -57,60 +57,41 @@ thead tr:nth-child(1) th{
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
-                          <th scope="col"></th>
                           <th scope="col">No.</th>
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Employee Name</th>
-                          <th scope="col" style="vertical-align:middle">Department</th>
-                          <th scope="col" style="vertical-align:middle">Job Band</th>
+                          <th scope="col" style="vertical-align:middle">Working Experience</th>
+                          <th scope="col" style="vertical-align:middle">Strengths</th>
+                          <th scope="col" style="vertical-align:middle">Weakness</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          $IsEmptyEmployeeDetailSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
-                          $IsEmptyEmployeeDetailResult = mysqli_query($conn, $IsEmptyEmployeeDetailSQL);
-                          if(mysqli_num_rows($IsEmptyEmployeeDetailResult) <= 0)
-                          {
-                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE t_memc_staff.stf_department_id = t_memc_department.dpt_id
-                            AND stf_user_status = 1";
-                          }
-                          else
-                          {
-                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_department_id = dpt_id
-                            AND stf_user_status = 1
-                            AND stf_employee_number NOT IN (SELECT Emp_ID FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
-                          }
-
+                            $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_profile, t_memc_staff WHERE ep_number = stf_employee_number";
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
                           {
                               for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                               {
                                 $row = mysqli_fetch_array($SearchResult);
-                                echo "<tr>";
-                                echo "<td><input type=\"checkbox\" value=\"".$row['stf_employee_number']."\" name=\"txtEmployeePass[]\"></td>";
+                                echo "<tr role=\"button\" onClick=\"editProfile('".$row['stf_employee_number']."')\">";
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['stf_employee_number']."</td>";
                                 echo "<td>".$row['stf_name']."</td>";
-                                echo "<td>".$row['dpt_name']."</td>";
-                                echo "<td>".$row['stf_grade']."</td>";
+                                echo "<td>".$row['ep_workexperience']."</td>";
+                                echo "<td>".$row['ep_strength']."</td>";
+                                echo "<td>".$row['ep_weakness']."</td>";
                                 echo "</tr>";
                               }
                           }
                           else
                           {
                             echo "<script> alert('No Record Found');
-						                location='index.php'; </script>";
+						    ocation='index.php'; </script>";
                           }
                         ?>
                       </tbody>
                     </table>
-                    </div>
-                    <div class="form-group" style="padding-top: 10px;">
-                        <div class="col-12" style="text-align: center;">
-                            <input type="button" class="btn btn-primary" name="btnAddEmployee" value="Add" onclick="AddEmployee()">
-                            <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
-                        </div>
                     </div>
                   </div>
                 </div>
@@ -118,7 +99,7 @@ thead tr:nth-child(1) th{
             </div>
           </div>
         </form>
-    </div>
+      </div>
     </body>
-	<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>

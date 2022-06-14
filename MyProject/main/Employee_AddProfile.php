@@ -79,7 +79,7 @@ thead tr:nth-child(1) th{
                             $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE EmpDetail_Status = 1 
                             AND stf_employee_number = Emp_ID
                             AND stf_department_id = dpt_id
-                            AND Emp_ID NOT IN (SELECT ep_number FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
+                            AND Emp_ID NOT IN (SELECT ep_number FROM t_memc_kpcc_employee_profile)";
                           }
 
                           $SearchResult = mysqli_query($conn, $SearchSQL);

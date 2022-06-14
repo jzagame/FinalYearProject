@@ -325,7 +325,8 @@ function editAccessRight(arid){
 		url: "Employee_Query.php",
 		data: {action:"editAccessRight",accessright_ID:arid},
 		success: function(data){
-			document.getElementById("ShowEditForm").innerHTML = data;
+			// document.getElementById("ShowEditForm").innerHTML = data;
+			window.alert(data);
 		}
 	});
 }
@@ -621,9 +622,94 @@ function addProfile(apid){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"addProfile", emp_ID:apid},
+		data: {action:"addProfile", apid:apid},
 		success: function(data){
 			document.getElementById("ShowAddProfileForm").innerHTML = data;
+		}
+	});
+}
+
+function InsertProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"insertProfile",formdata:$('#InsertProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "WE Null")
+			{
+				window.alert('Please Insert Working Experience.');
+			}
+			else if(data == "S Null")
+			{
+				window.alert('Please Insert Strengths.');
+			}
+			else if(data == "W Null")
+			{
+				window.alert('Please Insert Weakness.');
+			}
+			else if(data == "success"){
+				window.alert('Add Profile Successfully.');
+				location="Employee_AddProfile.php";
+			}
+			else{
+				window.alert('Add Profile Failure.');
+			}
+		}
+	});
+}
+
+function SearchEditProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchEditProfile",formdata:$('#searchEditProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function editProfile(epid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"editProfile", epid:epid},
+		success: function(data){
+			document.getElementById("ShowEditProfileForm").innerHTML = data;
+		}
+	});
+}
+
+function UpdateProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateProfile",formdata:$('#EditProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "WE Null")
+			{
+				window.alert('Please Insert Working Experience.');
+			}
+			else if(data == "S Null")
+			{
+				window.alert('Please Insert Strengths.');
+			}
+			else if(data == "W Null")
+			{
+				window.alert('Please Insert Weakness.');
+			}
+			else if(data == "success"){
+				window.alert('Add Profile Successfully.');
+				location="Employee_ViewEditProfile.php";
+			}
+			else{
+				window.alert('Add Profile Failure.');
+			}
 		}
 	});
 }
