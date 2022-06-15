@@ -82,13 +82,13 @@ function CompetenciesList(year,eid){
     });
 }
 
-function ViewAllCompetenciesEmp(EID,year,itmID){
+function ViewAllCompetenciesEmp(EID,year,itmID,$i){
     $.ajax({
         type:"POST",
         url:"Assessment_View_Employee_Plug.php",
         data:{action:"ViewAllCompetenciesEmp",y:year,search:EID,ITMID:itmID},
         success:function(data){
-            document.getElementById("ViewAllCompetenciesEmp").innerHTML= data;
+            document.getElementById("ViewAllCompetenciesEmp_"+ $i).innerHTML= data;
         }
     });
 }

@@ -196,7 +196,7 @@ $('#btn_submit').click(function(e){
         url:"Assessment_db_query.php",
         data: {action:"addcompetencies", formdata:$('#Form_Competencies').serialize(),EID:$("#emp_id").val()},
         success: function(data){
-            console.log(data);
+            // console.log(data);
             SearchEmp($("#emp_id").val());
         }
     });
@@ -209,28 +209,17 @@ $("#btn_add").click(function(e){
         url: "Assessment_plug.php",
         data : {action:"AddButton"},
         success:function(data){
-            if($("#Quarter" + data).val() == "blank"){
-                alert("please select quarter");
-            }else{
-                $.ajax({
-                    type:"POST",
-                    url: "Assessment_plug.php",
-                    data : {action:"AddButton_1"},
-                    success:function(data){
-                        AddCard("",data);
-                    }
-                });
-            }
+            AddCard("",data);
         }
     })
 });
 
 function removeCard(num){
-    console.log($("#Cat" + num).val());
+    // console.log($("#Cat" + num).val());
     $.ajax({
         type:"POST",
         url:"Assessment_plug.php",
-        data: {action:"removeCard",search:$("#Cat" + num).val()},
+        data: {action:"removeCard",search:$("#Cat" + num).val(),Num:num},
         success:function(data){
             if(data == "remove"){
                 $("#card_" + num).remove();
@@ -286,6 +275,28 @@ function checkExist(num){
         data : {action:"checkExist",catgy:$("#Cat" + num).val(),qutr:$("#quarter"+num).val(),itms:$("#Itm" + num).val(),search:$("#emp_id").val()},
         success:function(data){
 
+        }
+    });
+}
+
+function AddNewActionPlan(num){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data : {action:"AddCardActionPlan",cardnum : num},
+        success:function(data){
+            document.getElementById("cardAP_" + num).insertAdjacentHTML("beforeend",data);
+        }
+    });
+}
+
+function removeCardAP(num){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data: {action:"removeCardAP",Num:num},
+        success:function(){
+            $("#cardAP_IN"+num).remove();
         }
     });
 }

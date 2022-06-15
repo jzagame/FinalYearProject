@@ -147,6 +147,7 @@ if ($action == "CompetenciesList") {
         <div class="col-12 mt-3">No Record Found</div>
     <?php
     }
+    $i = 0;
     while ($row = $result->fetch_assoc()) {
     ?>
         <div class="col-4 mt-3">
@@ -156,11 +157,19 @@ if ($action == "CompetenciesList") {
                     <h6 class="card-subtitle mb-2 text-muted"><?php echo $row['Im_Name']; ?></h6>
                     <p class="card-text"><?php echo "Category : " . $row['Ei_Category'] ?></p>
                     <p class="card-text" style="height: 100px;"><?php echo $row['Im_Definition'] ?></p>
-                    <a href="#" onclick="ViewAllCompetenciesEmp('<?php echo $search; ?>','<?php echo $year; ?>','<?php echo $row['Im_ID'] ?>')" class="card-link" data-toggle="modal" data-target="#ModalEmpView">View All</a>
+                    <a href="#ModalEmpView_<?php echo $i; ?>" data-toggle="collapse" onclick="ViewAllCompetenciesEmp('<?php echo $search; ?>','<?php echo $year; ?>','<?php echo $row['Im_ID'] ?>','<?php echo $i; ?>')" aria-expanded="false" aria-controls="#ModalEmpView_<?php echo $i; ?>">View All</a>
+                </div>
+            </div>
+        </div>
+        <div class="collapse col-12 mt-3" id="ModalEmpView_<?php echo $i; ?>">
+            <div class="card card-body">
+                <div id="ViewAllCompetenciesEmp_<?php echo $i; ?>">
+
                 </div>
             </div>
         </div>
     <?php
+        $i++;
     }
     $sql = "select * from t_memc_kpcc_employee_item, t_memc_kpcc_items,t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension, t_memc_kpcc_quarter 
     where Ei_Quarter_ID = Q_ID and Ei_Im_ID = Im_ID and Ei_EMP_ID = '" . $search . "' and Q_Year = '" . $year . "' and Im_Cd_ID = Cd_ID and  
@@ -189,11 +198,19 @@ if ($action == "CompetenciesList") {
                     <h6 class="card-subtitle mb-2 text-muted"><?php echo $row['Im_Name']; ?></h6>
                     <p class="card-text"><?php echo "Category : " . $row['Ei_Category'] ?></p>
                     <p class="card-text" style="height: 100px;"><?php echo $row['Im_Definition'] ?></p>
-                    <a href="#" onclick="ViewAllCompetenciesEmp('<?php echo $search; ?>','<?php echo $year; ?>','<?php echo $row['Im_ID'] ?>')" class="card-link" data-toggle="modal" data-target="#ModalEmpView">View All</a>
+                    <a href="#ModalEmpView_<?php echo $i; ?>" data-toggle="collapse" onclick="ViewAllCompetenciesEmp('<?php echo $search; ?>','<?php echo $year; ?>','<?php echo $row['Im_ID'] ?>','<?php echo $i; ?>')" aria-expanded="false" aria-controls="#ModalEmpView_<?php echo $i; ?>">View All</a>
+                </div>
+            </div>
+        </div>
+        <div class="collapse col-12 mt-3" id="ModalEmpView_<?php echo $i; ?>">
+            <div class="card card-body">
+                <div id="ViewAllCompetenciesEmp_<?php echo $i; ?>">
+
                 </div>
             </div>
         </div>
     <?php
+        $i++;
     }
 }
 if ($action == "ViewAllCompetenciesEmp") {
@@ -211,45 +228,69 @@ if ($action == "ViewAllCompetenciesEmp") {
     }
     ?>
     <table class="table" border="1">
-        <tr>
-            <td>Quarter</td>
-            <?php
-            for ($i = 0; $i < count($temp); $i++) {
-            ?>
-                <td><?php echo $temp[$i]['Q_Year'] . " - " .  $temp[$i]['Q_Name']; ?></td>
-            <?php
-            }
-            ?>
-        </tr>
-        <tr>
-            <td>To-Do</td>
-            <?php
-            for ($i = 0; $i < count($temp); $i++) {
-            ?>
-                <td><?php echo $temp[$i]['Ei_ToDo_Desc']; ?></td>
-            <?php
-            }
-            ?>
-        </tr>
-        <tr>
-            <td>Score | Target</td>
-            <?php
-            for ($i = 0; $i < count($temp); $i++) {
-            ?>
+        <?php 
+            for($i=0;$i<count($temp);$i++){
+        ?>
+            <tr>
+                <td style="width: 100px;background-color:cornflowerblue;">Quarter</td>
+                <td style="background-color:cornflowerblue;"><?php echo $temp[$i]['Q_Year'] . " - " .  $temp[$i]['Q_Name']; ?></td>
+            </tr>
+            <tr>
+                <td>Score | Target</td>
                 <td><?php
                     if ($temp[$i]['Ei_Score'] == "-") {
                         echo " - ";
                     } else {
-                        $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_ID = ".$temp[$i]['Ei_Score']."";
-                        $result = $conn -> query($sql);
-                        $row = $result -> fetch_assoc();
+                        $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_ID = " . $temp[$i]['Ei_Score'] . "";
+                        $result = $conn->query($sql);
+                        $row = $result->fetch_assoc();
                         echo $row['Im_lvl_Name'];
                     }
-                    echo  ' / ' . $temp[$i]['Im_lvl_Name'] ; ?></td>
-            <?php
+                    echo  ' / ' . $temp[$i]['Im_lvl_Name']; ?></td>
+            </tr>
+            <tr>
+                <td>Action Plan</td>
+                <td>
+                <div class="row">
+                <?php
+                $actionplan = $conn -> query("select * from t_memc_kpcc_actionplan where AP_Ei_ID = ".$temp[$i]['Ei_ID']."");
+                $k = 0;
+                while($temprow = $actionplan -> fetch_assoc()){
+                ?>
+                    <div class="col-8">
+                        <?php echo $temprow['AP_Description']; ?>
+                        asdasdsad
+                    </div>
+                    <div class="col-2">
+                        <?php echo $temprow['AP_Date'];?>
+                    </div>
+                    <div class="col-2">
+                        <?php 
+                        if($temprow['AP_Status'] == 1){
+                            echo "Open";
+                        }else if ($temprow['AP_Status'] == 0){
+                            echo "Closed";
+                        }else{
+                            echo "Cancel";
+                        }
+                        ?>
+                    </div>
+                    
+                <?php
+                    $k++;
+                    if(mysqli_num_rows($actionplan) - $k != 0){
+                    ?>
+                        <hr style="width: 100%;">
+                    <?php
+                    }
+                }
+                ?>
+                </div>
+            </td>
+            </tr>
+        <?php
             }
-            ?>
-        </tr>
+        ?>
     </table>
 <?php
 }
