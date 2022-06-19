@@ -804,6 +804,133 @@ if ( $_POST[ 'action' ] == "updateProfile" ) {
 	}
 }
 
+//Category
+if ( $_POST[ 'action' ] == "addCategory" ) {
+
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "'";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
+		echo "C Null";
+	} else if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "same";
+	} else {
+		$AddCategorySQL = "INSERT INTO t_memc_kpcc_category(c_name, c_status) VALUES(
+                '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "',
+                '" . $formdata[ 1 ][ 'value' ] . "'
+            )";
+		$AddCategoryResult = mysqli_query( $conn, $AddCategorySQL );
+		if ( $AddCategoryResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
+
+//Search Access Right
+if ( $_POST[ 'action' ] == "searchCategory" ) {
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name LIKE '%" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "%'
+    AND c_status <> 0";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Category</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr role=\"button\" onClick=\"editCategory('" . $row[ 'c_id' ] . "')\">";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'c_name' ] . "</td>";
+			if ( $row[ 'c_status' ] == 1 ) {
+				echo "<td>ACTIVE</td>";
+			} else {
+				echo "<td>INACTIVE</td>";
+			}
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+//Edit Access Right
+if ( $_POST[ 'action' ] == "editCategory" ) {
+	$cid = $_POST[ 'category_ID' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_id = $cid";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		$row = mysqli_fetch_array( $SearchResult );
+		?>
+		<div class="container-fluid">
+			<form method="" id="UpdateCategoryForm">
+				<ul class="list-group mt-2 mb-2">
+					<li class="list-group-item active">
+						<h5 class="m-0">Edit Category</h5>
+					</li>
+				</ul>
+				<hr class="bdr-light">
+				<div class="container-fluid">
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Category Type</label>
+						</div>
+						<div class="col-10">
+							<input type="text" class="form-control" value="<?php echo $row['c_name'];?>" name="txtCategoryType">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Status</label>
+						</div>
+						<div class="col-10">
+							<select class="form-control custom-select" name="txtCStatus">
+								<option value="1" <?php echo ($row[ 'c_status']==1 ) ? "selected" : "" ; ?>>Active</option>
+								<option value="2" <?php echo ($row[ 'c_status']==2 ) ? "selected" : "" ; ?>>Inactive</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12" style="text-align: center;">
+							<input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditCategory.php'">
+							<input type="button" class="btn btn-primary" name="btnUAccessRight" value="Update" onClick="UpdateCategory(<?php echo $row['c_id'];?>)">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
+}
+
+//Update Access Right
+if ( $_POST[ 'action' ] == 'updateCategory' ) {
+	$cid = $_POST[ 'category_ID' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "' AND c_id != $cid";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
+		echo "C Null";
+	} else if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "same";
+	} else {
+		$UpdateSQL = "UPDATE t_memc_kpcc_category SET c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ] )) . "',
+            c_status = '" . $formdata[ 1 ][ 'value' ] . "'
+            WHERE c_id = $cid";
+		$UpdateResult = mysqli_query( $conn, $UpdateSQL );
+		if ( $UpdateResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
 
 if ( $_POST[ 'action' ] == "searchDepartment" ) {
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'";

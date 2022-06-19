@@ -82,6 +82,10 @@
 					ep_strength VARCHAR(200),
 					ep_weakness VARCHAR(200)
 					)",
+					"CREATE TABLE t_memc_kpcc_category(c_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+					c_name VARCHAR(200),
+					c_status INT
+					)",
 					"CREATE TABLE t_memc_department(dpt_id INT(11) Primary Key NOT NULL,
 					dpt_name VARCHAR(200)
 					)",

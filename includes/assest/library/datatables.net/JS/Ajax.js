@@ -325,14 +325,13 @@ function editAccessRight(arid){
 		url: "Employee_Query.php",
 		data: {action:"editAccessRight",accessright_ID:arid},
 		success: function(data){
-			// document.getElementById("ShowEditForm").innerHTML = data;
-			window.alert(data);
+			document.getElementById("ShowEditForm").innerHTML = data;
 		}
 	});
 }
 
 function UpdateAccessRight(arid){
-	console.log($('#UpdateAccessRightForm').serializeArray());
+	// console.log($('#UpdateAccessRightForm').serializeArray());
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
@@ -343,7 +342,7 @@ function UpdateAccessRight(arid){
 				location="Employee_ViewEditPosition.php";
 			}
 			else if(data == "fail"){
-				window.alert('Update Position Failure.');
+				window.alert('Update Access Right Failure.');
 			}
 			else if(data == "AR Null")
 			{
@@ -709,6 +708,81 @@ function UpdateProfile(){
 			}
 			else{
 				window.alert('Add Profile Failure.');
+			}
+		}
+	});
+}
+
+//Employee Category
+function AddCategory(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addCategory",formdata:$('#AddCategoryForm').serializeArray()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Category Create Successfully.');
+				document.getElementById("AddCategoryForm").reset();
+			}else if(data == "fail"){
+				window.alert('Category Create Failure.');
+			}
+			else if(data == "C Null")
+			{
+				window.alert('Please Insert Category Type');
+			}
+			else{
+				window.alert('Category Exist.');
+			}
+		}
+	});
+}
+
+function SearchCategory(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchCategory",formdata:$('#searchCategoryForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Category Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function editCategory(cid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"editCategory",category_ID:cid},
+		success: function(data){
+			document.getElementById("ShowEditForm").innerHTML = data;
+		}
+	});
+}
+
+function UpdateCategory(cid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateCategory",formdata:$('#UpdateCategoryForm').serializeArray(), category_ID:cid},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Update Catgeory Successfully.');
+				location="Employee_ViewEditCategory.php";
+			}
+			else if(data == "fail"){
+				window.alert('Update Category Failure.');
+			}
+			else if(data == "C Null")
+			{
+				window.alert('Please Insert Category');
+			}
+			else{
+				window.alert('Category Exist.');
 			}
 		}
 	});
