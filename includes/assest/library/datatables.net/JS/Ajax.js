@@ -490,7 +490,7 @@ function editAccessRight(arid){
 }
 
 function UpdateAccessRight(arid){
-	console.log($('#UpdateAccessRightForm').serializeArray());
+	// console.log($('#UpdateAccessRightForm').serializeArray());
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
@@ -501,7 +501,7 @@ function UpdateAccessRight(arid){
 				location="Employee_ViewEditPosition.php";
 			}
 			else if(data == "fail"){
-				window.alert('Update Position Failure.');
+				window.alert('Update Access Right Failure.');
 			}
 			else if(data == "AR Null")
 			{
@@ -610,7 +610,7 @@ function AddEmployee(){
 			}
 			else if(data == "Nothing")
 			{
-				window.alert('Please Select Employee');
+				window.alert('Please Select Employee or Category');
 			}
 			else{
 				window.alert('Employee Added Failure.');
@@ -759,6 +759,236 @@ function UpdatePosition(){
 	});
 }
 
+//Profile
+function SearchAddProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchAddProfile",formdata:$('#searchAddProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function addProfile(apid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addProfile", apid:apid},
+		success: function(data){
+			document.getElementById("ShowAddProfileForm").innerHTML = data;
+		}
+	});
+}
+
+function InsertProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"insertProfile",formdata:$('#InsertProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "WE Null")
+			{
+				window.alert('Please Insert Working Experience.');
+			}
+			else if(data == "S Null")
+			{
+				window.alert('Please Insert Strengths.');
+			}
+			else if(data == "W Null")
+			{
+				window.alert('Please Insert Weakness.');
+			}
+			else if(data == "success"){
+				window.alert('Add Profile Successfully.');
+				location="Employee_AddProfile.php";
+			}
+			else{
+				window.alert('Add Profile Failure.');
+			}
+		}
+	});
+}
+
+function SearchEditProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchEditProfile",formdata:$('#searchEditProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function editProfile(epid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"editProfile", epid:epid},
+		success: function(data){
+			document.getElementById("ShowEditProfileForm").innerHTML = data;
+		}
+	});
+}
+
+function UpdateProfile(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateProfile",formdata:$('#EditProfileForm').serializeArray()},
+		success: function(data){
+			if(data == "WE Null")
+			{
+				window.alert('Please Insert Working Experience.');
+			}
+			else if(data == "S Null")
+			{
+				window.alert('Please Insert Strengths.');
+			}
+			else if(data == "W Null")
+			{
+				window.alert('Please Insert Weakness.');
+			}
+			else if(data == "success"){
+				window.alert('Add Profile Successfully.');
+				location="Employee_ViewEditProfile.php";
+			}
+			else{
+				window.alert('Add Profile Failure.');
+			}
+		}
+	});
+}
+
+//Employee Category
+function AddCategory(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"addCategory",formdata:$('#AddCategoryForm').serializeArray()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Category Create Successfully.');
+				document.getElementById("AddCategoryForm").reset();
+			}else if(data == "fail"){
+				window.alert('Category Create Failure.');
+			}
+			else if(data == "C Null")
+			{
+				window.alert('Please Insert Category Type');
+			}
+			else{
+				window.alert('Category Exist.');
+			}
+		}
+	});
+}
+
+function SearchCategory(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchCategory",formdata:$('#searchCategoryForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Category Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function editCategory(cid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"editCategory",category_ID:cid},
+		success: function(data){
+			document.getElementById("ShowEditForm").innerHTML = data;
+		}
+	});
+}
+
+function UpdateCategory(cid){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateCategory",formdata:$('#UpdateCategoryForm').serializeArray(), category_ID:cid},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Update Catgeory Successfully.');
+				location="Employee_ViewEditCategory.php";
+			}
+			else if(data == "fail"){
+				window.alert('Update Category Failure.');
+			}
+			else if(data == "C Null")
+			{
+				window.alert('Please Insert Category');
+			}
+			else{
+				window.alert('Category Exist.');
+			}
+		}
+	});
+}
+
+function SearchCEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchCEmployee",formdata:$('#searchCEmployeeForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function UpdateCEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateCEmployee",formdata:$('#searchCEmployeeForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Category Update Successfully');
+				location="Employee_EditCategory.php";
+			}
+			else if(data == "No Employee")
+			{
+				window.alert('Please Select Employee');
+			}
+			else if(data == "No C")
+			{
+				window.alert('Please Select Category');
+			}
+			else{
+				window.alert('Category Update Failure');
+			}
+			// alert(data);
+		}
+	});
+}
+
 function ChangeY(){
 	//alert("HAHA");
 		$.ajax({
@@ -823,6 +1053,7 @@ function ChangeY(){
 			}
 		});
 }
+
 //Staff Excel
 $("form#staffexcelform").submit(function(e) {
     e.preventDefault();    

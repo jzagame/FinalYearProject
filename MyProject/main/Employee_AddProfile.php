@@ -1,7 +1,7 @@
 <?php
     session_start();
     error_reporting(0);
-  include ("../../includes/database.php");
+    include ("../../includes/database.php");
     include("../includes/MenuBar.php");
 ?>
 
@@ -31,23 +31,23 @@ thead tr:nth-child(1) th{
     </head>
 
     <body>
-    <div class="container-fluid">
-        <form id="searchEmployeeForm">
+      <div class="container-fluid" id="ShowAddProfileForm">
+        <form method="" id="searchAddProfileForm">
         <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
         </ul>
         <hr class="bdr-light">
-          <div class="container-fluid">
+          <div class="container-fluid" id="SearchAddProfileDiv">
             <div class="row">
               <div class="col">
                 <div class="ml-12">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-11" style="padding: 0px 20px 20px 0px;">
-                        <input type="text" class="form-control" placeholder="Search" name="txtSearchEmployee">	
+                        <input type="text" class="form-control" placeholder="Search" name="txtSearchAddProfile">	
                       </div>
                       <div class="col-1" style="text-align: center;">
-                        <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchEmployee()">
+                        <input type="button" class="btn btn-primary" name="btnSearchAddProfile" value="Search" onclick="SearchAddProfile()">
                       </div>
                     </div>
                     <!-- <div class="d-flex align-items-center mb-4">
@@ -57,7 +57,6 @@ thead tr:nth-child(1) th{
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
-                          <th scope="col"></th>
                           <th scope="col">No.</th>
                           <th scope="col">Employee Number</th>
                           <th scope="col" style="vertical-align:middle">Employee Name</th>
@@ -67,18 +66,20 @@ thead tr:nth-child(1) th{
                       </thead>
                       <tbody>
                         <?php
-                          $IsEmptyEmployeeDetailSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
-                          $IsEmptyEmployeeDetailResult = mysqli_query($conn, $IsEmptyEmployeeDetailSQL);
-                          if(mysqli_num_rows($IsEmptyEmployeeDetailResult) <= 0)
+                          $IsEmptyProfileSQL = "SELECT * FROM t_memc_kpcc_employee_profile";
+                          $IsEmptyProfileResult = mysqli_query($conn, $IsEmptyProfileSQL);
+                          if(mysqli_num_rows($IsEmptyProfileResult) <= 0)
                           {
-                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE t_memc_staff.stf_department_id = t_memc_department.dpt_id
-                            AND stf_user_status = 1";
+                            $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE EmpDetail_Status = 1 
+                            AND stf_employee_number = Emp_ID
+                            AND stf_department_id = dpt_id";
                           }
                           else
                           {
-                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_department_id = dpt_id
-                            AND stf_user_status = 1
-                            AND stf_employee_number NOT IN (SELECT Emp_ID FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
+                            $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE EmpDetail_Status = 1 
+                            AND stf_employee_number = Emp_ID
+                            AND stf_department_id = dpt_id
+                            AND Emp_ID NOT IN (SELECT ep_number FROM t_memc_kpcc_employee_profile)";
                           }
 
                           $SearchResult = mysqli_query($conn, $SearchSQL);
@@ -87,8 +88,7 @@ thead tr:nth-child(1) th{
                               for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                               {
                                 $row = mysqli_fetch_array($SearchResult);
-                                echo "<tr>";
-                                echo "<td><input type=\"checkbox\" value=\"".$row['stf_employee_number']."\" name=\"txtEmployeePass[]\"></td>";
+                                echo "<tr role=\"button\" onClick=\"addProfile('".$row['stf_employee_number']."')\">";
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['stf_employee_number']."</td>";
                                 echo "<td>".$row['stf_name']."</td>";
@@ -106,41 +106,13 @@ thead tr:nth-child(1) th{
                       </tbody>
                     </table>
                     </div>
-                    <div class="form-group row" style="padding-top: 20px;">
-                      <label class="col-2">Category</label>
-                      <div class="col-10">
-                      <select class="form-control custom-select" name="txtCategory">
-                          <option value=""></option>
-                        <?php
-                          $CategorySQL = "SELECT * from t_memc_kpcc_category WHERE c_status = 1";
-                          $CategoryResult = mysqli_query($conn, $CategorySQL);
-                          if(mysqli_num_rows($CategoryResult) > 0)
-                          {
-                            for($i = 0; $i < mysqli_num_rows($CategoryResult); ++$i)
-                            {
-                              $crow = mysqli_fetch_array($CategoryResult);
-                            ?>
-                              <option value="<?php echo $crow['c_id']?>"><?php echo $crow['c_name'];?></option>
-                            <?php
-                            }
-                          }
-                        ?>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group" style="padding-top: 10px;">
-                        <div class="col-12" style="text-align: center;">
-                            <input type="button" class="btn btn-primary" name="btnAddEmployee" value="Add" onclick="AddEmployee()">
-                            <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
-                        </div>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </form>
-    </div>
+      </div>
     </body>
-	<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
 </html>

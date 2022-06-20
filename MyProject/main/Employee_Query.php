@@ -264,10 +264,17 @@ if ( $_POST[ 'action' ] == "addEmployee" ) {
                     '2')";
 
 				$Result = mysqli_query( $conn, $InsertEmployeeSQL );
+
+				$InsertCategorySQL = "INSERT INTO t_memc_kpcc_employee_category(ec_employee_id, ec_category_id) VALUES(
+                    '" . $getinforow[ 'stf_employee_number' ] . "',
+                    '" . $data[ 'txtCategory' ] . "'
+					)";
+
+				$InsertCategoryResult = mysqli_query( $conn, $InsertCategorySQL );
 			}
 		}
 
-		if ( $Result ) {
+		if ( $Result && $InsertCategoryResult ) {
 			echo "success";
 		} else {
 			echo "fail";
@@ -502,6 +509,501 @@ if ( $_POST[ 'action' ] == "updatePosition" ) {
 			}
 		} else {
 			echo "Same ID";
+		}
+	}
+}
+
+//Search Profile
+if ( $_POST[ 'action' ] == "searchAddProfile" ) {
+	$IsEmptyProfileSQL = "SELECT * FROM t_memc_kpcc_employee_profile";
+	$IsEmptyProfileResult = mysqli_query( $conn, $IsEmptyProfileSQL );
+	if ( mysqli_num_rows( $IsEmptyProfileResult ) <= 0 ) 
+	{
+		$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+		AND EmpDetail_Status = 1 
+		AND stf_employee_number = Emp_ID
+		AND stf_department_id = dpt_id";
+	} 
+	else 
+	{
+		$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		AND EmpDetail_Status = 1 
+		AND stf_employee_number = Emp_ID
+		AND stf_department_id = dpt_id
+		AND Emp_ID NOT IN (SELECT ep_number FROM t_memc_kpcc_employee_profile)";
+	}
+
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Employee Number</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr role=\"button\" onClick=\"addProfile('" . $row[ 'stf_employee_number' ] . "')\">";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
+			echo "<td>" . $row[ 'stf_name' ] . "</td>";
+			echo "<td>" . $row[ 'dpt_name' ] . "</td>";
+			echo "<td>" . $row[ 'stf_grade' ] . "</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+if ( $_POST[ 'action' ] == "addProfile" ) {
+	$apid = $_POST[ 'apid' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_ID = '".$apid."' 
+	AND stf_employee_number = Emp_ID
+	AND stf_department_id = dpt_id";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		$row = mysqli_fetch_array( $SearchResult );
+		?>
+		<div class="container-fluid">
+			<form method="" id="InsertProfileForm">
+				<ul class="list-group mt-2 mb-2">
+					<li class="list-group-item active">
+						<h5 class="m-0">Add Profile</h5>
+					</li>
+				</ul>
+				<hr class="bdr-light">
+				<div class="container-fluid">
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Employee Number</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" value="<?php echo $row['stf_employee_number'];?>" name="txtProfileNumber" readonly>
+						</div>
+						<div class="col-2">
+							<label class="col-form-label">Employee Name</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" value="<?php echo $row['stf_name'];?>" name="txtProfileName" readonly>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Department</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" value="<?php echo $row['dpt_name'];?>" name="txtProfiledepartment" readonly>
+						</div>
+						<div class="col-2">
+							<label class="col-form-label">Job Band</label>
+						</div>
+						<div class="col-4">
+							<input type="number" class="form-control" value="<?php echo $row['stf_grade'];?>" name="txtProfileGrade" readonly>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Working Experience</label>
+						</div>
+						<div class="col-10">
+							<textarea class="form-control" name="txtProfileworkingExperience" rows="4" placeholder="Enter Working Experience"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Strengths</label>
+						</div>
+						<div class="col-4">
+						<textarea class="form-control" name="txtProfileworkingExperience" rows="4" placeholder="Enter Strengths"></textarea>
+						</div>
+						<div class="col-2">
+							<label class="col-form-label">Weakness</label>
+						</div>
+						<div class="col-4">
+						<textarea class="form-control" name="txtProfileworkingExperience" rows="4" placeholder="Enter Weakness"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12" style="text-align: center;">
+							<input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_AddProfile.php'">
+							<input type="button" class="btn btn-primary" name="btnInsertProfile" value="Add" onClick="InsertProfile()">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
+}
+
+if ( $_POST[ 'action' ] == "insertProfile" ) {
+
+	if ( trim( $formdata[ 4 ][ 'value' ] ) == "" ) {
+		echo "WE Null";
+	} else if ( trim( $formdata[ 5 ][ 'value' ] ) == "" ) {
+		echo "S Null";
+	} 
+	else if(trim( $formdata[ 6 ][ 'value' ] ) == "")
+	{
+		echo "W Null";
+	}
+	else {
+		$AddProfileSQL = "INSERT INTO t_memc_kpcc_employee_profile(ep_number, ep_workexperience, ep_strength, ep_weakness) VALUES(
+                '" . trim($formdata[ 0 ][ 'value' ]) . "',
+                '" . trim($formdata[ 4 ][ 'value' ]) . "',
+                '" . trim($formdata[ 5 ][ 'value' ]) . "',
+				'" . trim($formdata[ 6 ][ 'value' ]) . "'
+            )";
+		$AddProfileResult = mysqli_query( $conn, $AddProfileSQL );
+		if ( $AddProfileResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
+
+if ( $_POST[ 'action' ] == "searchEditProfile" ) {
+	$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_kpcc_employee_profile WHERE stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+	AND ep_number = stf_employee_number";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Employee Number</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Working Experience</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Strengths</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Weakness</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr role=\"button\" onClick=\"editProfile('" . $row[ 'stf_employee_number' ] . "')\">";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
+			echo "<td>" . $row[ 'stf_name' ] . "</td>";
+			echo "<td>" . $row[ 'ep_workexperience' ] . "</td>";
+			echo "<td>" . $row[ 'ep_strength' ] . "</td>";
+			echo "<td>" . $row[ 'ep_weakness' ] . "</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+if ( $_POST[ 'action' ] == "editProfile" ) {
+	$epid = $_POST[ 'epid' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_profile, t_memc_staff, t_memc_department WHERE ep_number = '".$epid."' 
+	AND stf_employee_number = ep_number
+	AND stf_department_id = dpt_id";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		$row = mysqli_fetch_array( $SearchResult );
+		?>
+		<div class="container-fluid">
+			<form method="" id="EditProfileForm">
+				<ul class="list-group mt-2 mb-2">
+					<li class="list-group-item active">
+						<h5 class="m-0">View/Edit Profile</h5>
+					</li>
+				</ul>
+				<hr class="bdr-light">
+				<div class="container-fluid">
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Employee Number</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" value="<?php echo $row['ep_number'];?>" name="txtProfileNumber" readonly>
+						</div>
+						<div class="col-2">
+							<label class="col-form-label">Employee Name</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" value="<?php echo $row['stf_name'];?>" name="txtProfileName" readonly>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Department</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" value="<?php echo $row['dpt_name'];?>" name="txtProfiledepartment" readonly>
+						</div>
+						<div class="col-2">
+							<label class="col-form-label">Job Band</label>
+						</div>
+						<div class="col-4">
+							<input type="number" class="form-control" value="<?php echo $row['stf_grade'];?>" name="txtProfileGrade" readonly>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Working Experience</label>
+						</div>
+						<div class="col-10">
+							<textarea class="form-control" name="txtProfileworkingExperience" rows="4"><?php echo $row['ep_workexperience'];?></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Strengths</label>
+						</div>
+						<div class="col-4">
+						<textarea class="form-control" name="txtProfileworkingExperience" rows="4"><?php echo $row['ep_strength'];?></textarea>
+						</div>
+						<div class="col-2">
+							<label class="col-form-label">Weakness</label>
+						</div>
+						<div class="col-4">
+						<textarea class="form-control" name="txtProfileworkingExperience" rows="4"><?php echo $row['ep_weakness'];?></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12" style="text-align: center;">
+							<input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditProfile.php'">
+							<input type="button" class="btn btn-primary" name="btnInsertProfile" value="Update" onClick="UpdateProfile()">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
+}
+
+if ( $_POST[ 'action' ] == "updateProfile" ) {
+
+	if ( trim( $formdata[ 4 ][ 'value' ] ) == "" ) {
+		echo "WE Null";
+	} else if ( trim( $formdata[ 5 ][ 'value' ] ) == "" ) {
+		echo "S Null";
+	} 
+	else if(trim( $formdata[ 6 ][ 'value' ] ) == "")
+	{
+		echo "W Null";
+	}
+	else 
+	{
+		$UpdateProfileSQL = "UPDATE t_memc_kpcc_employee_profile SET ep_workexperience = '" . trim($formdata[ 4 ][ 'value' ]) . "',
+		ep_strength = '" . trim($formdata[ 5 ][ 'value' ]) . "',
+		ep_weakness = '" . trim($formdata[ 6 ][ 'value' ]) . "'
+		WHERE ep_number = '".trim($formdata[ 0 ][ 'value' ])."'";
+		$UpdateProfileResult = mysqli_query( $conn, $UpdateProfileSQL );
+
+		if ( $UpdateProfileResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
+
+//Category
+if ( $_POST[ 'action' ] == "addCategory" ) {
+
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "'";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
+		echo "C Null";
+	} else if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "same";
+	} else {
+		$AddCategorySQL = "INSERT INTO t_memc_kpcc_category(c_name, c_status) VALUES(
+                '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "',
+                '" . $formdata[ 1 ][ 'value' ] . "'
+            )";
+		$AddCategoryResult = mysqli_query( $conn, $AddCategorySQL );
+		if ( $AddCategoryResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
+
+//Search Category
+if ( $_POST[ 'action' ] == "searchCategory" ) {
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name LIKE '%" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "%'
+    AND c_status <> 0";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Category</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr role=\"button\" onClick=\"editCategory('" . $row[ 'c_id' ] . "')\">";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'c_name' ] . "</td>";
+			if ( $row[ 'c_status' ] == 1 ) {
+				echo "<td>ACTIVE</td>";
+			} else {
+				echo "<td>INACTIVE</td>";
+			}
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+//Edit Category
+if ( $_POST[ 'action' ] == "editCategory" ) {
+	$cid = $_POST[ 'category_ID' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_id = $cid";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		$row = mysqli_fetch_array( $SearchResult );
+		?>
+		<div class="container-fluid">
+			<form method="" id="UpdateCategoryForm">
+				<ul class="list-group mt-2 mb-2">
+					<li class="list-group-item active">
+						<h5 class="m-0">Edit Category</h5>
+					</li>
+				</ul>
+				<hr class="bdr-light">
+				<div class="container-fluid">
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Category Type</label>
+						</div>
+						<div class="col-10">
+							<input type="text" class="form-control" value="<?php echo $row['c_name'];?>" name="txtCategoryType">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
+							<label class="col-form-label">Status</label>
+						</div>
+						<div class="col-10">
+							<select class="form-control custom-select" name="txtCStatus">
+								<option value="1" <?php echo ($row[ 'c_status']==1 ) ? "selected" : "" ; ?>>Active</option>
+								<option value="2" <?php echo ($row[ 'c_status']==2 ) ? "selected" : "" ; ?>>Inactive</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12" style="text-align: center;">
+							<input type="button" class="btn btn-primary" name="btnBack" value="Back" onClick="location='Employee_ViewEditCategory.php'">
+							<input type="button" class="btn btn-primary" name="btnUAccessRight" value="Update" onClick="UpdateCategory(<?php echo $row['c_id'];?>)">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
+}
+
+//Update Category
+if ( $_POST[ 'action' ] == 'updateCategory' ) {
+	$cid = $_POST[ 'category_ID' ];
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "' AND c_id != $cid";
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( trim( $formdata[ 0 ][ 'value' ] ) == "" ) {
+		echo "C Null";
+	} else if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "same";
+	} else {
+		$UpdateSQL = "UPDATE t_memc_kpcc_category SET c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ] )) . "',
+            c_status = '" . $formdata[ 1 ][ 'value' ] . "'
+            WHERE c_id = $cid";
+		$UpdateResult = mysqli_query( $conn, $UpdateSQL );
+		if ( $UpdateResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
+
+//Search Category Employee
+if ( $_POST[ 'action' ] == "searchCEmployee" ) {
+	$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department, t_memc_kpcc_employee_category, t_memc_kpcc_category WHERE stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+	AND stf_department_id = dpt_id
+	AND stf_employee_number = ec_employee_id
+	AND ec_category_id = c_id";
+
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\"></th>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Employee Number</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Category</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr>";
+			echo "<td><input type=\"checkbox\" value=\"" . $row[ 'stf_employee_number' ] . "\" name=\"txtEmployeePass[]\"></td>";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
+			echo "<td>" . $row[ 'stf_name' ] . "</td>";
+			echo "<td>" . $row[ 'dpt_name' ] . "</td>";
+			echo "<td>" . $row[ 'stf_grade' ] . "</td>";
+			echo "<td>" . $row[ 'c_name' ] . "</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+//Update Category
+if ( $_POST[ 'action' ] == "updateCEmployee" ) {
+	$data = array();
+	parse_str( $formdata, $data );
+
+	if ( count( $data[ 'txtEmployeePass' ] ) <= 0 ) {
+		echo "No Employee";
+	} else if ( $data[ 'txtCategory' ] == "" ) {
+		echo "No C";
+	} else {
+		for ( $i = 0; $i < count( $data[ 'txtEmployeePass' ] ); $i++ ) {
+			$UpdateCategorySQL = "UPDATE t_memc_kpcc_employee_category SET ec_category_id = '" . $data[ 'txtCategory' ] . "'
+				WHERE ec_employee_id = '" . $data[ 'txtEmployeePass' ][ $i ] . "'";
+			$UpdateCategoryResult = mysqli_query( $conn, $UpdateCategorySQL );
+		}
+
+		if ($UpdateCategoryResult) {
+			echo "success";
+		} else {
+			echo "fail";
 		}
 	}
 }
