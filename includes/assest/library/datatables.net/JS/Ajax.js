@@ -451,7 +451,7 @@ function AddEmployee(){
 			}
 			else if(data == "Nothing")
 			{
-				window.alert('Please Select Employee');
+				window.alert('Please Select Employee or Category');
 			}
 			else{
 				window.alert('Employee Added Failure.');
@@ -784,6 +784,48 @@ function UpdateCategory(cid){
 			else{
 				window.alert('Category Exist.');
 			}
+		}
+	});
+}
+
+function SearchCEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"searchCEmployee",formdata:$('#searchCEmployeeForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function UpdateCEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"updateCEmployee",formdata:$('#searchCEmployeeForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Category Update Successfully');
+				location="Employee_EditCategory.php";
+			}
+			else if(data == "No Employee")
+			{
+				window.alert('Please Select Employee');
+			}
+			else if(data == "No C")
+			{
+				window.alert('Please Select Category');
+			}
+			else{
+				window.alert('Category Update Failure');
+			}
+			// alert(data);
 		}
 	});
 }

@@ -260,10 +260,17 @@ if ( $_POST[ 'action' ] == "addEmployee" ) {
                     '2')";
 
 				$Result = mysqli_query( $conn, $InsertEmployeeSQL );
+
+				$InsertCategorySQL = "INSERT INTO t_memc_kpcc_employee_category(ec_employee_id, ec_category_id) VALUES(
+                    '" . $getinforow[ 'stf_employee_number' ] . "',
+                    '" . $data[ 'txtCategory' ] . "'
+					)";
+
+				$InsertCategoryResult = mysqli_query( $conn, $InsertCategorySQL );
 			}
 		}
 
-		if ( $Result ) {
+		if ( $Result && $InsertCategoryResult ) {
 			echo "success";
 		} else {
 			echo "fail";
@@ -827,7 +834,7 @@ if ( $_POST[ 'action' ] == "addCategory" ) {
 	}
 }
 
-//Search Access Right
+//Search Category
 if ( $_POST[ 'action' ] == "searchCategory" ) {
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name LIKE '%" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "%'
     AND c_status <> 0";
@@ -861,7 +868,7 @@ if ( $_POST[ 'action' ] == "searchCategory" ) {
 	}
 }
 
-//Edit Access Right
+//Edit Category
 if ( $_POST[ 'action' ] == "editCategory" ) {
 	$cid = $_POST[ 'category_ID' ];
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_id = $cid";
@@ -910,7 +917,7 @@ if ( $_POST[ 'action' ] == "editCategory" ) {
 	}
 }
 
-//Update Access Right
+//Update Category
 if ( $_POST[ 'action' ] == 'updateCategory' ) {
 	$cid = $_POST[ 'category_ID' ];
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_category WHERE c_name = '" . trim( strtoupper($formdata[ 0 ][ 'value' ]) ) . "' AND c_id != $cid";
@@ -925,6 +932,71 @@ if ( $_POST[ 'action' ] == 'updateCategory' ) {
             WHERE c_id = $cid";
 		$UpdateResult = mysqli_query( $conn, $UpdateSQL );
 		if ( $UpdateResult ) {
+			echo "success";
+		} else {
+			echo "fail";
+		}
+	}
+}
+
+//Search Category Employee
+if ( $_POST[ 'action' ] == "searchCEmployee" ) {
+	$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department, t_memc_kpcc_employee_category, t_memc_kpcc_category WHERE stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+	AND stf_department_id = dpt_id
+	AND stf_employee_number = ec_employee_id
+	AND ec_category_id = c_id";
+
+	$SearchResult = mysqli_query( $conn, $SearchSQL );
+	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
+		echo "<table class=\"table table-hover table-bordered\">";
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th scope=\"col\"></th>";
+		echo "<th scope=\"col\">No.</th>";
+		echo "<th scope=\"col\">Employee Number</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Employee Name</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Department</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Job Band</th>";
+		echo "<th scope=\"col\" style=\"vertical-align:middle\">Category</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tbody>";
+		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
+			$row = mysqli_fetch_array( $SearchResult );
+			echo "<tr>";
+			echo "<td><input type=\"checkbox\" value=\"" . $row[ 'stf_employee_number' ] . "\" name=\"txtEmployeePass[]\"></td>";
+			echo "<td>" . ( $i + 1 ) . "</td>";
+			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
+			echo "<td>" . $row[ 'stf_name' ] . "</td>";
+			echo "<td>" . $row[ 'dpt_name' ] . "</td>";
+			echo "<td>" . $row[ 'stf_grade' ] . "</td>";
+			echo "<td>" . $row[ 'c_name' ] . "</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
+		echo "</table>";
+	} else {
+		echo "fail";
+	}
+}
+
+//Update Category
+if ( $_POST[ 'action' ] == "updateCEmployee" ) {
+	$data = array();
+	parse_str( $formdata, $data );
+
+	if ( count( $data[ 'txtEmployeePass' ] ) <= 0 ) {
+		echo "No Employee";
+	} else if ( $data[ 'txtCategory' ] == "" ) {
+		echo "No C";
+	} else {
+		for ( $i = 0; $i < count( $data[ 'txtEmployeePass' ] ); $i++ ) {
+			$UpdateCategorySQL = "UPDATE t_memc_kpcc_employee_category SET ec_category_id = '" . $data[ 'txtCategory' ] . "'
+				WHERE ec_employee_id = '" . $data[ 'txtEmployeePass' ][ $i ] . "'";
+			$UpdateCategoryResult = mysqli_query( $conn, $UpdateCategorySQL );
+		}
+
+		if ($UpdateCategoryResult) {
 			echo "success";
 		} else {
 			echo "fail";
