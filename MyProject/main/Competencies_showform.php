@@ -389,6 +389,11 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
     </div>
     <div class="form-row justify-content-center">
       <div class="form-group">
+          <?php if($itemid1 !=""){?>
+              <input class="btn btn-primary" type="button" name="btnback" value="Back" onClick="location='competencies_searchitems.php'">
+              <?php
+              }
+              ?>
         <input class="btn btn-primary" type="submit" value="<?php if($itemid1!=""){echo "Update";}else echo "Create"; ?>">
         <input type="reset" class="btn btn-primary" name="btnclear" value="Clear">
       </div>

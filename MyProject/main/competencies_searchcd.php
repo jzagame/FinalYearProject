@@ -79,6 +79,7 @@ thead tr:nth-child(1) th{
     <table class="table table-bordered table-hover" style="margin-top:15px">
       <thead>
         <tr>
+            <th  style="width:10px">Edit</th>
           <th>ID</th>
           <th>Core Competency</th>
           <th>Competencies Dimension</th>
@@ -90,7 +91,8 @@ thead tr:nth-child(1) th{
         <?php
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
-          echo "<tr role=\"button\" onClick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\">";
+           echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\"></td>";
           echo "<td>" . ( $i + 1 ) . "</td>";
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           echo "<td>" . $row[ 'Cd_Name' ] . "</td>";

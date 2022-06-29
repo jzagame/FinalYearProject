@@ -71,6 +71,7 @@ thead tr:nth-child(1) th{
     <table class="table table-hover table-bordered" style="margin-top:15px">
       <thead>
         <tr>
+            <th  style="width:10px">Edit</th>
           <th>ID</th>
           <th>Name</th>
           <th>Status</th>
@@ -80,9 +81,8 @@ thead tr:nth-child(1) th{
         <?php
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
-
-          echo "<tr role=\"button\" onClick=\"sendeditpt('" . $row[ 'Pt_ID' ] . "')\">";
-
+            echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditpt('" . $row[ 'Pt_ID' ] . "')\"></td>";
           echo "<td>" . ( $i + 1 ) . "</td>";
           echo "<td>" . $row[ 'Pt_Name' ] . "</td>";
           if ( $row[ 'Pt_Status' ] == "1" ) {
