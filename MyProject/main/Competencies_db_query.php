@@ -83,6 +83,7 @@ if ( $_POST[ 'action' ] == "searchcc" ) {
 <table class="table table-hover table-bordered" style="margin-top:15px">
   <thead>
     <tr>
+        <th  style="width:10px">Edit</th>
       <th>ID</th>
       <th>Name</th>
       <th>Status</th>
@@ -93,8 +94,8 @@ if ( $_POST[ 'action' ] == "searchcc" ) {
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
       $row = mysqli_fetch_array( $view );
 
-      echo "<tr role=\"button\" onClick=\"sendeditcc('" . $row[ 'Cc_ID' ] . "')\">";
-
+      echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditcc('" . $row[ 'Cc_ID' ] . "')\"></td>";
       echo "<td>" . ( $i + 1 ) . "</td>";
       echo "<td>" . $row[ 'Cc_name' ] . "</td>";
       if ( $row[ 'Cc_status' ] == "1" ) {
@@ -194,6 +195,7 @@ if ( $_POST[ 'action' ] == "searchcd" ) {
 <table class="table table-hover table-bordered" style="margin-top:15px">
   <thead>
     <tr>
+        <th  style="width:10px">Edit</th>
       <th>ID</th>
       <th>Core Competency</th>
       <th>Competencies Dimension</th>
@@ -205,7 +207,8 @@ if ( $_POST[ 'action' ] == "searchcd" ) {
     <?php
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
       $row = mysqli_fetch_array( $view );
-      echo "<tr role=\"button\" onClick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\">";
+        echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\"></td>";
       echo "<td>" . ( $i + 1 ) . "</td>";
       echo "<td>" . $row[ 'Cc_name' ] . "</td>";
       echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
@@ -305,6 +308,7 @@ if ( $_POST[ 'action' ] == "searchitem" ) {
 <table class="table table-hover table-sm table-bordered" style="margin-top:15px">
   <thead>
     <tr>
+        <th  style="width:10px">Edit</th>
       <th nowrap>ID</th>
       <th nowrap>Unique ID</th>
       <th nowrap>Core Competency</th>
@@ -323,14 +327,15 @@ if ( $_POST[ 'action' ] == "searchitem" ) {
     <?php
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
       $row = mysqli_fetch_array( $view );
-      echo "<tr role=\"button\" onClick=\"sendedititem('" . $row[ 'Im_ID' ] . "')\">";
+        echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendedititem('" . $row[ 'Im_ID' ] . "')\"></td>";
       echo "<td>" . ( $i + 1 ) . "</td>";
       echo "<td>" . $row[ 'Im_UID' ] . "</td>";
       echo "<td>" . $row[ 'Cc_name' ] . "</td>";
       echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
       echo "<td>" . $row[ 'Im_Name' ] . "</td>";
       echo "<td>" . $row[ 'Im_Definition' ] . "</td>";
-      $catesql = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = " . $row[ 'Im_ID' ] . "";
+      $catesql = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = " . $row[ 'Im_ID' ] . " ORDER BY Im_lvl_ID DESC";
       $view2 = mysqli_query( $conn, $catesql );
       if ( mysqli_num_rows( $view2 ) > 0 ) {
         for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
@@ -491,6 +496,7 @@ if ( $_POST[ 'action' ] == "searchpt" ) {
 <table class="table table-hover table-bordered" style="margin-top:15px">
   <thead>
     <tr>
+        <th  style="width:10px">Edit</th>
       <th>ID</th>
       <th>Name</th>
       <th>Status</th>
@@ -501,8 +507,8 @@ if ( $_POST[ 'action' ] == "searchpt" ) {
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
       $row = mysqli_fetch_array( $view );
 
-      echo "<tr role=\"button\" onClick=\"sendeditpt('" . $row[ 'Pt_ID' ] . "')\">";
-
+      echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditpt('" . $row[ 'Pt_ID' ] . "')\"></td>";
       echo "<td>" . ( $i + 1 ) . "</td>";
       echo "<td>" . $row[ 'Pt_Name' ] . "</td>";
       if ( $row[ 'Pt_Status' ] == "1" ) {
@@ -602,6 +608,7 @@ if ( $_POST[ 'action' ] == "searchquarter" ) {
 <table class="table table-hover table-bordered" style="margin-top:15px">
   <thead>
     <tr>
+        <th  style="width:10px">Edit</th>
       <th>ID</th>
       <th>Year</th>
       <th>Quarter</th>
@@ -613,8 +620,8 @@ if ( $_POST[ 'action' ] == "searchquarter" ) {
     for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
       $row = mysqli_fetch_array( $view );
 
-      echo "<tr role=\"button\" onClick=\"sendeditquarter('" . $row[ 'Q_ID' ] . "')\">";
-
+        echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditquarter('" . $row[ 'Q_ID' ] . "')\"></td>";
       echo "<td>" . ( $i + 1 ) . "</td>";
       echo "<td>" . $row[ 'Q_Year' ] . "</td>";
         echo "<td>" . $row[ 'Q_Name' ] . "</td>";
