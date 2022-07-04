@@ -78,6 +78,7 @@ if ( $_POST[ 'action' ] == "searchAccessRight" ) {
 		echo "<table class=\"table table-hover table-bordered\">";
 		echo "<thead>";
 		echo "<tr>";
+		echo "<th scope=\"col\" style=\"width:15px\"></th>";
 		echo "<th scope=\"col\">No.</th>";
 		echo "<th scope=\"col\">Level</th>";
 		echo "<th scope=\"col\" style=\"vertical-align:middle\">Description</th>";
@@ -87,7 +88,7 @@ if ( $_POST[ 'action' ] == "searchAccessRight" ) {
 		echo "<tbody>";
 		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
 			$row = mysqli_fetch_array( $SearchResult );
-			echo "<tr role=\"button\" onClick=\"editAccessRight('" . $row[ 'AR_ID' ] . "')\">";
+			echo "<td><input type=\"button\" name=\"btnedit\" value=\"Edit\" class=\"btn btn-primary\" onClick=\"editAccessRight('" . $row[ 'AR_ID' ] . "')\"></td>";
 			echo "<td>" . ( $i + 1 ) . "</td>";
 			echo "<td>" . $row[ 'AR_Level' ] . "</td>";
 			echo "<td>" . $row[ 'AR_Description' ] . "</td>";
@@ -534,6 +535,7 @@ if ( $_POST[ 'action' ] == "searchAddProfile" ) {
 		echo "<table class=\"table table-hover table-bordered\">";
 		echo "<thead>";
 		echo "<tr>";
+		echo "<th scope=\"col\" style=\"width:15px\"></th>";
 		echo "<th scope=\"col\">No.</th>";
 		echo "<th scope=\"col\">Employee Number</th>";
 		echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
@@ -544,7 +546,7 @@ if ( $_POST[ 'action' ] == "searchAddProfile" ) {
 		echo "<tbody>";
 		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
 			$row = mysqli_fetch_array( $SearchResult );
-			echo "<tr role=\"button\" onClick=\"addProfile('" . $row[ 'stf_employee_number' ] . "')\">";
+			echo "<td><input type=\"button\" name=\"btnadd\" value=\"Add\" class=\"btn btn-primary\" onClick=\"addProfile('" . $row[ 'stf_employee_number' ] . "')\"></td>";
 			echo "<td>" . ( $i + 1 ) . "</td>";
 			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
 			echo "<td>" . $row[ 'stf_name' ] . "</td>";
@@ -725,6 +727,7 @@ if ( $_POST[ 'action' ] == "searchEditProfile" ) {
 		echo "<table class=\"table table-hover table-bordered\">";
 		echo "<thead>";
 		echo "<tr>";
+		echo "<th scope=\"col\" style=\"width:15px\"></th>";
 		echo "<th scope=\"col\">No.</th>";
 		echo "<th scope=\"col\">Employee Number</th>";
 		echo "<th scope=\"col\" style=\"vertical-align:middle\">Name</th>";
@@ -736,7 +739,7 @@ if ( $_POST[ 'action' ] == "searchEditProfile" ) {
 		echo "<tbody>";
 		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
 			$row = mysqli_fetch_array( $SearchResult );
-			echo "<tr role=\"button\" onClick=\"editProfile('" . $row[ 'stf_employee_number' ] . "')\">";
+			echo "<td><input type=\"button\" name=\"btnedit\" class=\"btn btn-primary\" value=\"Edit\" onClick=\"editProfile('" . $row[ 'stf_employee_number' ] . "')\"></td>";
 			echo "<td>" . ( $i + 1 ) . "</td>";
 			echo "<td>" . $row[ 'stf_employee_number' ] . "</td>";
 			echo "<td>" . $row[ 'stf_name' ] . "</td>";
@@ -940,6 +943,7 @@ if ( $_POST[ 'action' ] == "searchCategory" ) {
 		echo "<table class=\"table table-hover table-bordered\">";
 		echo "<thead>";
 		echo "<tr>";
+		echo "<th scope=\"col\" style=\"width:15px\"></th>";
 		echo "<th scope=\"col\">No.</th>";
 		echo "<th scope=\"col\">Category</th>";
 		echo "<th scope=\"col\" style=\"vertical-align:middle\">Status</th>";
@@ -948,7 +952,7 @@ if ( $_POST[ 'action' ] == "searchCategory" ) {
 		echo "<tbody>";
 		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
 			$row = mysqli_fetch_array( $SearchResult );
-			echo "<tr role=\"button\" onClick=\"editCategory('" . $row[ 'c_id' ] . "')\">";
+			echo "<td><input type=\"button\" name=\"btnedit\" value=\"Edit\" class=\"btn btn-primary\" onClick=\"editCategory('" . $row[ 'c_id' ] . "')\"></td>";
 			echo "<td>" . ( $i + 1 ) . "</td>";
 			echo "<td>" . $row[ 'c_name' ] . "</td>";
 			if ( $row[ 'c_status' ] == 1 ) {

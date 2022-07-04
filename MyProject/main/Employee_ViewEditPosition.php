@@ -41,6 +41,7 @@
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
+                          <th scope="col" style="width:15px"></th>
                           <th scope="col">No.</th>
                           <th scope="col">Level</th>
                           <th scope="col" style="vertical-align:middle">Description</th>
@@ -56,7 +57,7 @@
                               for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
                               {
                                 $row = mysqli_fetch_array($SearchResult);
-                                echo "<tr role=\"button\" onClick=\"editAccessRight('".$row['AR_ID']."')\">";
+                                echo "<td><input type=\"button\" name=\"btnedit\" value=\"Edit\" class=\"btn btn-primary\" onClick=\"editAccessRight('".$row['AR_ID']."')\"></td>";
                                 echo "<td>".($i+1)."</td>";
                                 echo "<td>".$row['AR_Level']."</td>";
                                 echo "<td>".$row['AR_Description']."</td>";
