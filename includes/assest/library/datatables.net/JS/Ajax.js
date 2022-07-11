@@ -838,6 +838,26 @@ function UpdateCEmployee(){
 	});
 }
 
+//Add Category Tab
+$("#btnAddCategoryTab").click(function(e){
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url: "Employee_Query.php",
+        data : {action:"AddCategoryTab"},
+        success:function(data){
+			$.ajax({
+				type:"POST",
+				url: "Employee_Qeury.php",
+				data : {action:"AddButton_1"},
+				success:function(data){
+					AddCard("",data);
+				}
+			});
+        }
+    })
+});
+
 function ChangeY(){
 	//alert("HAHA");
 		$.ajax({
