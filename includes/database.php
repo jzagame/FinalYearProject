@@ -73,6 +73,7 @@
 					)",
 					"CREATE TABLE t_memc_kpcc_employee_profile(ep_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					ep_number VARCHAR(200),
+					ep_unit VARCHAR(200),
 					ep_workexperience VARCHAR(200),
 					ep_strength VARCHAR(200),
 					ep_weakness VARCHAR(200)
@@ -84,6 +85,7 @@
 					"CREATE TABLE t_memc_kpcc_employee_category(ec_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					ec_employee_id VARCHAR(200),
 					ec_category_id INT
+					ec_status INT
 					)",
 					"CREATE TABLE t_memc_department(dpt_id INT(11) Primary Key NOT NULL,
 					dpt_name VARCHAR(200)

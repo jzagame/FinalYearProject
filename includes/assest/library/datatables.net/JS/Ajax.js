@@ -793,7 +793,11 @@ function InsertProfile(){
 		url: "Employee_Query.php",
 		data: {action:"insertProfile",formdata:$('#InsertProfileForm').serializeArray()},
 		success: function(data){
-			if(data == "WE Null")
+			if(data == "U Null")
+			{
+				window.alert('Please Insert Unit.');
+			}
+			else if(data == "WE Null")
 			{
 				window.alert('Please Insert Working Experience.');
 			}
@@ -810,7 +814,7 @@ function InsertProfile(){
 				location="Employee_AddProfile.php";
 			}
 			else{
-				window.alert('Add Profile Failure.');
+				window.alert("Add Profile Failure");
 			}
 		}
 	});
@@ -849,7 +853,11 @@ function UpdateProfile(){
 		url: "Employee_Query.php",
 		data: {action:"updateProfile",formdata:$('#EditProfileForm').serializeArray()},
 		success: function(data){
-			if(data == "WE Null")
+			if(data == "U Null")
+			{
+				window.alert('Please Insert Unit.');
+			}
+			else if(data == "WE Null")
 			{
 				window.alert('Please Insert Working Experience.');
 			}
@@ -988,6 +996,26 @@ function UpdateCEmployee(){
 		}
 	});
 }
+
+//Add Category Tab
+$("#btnAddCategoryTab").click(function(e){
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url: "Employee_Query.php",
+        data : {action:"AddCategoryTab"},
+        success:function(data){
+			$.ajax({
+				type:"POST",
+				url: "Employee_Qeury.php",
+				data : {action:"AddButton_1"},
+				success:function(data){
+					AddCard("",data);
+				}
+			});
+        }
+    })
+});
 
 function ChangeY(){
 	//alert("HAHA");

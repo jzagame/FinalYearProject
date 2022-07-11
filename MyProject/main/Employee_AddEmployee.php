@@ -106,11 +106,11 @@ thead tr:nth-child(1) th{
                       </tbody>
                     </table>
                     </div>
-                    <div class="form-group row" style="padding-top: 20px;">
+                    <div class="form-group row" style="padding-top: 20px;" id="AddCategoryTab">
+                      <div id="AddedTab">
                       <label class="col-2">Category</label>
                       <div class="col-10">
-                      <select class="form-control custom-select" name="txtCategory">
-                          <option value=""></option>
+                      <select class="form-control custom-select" name="txtCategory[]">
                         <?php
                           $CategorySQL = "SELECT * from t_memc_kpcc_category WHERE c_status = 1";
                           $CategoryResult = mysqli_query($conn, $CategorySQL);
@@ -127,6 +127,12 @@ thead tr:nth-child(1) th{
                         ?>
                         </select>
                       </div>
+                      </div>
+                    </div>
+                    <div class="form-group" style="padding-top: 10px;">
+                        <div class="col-12" style="text-align: center;">
+                            <input type="button" class="btn btn-primary" name="btnAddCategoryTab" value="+ Category">
+                        </div>
                     </div>
                     <div class="form-group" style="padding-top: 10px;">
                         <div class="col-12" style="text-align: center;">
