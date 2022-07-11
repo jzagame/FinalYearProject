@@ -655,7 +655,7 @@ function InsertProfile(){
 				location="Employee_AddProfile.php";
 			}
 			else{
-				window.alert('Add Profile Failure.');
+				window.alert("Add Profile Failure");
 			}
 		}
 	});
