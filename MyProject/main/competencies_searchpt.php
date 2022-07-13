@@ -7,9 +7,9 @@ include( "../includes/MenuBar.php" );
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
+	<style>
 	.table-responsive {
-max-height:500px;
+    max-height:500px;
 }
 thead tr:nth-child(1) th{
     background: white;
@@ -17,36 +17,28 @@ thead tr:nth-child(1) th{
     top: 0;
     z-index: 10;
   }
-</style>
+	</style>
 </head>
 
 <body>
-<div class="container-fluid" id="show_editcd">
+<div class="container-fluid" id="show_editpt">
   <div class="row">
     <div class="col-12">
       <ul class="list-group mt-2 mb-2">
         <li class="list-group-item active">
-          <h5 class="m-0"> View/Edit Competencies Dimension </h5>
+          <h5 class="m-0"> View/Edit plan type name </h5>
         </li>
       </ul>
     </div>
   </div>
   <hr class="bdr-light">
-  <form class="form-card" id="scd" style="margin: 10px">
+  <form class="form-card" id="spt" style="margin: 10px">
     <div class="form-group row">
       <div class="col-2">
-        <label for="inputAddress">Core Competency Name</label>
+        <label for="inputAddress">plan type name Name</label>
       </div>
       <div class="col-10">
-        <input type="text" class="form-control" placeholder="Enter Core Competency Name" name="txtsmname">
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-2">
-        <label for="inputAddress">Competencies Dimension Name</label>
-      </div>
-      <div class="col-10">
-        <input type="text" class="form-control" placeholder="Enter Competencies Dimension Name" name="txtscname">
+        <input type="text" class="form-control" placeholder="Enter Plan Type Name" name="txtsname">
       </div>
     </div>
     <div class="form-group row">
@@ -54,7 +46,7 @@ thead tr:nth-child(1) th{
         <label for="inputState">Status</label>
       </div>
       <div class="col-10">
-        <select name="selstatus" class="form-control">
+        <select name="selstatus" class="form-control custom-select">
           <option value="">Both</option>
           <option value="1">Active</option>
           <option value="2">Inactive</option>
@@ -63,27 +55,25 @@ thead tr:nth-child(1) th{
     </div>
     <div class="form-group row ">
       <div class="col-12" style="text-align: center;">
-        <input class="btn btn-primary" type="submit" id="btncdsearch" name="btnsearch" value="Search">
+        <input class="btn btn-primary" type="submit" id="btnptsearch" value="Search">
         <input type="reset" class="btn btn-primary" name="btnclear" value="Clear">
       </div>
     </div>
   </form>
-  <div class="table-responsive" id="show_searchcd">
+  <div class="table-responsive" id="show_searchpt">
     <?php
-    $sql = "SELECT * FROM t_memc_kpcc_corecompetencies,t_memc_kpcc_competenciesdimension WHERE t_memc_kpcc_corecompetencies.Cc_ID = t_memc_kpcc_competenciesdimension.Cd_Cc_ID AND Cd_ID IS NOT NULL AND "; //Search Core competencies
-    $sql .= "ORDER BY Cd_ID";
+    $sql = "SELECT * FROM t_memc_kpcc_PlanType WHERE Pt_ID IS NOT NULL AND "; //Search major competencies
+    $sql .= "ORDER BY Pt_ID";
     $sql = str_replace( "AND ORDER", "ORDER", $sql );
     $view = mysqli_query( $conn, $sql );
     if ( mysqli_num_rows( $view ) > 0 ) {
       ?>
-    <table class="table table-bordered table-hover" style="margin-top:15px">
+    <table class="table table-hover table-bordered" style="margin-top:15px">
       <thead>
         <tr>
             <th  style="width:10px">Edit</th>
           <th>ID</th>
-          <th>Core Competency</th>
-          <th>Competencies Dimension</th>
-          <th>Definition</th>
+          <th>Name</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -91,13 +81,11 @@ thead tr:nth-child(1) th{
         <?php
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
-           echo "<tr>";
-          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditcd('" . $row[ 'Cd_ID' ] . "')\"></td>";
+            echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditpt('" . $row[ 'Pt_ID' ] . "')\"></td>";
           echo "<td>" . ( $i + 1 ) . "</td>";
-          echo "<td>" . $row[ 'Cc_name' ] . "</td>";
-          echo "<td>" . $row[ 'Cd_Name' ] . "</td>";
-          echo "<td>" . $row[ 'Cd_Definition' ] . "</td>";
-          if ( $row[ 'Cd_status' ] == "1" ) {
+          echo "<td>" . $row[ 'Pt_Name' ] . "</td>";
+          if ( $row[ 'Pt_Status' ] == "1" ) {
             echo "<td>Active</td>";
           } else {
             echo "<td>Inactive</td>";
@@ -109,6 +97,7 @@ thead tr:nth-child(1) th{
     </table>
     <?php
     }
+
     ?>
   </div>
 </div>

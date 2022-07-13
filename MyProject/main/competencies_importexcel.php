@@ -76,7 +76,7 @@
 
 
 </body>
-<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Competencies_Ajax.js"></script>
 	<script>
 $(".custom-file-input").on("change", function() {
   var fileName = $(this).val().split("\\").pop();

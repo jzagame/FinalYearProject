@@ -81,6 +81,18 @@ session_start();
             <li class="dropdown-item" role="button" onclick="location='competencies_searchitems.php'">View/Edit Items</li>
           </ul>
         </li>
+	  			                  <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Action plan type</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" role="button" onclick="location='competencies_addpt.php'">Create plan type</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchpt.php'">View/Edit plan type</li>
+                  </ul>
+                </li>
+      <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Quarter</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item" role="button" onclick="location='competencies_addquarter.php'">Create quarter</li>
+                    <li class="dropdown-item" role="button" onclick="location='competencies_searchquarter.php'">View/Edit quarter</li>
+                  </ul>
+                </li>
         <li class="dropdown-item" role="button" onclick="location='competencies_importexcel.php'">Import Excel (.csv)</li>
       </ul>
     </div>

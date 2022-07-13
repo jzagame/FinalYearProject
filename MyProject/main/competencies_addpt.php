@@ -2,24 +2,22 @@
   session_start();
   error_reporting(0);
   include ("../../includes/database.php");
-    include("../includes/MenuBar.php");
+include("../includes/MenuBar.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	
+
 </head>
 
 <body>
-
-	<script>
+<script>
 	window.onload = function() {
-	   showaddf();
+	   showaddfpt();
 	}
 	</script> 
-	<div class="container-fluid" id="show_addcc"></div>
-
+	<div class="container-fluid" id="show_addpt"></div>
 
 
 </body>

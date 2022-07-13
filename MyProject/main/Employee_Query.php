@@ -31,8 +31,12 @@ if ( $_POST[ 'action' ] == "addDepartment" ) {
 
 	if ( strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) == "" || strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) == "" || strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) == "" ) {
 		echo "fill";
-	} else {
-		$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name = '" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "' AND D_HODID ='" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "' AND D_HODNode = '" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "'";
+	}
+	else if( strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) == strtoupper( trim( $formdata[ 2 ][ 'value' ] ) )){
+		echo "cannot";
+	}
+	else {
+		$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_DID = '" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "' AND D_HODID ='" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "' AND D_DPID = '" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "'";
 		//echo "I am in";
 		$SearchResult = mysqli_query( $conn, $SearchSQL );
 		if ( mysqli_num_rows( $SearchResult ) > 0 ) {
@@ -42,7 +46,7 @@ if ( $_POST[ 'action' ] == "addDepartment" ) {
 			$Result = mysqli_query( $conn, $SearchDepartmentSQL );
 			$row = mysqli_fetch_array( $Result );
 			if ( $row[ 'userFound' ] == 0 ) {
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_Name, D_HODID, D_HODNode, D_Status) VALUES(
+				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_DID, D_HODID, D_DPID, D_Status) VALUES(
 					'" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "',
 					'" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "',
 					'" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "',
@@ -51,7 +55,7 @@ if ( $_POST[ 'action' ] == "addDepartment" ) {
 				$SID = "1" + $row[ 'userFound' ];
 				$EmpID = "DEP-" . sprintf( '%04d', $SID );
 
-				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_ID, D_Name, D_HODID, D_HODNode, D_Status) VALUES(
+				$AddDepartmentSQL = "INSERT INTO t_memc_kpcc_department(D_ID, D_DID, D_HODID, D_DPID, D_Status) VALUES(
 					'$EmpID',
 					'" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "',
 					'" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "',
@@ -1114,7 +1118,7 @@ if ( $_POST[ 'action' ] == "updateCEmployee" ) {
 }
 
 if ( $_POST[ 'action' ] == "searchDepartment" ) {
-	$SearchSQL = "SELECT * FROM t_memc_kpcc_department WHERE D_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'";
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_department, t_memc_department, t_memc_kpcc_employee_detail WHERE t_memc_kpcc_department.D_DID = t_memc_department.dpt_id AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_department.D_HODID AND t_memc_department.dpt_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' ORDER BY D_ID";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
 	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
 		echo "<table class=\"table table-hover table-bordered\">";
@@ -1128,16 +1132,24 @@ if ( $_POST[ 'action' ] == "searchDepartment" ) {
 		echo "</tr>";
 		echo "</thead>";
 		echo "<tbody>";
-		for ( $i = 0; $i < mysqli_num_rows( $SearchResult ); ++$i ) {
-			$row = mysqli_fetch_array( $SearchResult );
-			echo "<tr role=\"button\" onClick=\"editDepartment('" . $row[ 'D_ID' ] . "')\">";
-			echo "<td>" . $row[ 'D_ID' ] . "</td>";
-			echo "<td>" . $row[ 'D_Name' ] . "</td>";
-			echo "<td>" . $row[ 'D_HODID' ] . "</td>";
-			echo "<td>" . $row[ 'D_HODNode' ] . "</td>";
-			echo "<td>" . $row[ 'D_Status' ] . "</td>";
-			echo "</tr>";
-		}
+		for($i = 0; $i < mysqli_num_rows($SearchResult); ++$i)
+		  {
+			$row = mysqli_fetch_array($SearchResult);
+			  $SearchSQL2 = "SELECT * FROM t_memc_department WHERE dpt_id = '".$row['D_DPID']."' ";
+			  $SearchResult2 = mysqli_query( $conn, $SearchSQL2 );
+				if ( mysqli_num_rows( $SearchResult2 ) > 0 ) 
+					{			
+						$row2 = mysqli_fetch_array( $SearchResult2 );
+						echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
+						echo "<td>".$row['D_ID']."</td>";
+						echo "<td>".$row['D_DID']."-".$row['dpt_name']."</td>";
+						echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
+						echo "<td>".$row['D_DPID']."-".$row2['dpt_name']."</td>";
+						echo "<td>".$row['D_Status']."</td>";
+						echo "</tr>";
+						
+		  			}
+		  }
 		echo "</tbody>";
 		echo "</table>";
 	} else {
@@ -1176,11 +1188,11 @@ if ( $_POST[ 'action' ] == "editDepartment" ) {
 								if ( mysqli_num_rows( $SCResultt ) > 0 ) {
 									for ( $i = 0; $i < mysqli_num_rows( $SCResultt ); ++$i ) {
 										$scroww = mysqli_fetch_array( $SCResultt );
-										$s = explode( "-", $row[ 'D_Name' ] );
+										$s = explode( "-", $row[ 'D_DID' ] );
 										//echo $s[0];
 										//echo "<script>alert('.$s[0].');</script>";
 										?>
-								<option value="<?php echo $scroww['dpt_id']." - ".$scroww['dpt_name'];?>"<?php echo ($scroww[ 'dpt_id']==$s[0]) ? "selected" : "" ;?>>
+								<option value="<?php echo $scroww['dpt_id'];?>"<?php echo ($scroww[ 'dpt_id']==$s[0]) ? "selected" : "" ;?>>
 									<?php echo $scroww['dpt_id']."-".$scroww['dpt_name'];?>
 								</option>
 								<?php
@@ -1231,11 +1243,11 @@ if ( $_POST[ 'action' ] == "editDepartment" ) {
 								if ( mysqli_num_rows( $SCResultt ) > 0 ) {
 									for ( $i = 0; $i < mysqli_num_rows( $SCResultt ); ++$i ) {
 										$scroww = mysqli_fetch_array( $SCResultt );
-										$s = explode( "-", $row[ 'D_HODNode' ] );
+										$s = explode( "-", $row[ 'D_DPID' ] );
 										//echo $s[0];
 										//echo "<script>alert('.$s[0].');</script>";
 										?>
-								<option value="<?php echo $scroww['dpt_id']." - ".$scroww['dpt_name'];?>"<?php echo ($scroww[ 'dpt_id']==$s[0]) ? "selected" : "" ;?>>
+								<option value="<?php echo $scroww['dpt_id'];?>"<?php echo ($scroww[ 'dpt_id']==$s[0]) ? "selected" : "" ;?>>
 									<?php echo $scroww['dpt_id']."-".$scroww['dpt_name'];?>
 								</option>
 								<?php
@@ -1260,9 +1272,9 @@ if ( $_POST[ 'action' ] == "editDepartment" ) {
 
 if ( $_POST[ 'action' ] == 'updateDepartment' ) {
 	$did = $_POST[ 'D_ID' ];
-	$UpdateSQL = "UPDATE t_memc_kpcc_department SET D_Name = '" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "',
+	$UpdateSQL = "UPDATE t_memc_kpcc_department SET D_DID = '" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "',
             D_HODID = '" . strtoupper( trim( $formdata[ 1 ][ 'value' ] ) ) . "',
-			D_HODNode = '" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "'
+			D_DPID = '" . strtoupper( trim( $formdata[ 2 ][ 'value' ] ) ) . "'
             WHERE D_ID = $did";
 	$UpdateResult = mysqli_query( $conn, $UpdateSQL );
 	if ( $UpdateResult ) {
@@ -1333,31 +1345,22 @@ if ( $_POST[ 'action' ] == 'changeyear' ) {
 	//				
 	//			}
 	//		echo "Pass2:".$pass2."A"."Fail2:".$fail2."B";
-	//echo "success";?>
+	//echo "success";
+?>
 
 
 	<div class="row d-flex">
 		<div class="col justify-content-end">
 			<h3 style="text-align: left;">Marking Score</h3>
 		</div>
-		<!--
-		<div class="col">
-			<h3 style="text-align: left;">Quarter 2 </h3>
-		</div>
--->
+
 	</div>
 	<div class="row d-flex">
 		<div class="col justify-content-end">
 			<div id="chart"></div>
 		</div>
-		<!--
-	<div class="col">
-            <div id="chartt"></div>
-          </div>
--->
+
 	</div>
-
-
 
 	<?php
 }

@@ -71,6 +71,7 @@ thead tr:nth-child(1) th{
     <table class="table table-hover table-bordered" style="margin-top:15px">
       <thead>
         <tr>
+            <th  style="width:10px">Edit</th>
           <th>ID</th>
           <th>Name</th>
           <th>Status</th>
@@ -81,8 +82,8 @@ thead tr:nth-child(1) th{
         for ( $i = 0; $i < mysqli_num_rows( $view ); ++$i ) {
           $row = mysqli_fetch_array( $view );
 
-          echo "<tr role=\"button\" onClick=\"sendeditcc('" . $row[ 'Cc_ID' ] . "')\">";
-
+          echo "<tr>";
+          echo "<td><input type=\"button\" class=\"btn btn-primary\" name=\"btnedit\" value=\"Edit\" onclick=\"sendeditcc('" . $row[ 'Cc_ID' ] . "')\"></td>";
           echo "<td>" . ( $i + 1 ) . "</td>";
           echo "<td>" . $row[ 'Cc_name' ] . "</td>";
           if ( $row[ 'Cc_status' ] == "1" ) {
@@ -102,5 +103,5 @@ thead tr:nth-child(1) th{
   </div>
 </div>
 </body>
-<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Competencies_Ajax.js"></script>
 </html>

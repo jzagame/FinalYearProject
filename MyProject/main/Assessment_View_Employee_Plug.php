@@ -6,7 +6,7 @@ $action = $_POST['action'];
 $search = $_POST['search'];
 if ($action == "SaveEmpTableData") {
     // when get into this page, get all the employee data within department and save into the session, after that go to the $action == ShowEmpTable
-    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_kpcc_department,t_memc_kpcc_position where EMP_D_ID = D_ID and Emp_P_ID = P_ID";
+    $sql = "select * from t_memc_kpcc_employee_detail,t_memc_kpcc_department where EMP_D_ID = D_ID";
     if ($search != null) {
         $sql .= " and Emp_ID like '%" . $search . "%'";
     }
@@ -75,8 +75,8 @@ if ($action == "generatePageNum") {
 if ($action == "ViewEmpData") {
     $sql = "select DISTINCT Q_Year from t_memc_kpcc_quarter order by Q_Year desc";
     $year_data = $conn->query($sql);
-    $sql = "select * from t_memc_kpcc_employee_item,t_memc_kpcc_employee_detail,t_memc_kpcc_department,t_memc_kpcc_position where 
-    Ei_EMP_ID = Emp_ID  and EMP_D_ID = D_ID and Emp_ID = '" . $search . "' and Emp_P_ID = P_ID";
+    $sql = "select * from t_memc_kpcc_employee_item,t_memc_kpcc_employee_detail,t_memc_kpcc_department where 
+    Ei_EMP_ID = Emp_ID  and EMP_D_ID = D_ID and Emp_ID = '" . $search . "'";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     ?>
@@ -100,10 +100,6 @@ if ($action == "ViewEmpData") {
             <tr>
                 <td>Department : </td>
                 <td><?php echo $row['D_Name'] ?></td>
-            </tr>
-            <tr>
-                <td>Position : </td>
-                <td><?php echo $row['P_name'] ?></td>
             </tr>
         </table>
     </div>
@@ -237,17 +233,20 @@ if ($action == "ViewAllCompetenciesEmp") {
             ?>
         </tr>
         <tr>
-            <td>Score</td>
+            <td>Score | Target</td>
             <?php
             for ($i = 0; $i < count($temp); $i++) {
             ?>
                 <td><?php
-                    if ($temp[$i]['Ei_Score'] == null) {
-                        echo " pending ";
+                    if ($temp[$i]['Ei_Score'] == "-") {
+                        echo " - ";
                     } else {
-                        echo $temp[$i]['Ei_Score'];
+                        $sql = "select * from t_memc_kpcc_items_lvl_desc where Im_lvl_ID = ".$temp[$i]['Ei_Score']."";
+                        $result = $conn -> query($sql);
+                        $row = $result -> fetch_assoc();
+                        echo $row['Im_lvl_Name'];
                     }
-                    echo  ' / ' . $temp[$i]['Im_lvl_Name'] . " ---- (Score / Target)"; ?></td>
+                    echo  ' / ' . $temp[$i]['Im_lvl_Name'] ; ?></td>
             <?php
             }
             ?>

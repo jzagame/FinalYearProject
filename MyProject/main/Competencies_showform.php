@@ -5,6 +5,8 @@ include( "../../includes/database.php" );
 $ccid1 = $_POST[ 'ccid1' ];
 $cdid1 = $_POST[ 'cdid1' ];
 $itemid1 = $_POST[ 'itemid1' ];
+$ptid1 = $_POST[ 'ptid1' ];
+$quarterid1 = $_POST[ 'quarterid1' ];
 //Core Competecies
 if ( $_POST[ 'action' ] == "showaddcc" ) {
 
@@ -241,7 +243,7 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
       <label class="form-control-label ">Unique ID</label>
     </div>
     <div class="col-10">
-      <input type="text" class="form-control" placeholder="Enter Unique ID" name="txtuid" value="<?php if($itemid1 !="")echo $row['Im_UID']; ?>" required="required">
+      <input type="text" class="form-control" placeholder="Enter Unique ID" name="txtuid" value="<?php if($itemid1 !="")echo $row['Im_UID']; ?>" required="required" maxlength="5">
     </div>
   </div>
 	  
@@ -387,6 +389,11 @@ if ( $_POST[ 'action' ] == "showadditem" ) {
     </div>
     <div class="form-row justify-content-center">
       <div class="form-group">
+          <?php if($itemid1 !=""){?>
+              <input class="btn btn-primary" type="button" name="btnback" value="Back" onClick="location='competencies_searchitems.php'">
+              <?php
+              }
+              ?>
         <input class="btn btn-primary" type="submit" value="<?php if($itemid1!=""){echo "Update";}else echo "Create"; ?>">
         <input type="reset" class="btn btn-primary" name="btnclear" value="Clear">
       </div>
@@ -421,4 +428,179 @@ if ( $_POST[ 'action' ] == "showadditemcd" ) {
 <?php
 
 }
+
+//Plan Type
+if ( $_POST[ 'action' ] == "showaddpt" ) {
+	if ( $ptid1 != "" ) {
+    $sql = "SELECT * FROM t_memc_kpcc_PlanType WHERE Pt_ID = '" . $ptid1 . "'";
+    $result = mysqli_query( $conn, $sql );
+    if ( mysqli_num_rows( $result ) > 0 ) {
+      $row = mysqli_fetch_array( $result );
+    }
+  }
+  ?>
+<div class="row">
+  <div class="col-12">
+    <ul class="list-group mt-2 mb-2">
+      <li class="list-group-item active">
+        <h5 class="m-0">
+          <?php if($ptid1 !=""){ ?>
+          Edit action plan type name
+          <?php }else  {?>
+          Create action plan type name
+          <?php } ?>
+        </h5>
+      </li>
+    </ul>
+  </div>
+</div>
+<hr class="bdr-light">
+<form class="form-card" id="apt" onSubmit="event.preventDefault(); <?php if($ptid1!=""){echo "btneditptf(".$ptid1.")";}else echo "btnaddptf()"; ?>">
+  <div class="form-group row">
+    <div class="col-2">
+      <label class="form-control-label px-3">Action Plan Type name</label>
+    </div>
+    <div class="col-10">
+      <textarea id="form_message" name="txtname" class="form-control" placeholder="Write the name here." rows="3" required="required" data-error="Please, leave a name."><?php if($ptid1 != "")echo $row['Pt_Name']; ?>
+</textarea>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-2">
+      <label class="form-control-label px-3">Status</label>
+    </div>
+    <div class="col-10">
+      <select class="custom-select form-control col-5" id="Position" name="selstatus">
+        <?php
+        if ( $ptid1 != "" ) {
+          if ( $row[ 'Pt_Status' ] == "1" ) {
+            echo "<option selected=\"selected\" value=\"1\">Active</option>";
+            echo "<option value=\"2\">Inactive</option>";
+          } else {
+            echo "<option selected=\"selected\" value=\"2\">Inactive</option>";
+            echo "<option value=\"1\">Active</option>";
+          }
+        } else {
+
+
+          ?>
+        <option value="1">Active</option>
+        <option value="2">Inactive</option>
+        <?php
+        }
+        ?>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row ">
+    <div class="col-12" style="text-align: center;">
+      <?php if($ptid1 !=""){?>
+      <input class="btn btn-primary" type="button" name="btnback" value="Back" onClick="location='competencies_searchpt.php'">
+      <?php
+      }
+      ?>
+      <input class="btn btn-primary" type="submit" value="<?php if($ptid1!=""){echo "Update";}else echo "Create"; ?>" >
+      <input type="reset" class="btn btn-primary" name="btnclear" value="Clear">
+    </div>
+  </div>
+</form>
+<?php
+	
+}
+
+//Quarter
+if ( $_POST[ 'action' ] == "showaddquarter" ) {
+	if ( $quarterid1 != "" ) {
+    $sql = "SELECT * FROM t_memc_kpcc_quarter WHERE Q_ID = '" . $quarterid1 . "'";
+    $result = mysqli_query( $conn, $sql );
+    if ( mysqli_num_rows( $result ) > 0 ) {
+      $row = mysqli_fetch_array( $result );
+    }
+  }
+  ?>
+<div class="row">
+  <div class="col-12">
+    <ul class="list-group mt-2 mb-2">
+      <li class="list-group-item active">
+        <h5 class="m-0">
+          <?php if($quarterid1 !=""){ ?>
+          Edit quarter
+          <?php }else  {?>
+          Create quarter
+          <?php } ?>
+        </h5>
+      </li>
+    </ul>
+  </div>
+</div>
+<hr class="bdr-light">
+<form class="form-card" id="aquarter" onSubmit="event.preventDefault(); <?php if($quarterid1!=""){echo "btneditquarterf(".$quarterid1.")";}else echo "btnaddquarterf()"; ?>">
+    <div class="form-group row">
+      <div class="col-2">
+        <label class="form-control-label px-3">Year</label>
+      </div>
+      <div class="col-4">
+        <?php
+        if($quarterid1!=""){
+            $currentyear = intval($row['Q_Year']);
+        }else
+            $currentyear = intval(date('Y'));
+    
+        echo "<select class=\"custom-select form-control\" name=\"selyear\">";
+        foreach (range(date('Y')+10, date('Y')-20) as $x) {
+            echo '<option  value="'.$x.'"'.($x === $currentyear ? ' selected="selected"' : '').'>'.$x.'</option>';
+        }
+        echo "</select>";
+            ?>
+      </div>
+      <div class="col-2">
+        <label class="form-control-label px-3">Quarter</label>
+      </div>
+      <div class="col-4">
+      <input type="text" class="form-control" placeholder="Enter Quarter" name="txtquarter" value="<?php if($quarterid1 !="")echo $row['Q_Name']; ?>" required="required">
+    </div>
+      </div>
+  <div class="form-group row">
+    <div class="col-2">
+      <label class="form-control-label px-3">Status</label>
+    </div>
+    <div class="col-10">
+      <select class="custom-select form-control col-5" id="Position" name="selstatus">
+        <?php
+        if ( $quarterid1 != "" ) {
+          if ( $row[ 'Q_Status' ] == "1" ) {
+            echo "<option selected=\"selected\" value=\"1\">Active</option>";
+            echo "<option value=\"2\">Inactive</option>";
+          } else {
+            echo "<option selected=\"selected\" value=\"2\">Inactive</option>";
+            echo "<option value=\"1\">Active</option>";
+          }
+        } else {
+
+
+          ?>
+        <option value="1">Active</option>
+        <option value="2">Inactive</option>
+        <?php
+        }
+        ?>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row ">
+    <div class="col-12" style="text-align: center;">
+      <?php if($quarterid1 !=""){?>
+      <input class="btn btn-primary" type="button" name="btnback" value="Back" onClick="location='competencies_searchquarter.php'">
+      <?php
+      }
+      ?>
+      <input class="btn btn-primary" type="submit" value="<?php if($quarterid1!=""){echo "Update";}else echo "Create"; ?>" >
+      <input type="reset" class="btn btn-primary" name="btnclear" value="Clear">
+    </div>
+  </div>
+</form>
+<?php
+	
+}
+
 ?>
