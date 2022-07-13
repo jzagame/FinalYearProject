@@ -431,11 +431,11 @@ function UpdateProfile(){
 				window.alert('Please Insert Weakness.');
 			}
 			else if(data == "success"){
-				window.alert('Add Profile Successfully.');
+				window.alert('Update Profile Successfully.');
 				location="Employee_ViewEditProfile.php";
 			}
 			else{
-				window.alert('Add Profile Failure.');
+				window.alert('Update Profile Failure.');
 			}
 		}
 	});
