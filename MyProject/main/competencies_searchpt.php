@@ -62,7 +62,7 @@ thead tr:nth-child(1) th{
   </form>
   <div class="table-responsive" id="show_searchpt">
     <?php
-    $sql = "SELECT * FROM t_memc_kpcc_PlanType WHERE Pt_ID IS NOT NULL AND "; //Search major competencies
+    $sql = "SELECT * FROM t_memc_kpcc_plantype WHERE Pt_ID IS NOT NULL AND "; //Search major competencies
     $sql .= "ORDER BY Pt_ID";
     $sql = str_replace( "AND ORDER", "ORDER", $sql );
     $view = mysqli_query( $conn, $sql );
