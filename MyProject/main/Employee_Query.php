@@ -195,12 +195,14 @@ if ( $_POST[ 'action' ] == "searchEmployee" ) {
 	$IsEmptyEmployeeDetailSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
 	$IsEmptyEmployeeDetailResult = mysqli_query( $conn, $IsEmptyEmployeeDetailSQL );
 	if ( mysqli_num_rows( $IsEmptyEmployeeDetailResult ) <= 0 ) {
-		$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE (stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		  OR stf_employee_number LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%')
           AND t_memc_staff.stf_department_id = t_memc_department.dpt_id
           AND stf_user_status = 1";
 	} else {
 		$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE 
-          stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+          (stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		  OR stf_employee_number LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%')
           AND t_memc_staff.stf_department_id = t_memc_department.dpt_id 
           AND stf_employee_number NOT IN (SELECT Emp_ID FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
 	}
@@ -285,7 +287,8 @@ if ( $_POST[ 'action' ] == "addEmployee" ) {
 
 //Search Remove Employee
 if ( $_POST[ 'action' ] == "searchRemoveEmployee" ) {
-	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE (Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		OR Emp_ID LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%')
         AND EmpDetail_Status = 1 AND stf_department_id = dpt_id AND Emp_ID = stf_employee_number";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
 	if ( mysqli_num_rows( $SearchResult ) > 0 ) {
@@ -341,7 +344,8 @@ if ( $_POST[ 'action' ] == "removeEmployee" ) {
 
 //Seacrh Assign Position Employee
 if ( $_POST[ 'action' ] == "searchAPEmployee" ) {
-	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE (Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		OR Emp_ID LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%')
         AND EmpDetail_Status = 1 
         AND EmpAssign_Status <> 1
         AND stf_employee_number = Emp_ID
@@ -426,7 +430,8 @@ if ( $_POST[ 'action' ] == "assignPosition" ) {
 //Seacrh View/Edit Assign Position
 if ( $_POST[ 'action' ] == "searchVEPEmployee" ) {
 	$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_kpcc_access_right, t_memc_kpcc_report_to, t_memc_staff, t_memc_department 
-        WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+        WHERE (Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+		OR Emp_ID LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%') 
         AND EmpDetail_Status = 1 AND EmpAssign_Status = 1
         AND t_memc_kpcc_employee_detail.Emp_P_ID = t_memc_kpcc_access_right.AR_ID
         AND t_memc_kpcc_employee_detail.Emp_ID = t_memc_kpcc_report_to.RT_Emp_ID
@@ -520,14 +525,16 @@ if ( $_POST[ 'action' ] == "searchAddProfile" ) {
 	$IsEmptyProfileResult = mysqli_query( $conn, $IsEmptyProfileSQL );
 	if ( mysqli_num_rows( $IsEmptyProfileResult ) <= 0 ) 
 	{
-		$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%' 
+		$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE (Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		OR Emp_ID LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%') 
 		AND EmpDetail_Status = 1 
 		AND stf_employee_number = Emp_ID
 		AND stf_department_id = dpt_id";
 	} 
 	else 
 	{
-		$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		$SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE (Emp_Name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+		OR Emp_ID LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%') 
 		AND EmpDetail_Status = 1 
 		AND stf_employee_number = Emp_ID
 		AND stf_department_id = dpt_id
@@ -723,7 +730,8 @@ if ( $_POST[ 'action' ] == "insertProfile" ) {
 }
 
 if ( $_POST[ 'action' ] == "searchEditProfile" ) {
-	$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_kpcc_employee_profile WHERE stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+	$SearchSQL = "SELECT * FROM t_memc_staff, t_memc_kpcc_employee_profile WHERE (stf_name LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%'
+	OR stf_employee_number LIKE '%" . strtoupper( trim( $formdata[ 0 ][ 'value' ] ) ) . "%')
 	AND ep_number = stf_employee_number";
 	$SearchResult = mysqli_query( $conn, $SearchSQL );
 
