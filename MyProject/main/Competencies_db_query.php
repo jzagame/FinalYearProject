@@ -268,7 +268,7 @@ if ( $_POST[ 'action' ] == "createitem" ) {
     $last_id = mysqli_insert_id( $conn );
 
     for ( $i = 0; $i < 5; ++$i ) {
-      $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_id ) . "',
+      $additem2 = "INSERT INTO t_memc_kpcc_items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_id ) . "',
 				'level " . trim( ( $i + 1 ) ) . "',
 				'" . trim( $itemdes[ $i ] ) . "',
 				'" . trim( $formdata[ 9 ][ 'value' ] ) . "'
@@ -395,7 +395,7 @@ if ( $_POST[ 'action' ] == "edititem" ) {
 		Im_status='" . trim( $formdata[ 9 ][ 'value' ] ) . "' WHERE Im_ID ='" . trim( $_POST[ 'itemidd' ] ) . "'";
 
     $lvlidarray = array();
-    $getlvlid = "SELECT * FROM t_memc_kpcc_Items_lvl_desc WHERE Im_lvl_Im_ID = '" . trim( $_POST[ 'itemidd' ] ) . "'";
+    $getlvlid = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = '" . trim( $_POST[ 'itemidd' ] ) . "'";
     $view2 = mysqli_query( $conn, $getlvlid );
     if ( mysqli_num_rows( $view2 ) > 0 ) {
       for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
@@ -405,7 +405,7 @@ if ( $_POST[ 'action' ] == "edititem" ) {
     }
 
     for ( $i = 0; $i < 5; ++$i ) {
-      $uppitemlvl = "UPDATE t_memc_kpcc_Items_lvl_desc SET Im_lvl_Description = '" . trim( $itemdes[ $i ] ) . "',
+      $uppitemlvl = "UPDATE t_memc_kpcc_items_lvl_desc SET Im_lvl_Description = '" . trim( $itemdes[ $i ] ) . "',
 			Im_lvl_Status = '" . trim( $formdata[ 8 ][ 'value' ] ) . "' WHERE Im_lvl_Im_ID = '" . trim( $_POST[ 'itemidd' ] ) . "' AND Im_lvl_ID = " . $lvlidarray[ $i ] . "";
       $additemlvlsql = mysqli_query( $conn, $uppitemlvl );
       if ( $additemlvlsql ) {
@@ -426,7 +426,7 @@ if ( $_POST[ 'action' ] == "edititem" ) {
 //Plan Type
 if ( $_POST[ 'action' ] == "creatept" ) {
 
-  $sql2 = "SELECT * FROM t_memc_kpcc_PlanType";
+  $sql2 = "SELECT * FROM t_memc_kpcc_plantype";
   $result2 = mysqli_query( $conn, $sql2 );
   if ( mysqli_num_rows( $result2 ) > 0 ) {
     for ( $i = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
@@ -439,7 +439,7 @@ if ( $_POST[ 'action' ] == "creatept" ) {
   if ( $xx == 1 ) {
     echo "same";
   } else {
-    $addpt = "INSERT INTO t_memc_kpcc_PlanType (Pt_name,Pt_Status) VALUES('" . trim( $formdata[ 0 ][ 'value' ] ) . "',
+    $addpt = "INSERT INTO t_memc_kpcc_plantype (Pt_name,Pt_Status) VALUES('" . trim( $formdata[ 0 ][ 'value' ] ) . "',
 			'" . trim( $formdata[ 1 ][ 'value' ] ) . "'
 			)";
     $addptsql = mysqli_query( $conn, $addpt );
@@ -456,7 +456,7 @@ if ( $_POST[ 'action' ] == "creatept" ) {
 
 if ( $_POST[ 'action' ] == "editpt" ) {
 
-  $sql2 = "SELECT * FROM t_memc_kpcc_PlanType";
+  $sql2 = "SELECT * FROM t_memc_kpcc_plantype";
   $result2 = mysqli_query( $conn, $sql2 );
   if ( mysqli_num_rows( $result2 ) > 0 ) {
     for ( $i = 0; $i < mysqli_num_rows( $result2 ); ++$i ) {
@@ -469,7 +469,7 @@ if ( $_POST[ 'action' ] == "editpt" ) {
   if ( $xx == 1 ) {
     echo "same";
   } else {
-    $upppt = "UPDATE t_memc_kpcc_PlanType SET Pt_Name='" . trim( $formdata[ 0 ][ 'value' ] ) . "',
+    $upppt = "UPDATE t_memc_kpcc_plantype SET Pt_Name='" . trim( $formdata[ 0 ][ 'value' ] ) . "',
 		Pt_Status='" . trim( $formdata[ 1 ][ 'value' ] ) . "' WHERE Pt_ID ='" . trim( $_POST[ 'ptidd' ] ) . "'";
     if ( mysqli_query( $conn, $upppt ) ) {
 
@@ -481,7 +481,7 @@ if ( $_POST[ 'action' ] == "editpt" ) {
 }
 
 if ( $_POST[ 'action' ] == "searchpt" ) {
-  $sql = "SELECT * FROM t_memc_kpcc_PlanType WHERE Pt_ID IS NOT NULL AND "; //Search major competencies
+  $sql = "SELECT * FROM t_memc_kpcc_plantype WHERE Pt_ID IS NOT NULL AND "; //Search major competencies
   if ( trim( $formdata[ 0 ][ 'value' ] ) != "" ) {
     $sql .= "Pt_Name LIKE '%" . trim( $formdata[ 0 ][ 'value' ] ) . "%' AND ";
   }
@@ -729,7 +729,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
           $last_itemid = mysqli_insert_id( $conn );
 
           for ( $i = 0, $c = 0; $i < 5; ++$i ) {
-            $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
+            $additem2 = "INSERT INTO t_memc_kpcc_items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
 				'level " . trim( ( $i + 1 ) ) . "',
 				'" . trim( $str[ 5 + $i ] ) . "',
 				'1'
@@ -765,7 +765,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
 			  Im_Definition ='" . $str[ 4 ] . "' WHERE t_memc_kpcc_items.Im_Cd_ID = t_memc_kpcc_competenciesdimension.Cd_ID AND t_memc_kpcc_corecompetencies.Cc_ID = t_memc_kpcc_competenciesdimension.Cd_Cc_ID AND Im_ID ='" . $matchimid . "'";
 
           $lvlidarray = array();
-          $getlvlid = "SELECT * FROM t_memc_kpcc_Items_lvl_desc WHERE Im_lvl_Im_ID = '" . $matchimid . "'";
+          $getlvlid = "SELECT * FROM t_memc_kpcc_items_lvl_desc WHERE Im_lvl_Im_ID = '" . $matchimid . "'";
           $view2 = mysqli_query( $conn, $getlvlid );
           if ( mysqli_num_rows( $view2 ) > 0 ) {
             for ( $x = 0; $x < mysqli_num_rows( $view2 ); ++$x ) {
@@ -775,7 +775,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
           }
 
           for ( $i = 0, $c = 0; $i < 5; ++$i ) {
-            $uppitemlvl = "UPDATE t_memc_kpcc_Items_lvl_desc SET Im_lvl_Description = '" . trim( $str[ 5 + $i ] ) . "'
+            $uppitemlvl = "UPDATE t_memc_kpcc_items_lvl_desc SET Im_lvl_Description = '" . trim( $str[ 5 + $i ] ) . "'
 			 WHERE Im_lvl_Im_ID = '" . $matchimid . "' AND Im_lvl_ID = " . $lvlidarray[ $i ] . "";
             $additemlvlsql = mysqli_query( $conn, $uppitemlvl );
             if ( $additemlvlsql ) {
@@ -834,7 +834,7 @@ if ( $_FILES[ "excelfile" ][ "name" ] != "" ) {
           $last_itemid = mysqli_insert_id( $conn );
 
           for ( $i = 0, $c = 0; $i < 5; ++$i ) {
-            $additem2 = "INSERT INTO t_memc_kpcc_Items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
+            $additem2 = "INSERT INTO t_memc_kpcc_items_lvl_desc (Im_lvl_Im_ID,Im_lvl_Name,Im_lvl_Description,Im_lvl_Status) VALUES('" . trim( $last_itemid ) . "',
 				'level " . trim( ( $i + 1 ) ) . "',
 				'" . trim( $str[ 5 + $i ] ) . "',
 				'1'

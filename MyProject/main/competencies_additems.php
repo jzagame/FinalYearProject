@@ -32,5 +32,5 @@
 
 
 </body>
-<script src="../../includes/assest/library/datatables.net/JS/Ajax.js"></script>
+<script src="../../includes/assest/library/datatables.net/JS/Competencies_Ajax.js"></script>
 </html>
