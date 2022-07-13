@@ -26,7 +26,7 @@
 					"CREATE TABLE t_memc_kpcc_PlanType (Pt_ID INT AUTO_INCREMENT PRIMARY KEY,
 				    Pt_Name VARCHAR(1000),
 				    Pt_Status CHAR(1)) character set = utf8mb4",
-                    "CREATE TABLE t_memc_kpcc_Employee_item(Ei_ID INT AUTO_INCREMENT PRIMARY KEY,
+                    "CREATE TABLE t_memc_kpcc_employee_item(Ei_ID INT AUTO_INCREMENT PRIMARY KEY,
 					Ei_EMP_ID VARCHAR(20),
                     Ei_Im_ID INT,
 					Ei_ToDo_Desc VARCHAR(100000),
@@ -96,7 +96,13 @@
 					"CREATE TABLE t_memc_kpcc_quarter(Q_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 					Q_Name VARCHAR(20),
 					Q_Year VARCHAR(20),
-					Q_Status VARCHAR(10))"
+					Q_Status VARCHAR(10))",
+					"CREATE TABLE t_memc_kpcc_actionplan(AP_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+					AP_Ei_ID INT,
+					AP_Pt_ID INT,
+					AP_Description VARCHAR(10000),
+					AP_Date VARCHAR(20),
+					AP_Status VARCHAR(10))"
     );
 	
 	$conn = mysqli_connect($localhost,$username,$password); 
