@@ -84,7 +84,7 @@
 					)",
 					"CREATE TABLE t_memc_kpcc_employee_category(ec_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					ec_employee_id VARCHAR(200),
-					ec_category_id INT
+					ec_category_id INT,
 					ec_status INT
 					)",
 					"CREATE TABLE t_memc_department(dpt_id INT(11) Primary Key NOT NULL,
