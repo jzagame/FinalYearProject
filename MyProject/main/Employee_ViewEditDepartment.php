@@ -41,6 +41,7 @@
                         <table class="table table-hover table-bordered">
                           <thead>
                             <tr>
+							  <th scope="col" style="width:15px"></th>
                               <th scope="col">No.</th>
                               <th scope="col">Department Name</th>
 							  <th scope="col">Department HOD Name</th>
@@ -64,13 +65,21 @@
 									{
 										$row = mysqli_fetch_array($SearchResult);
 										$row2 = mysqli_fetch_array( $SearchResult2 );
-										echo "<tr role=\"button\" onClick=\"editDepartment('".$row['D_ID']."')\">";
+										echo "<td><input type =\"button\" name=\"btnedit\" value=\"Edit\" class=\"btn btn-primary\" onClick=\"editDepartment('".$row['D_ID']."')\"></td>";
 										echo "<td>".$row['D_ID']."</td>";
 										echo "<td>".$row['D_DID']."-".$row['dpt_name']."</td>";
 										echo "<td>".$row['D_HODID']."-".$row['Emp_Name']."</td>";
-										echo "<td>".$row['D_DPID']."-".$row2['dpt_name']."</td>";
-										echo "<td>".$row['D_Status']."</td>";
+										echo "<td>".$row['D_DPID']."-".$row2['dpt_name']."</td>";	
+										if($row['D_Status'] == 1)
+										{
+										  echo "<td>ACTIVE</td>";
+										}
+										else
+										{
+										  echo "<td>INACTIVE</td>";
+										}
 										echo "</tr>";
+										
 									}
                               }
 							  }
