@@ -73,6 +73,7 @@
 					)",
 					"CREATE TABLE t_memc_kpcc_employee_profile(ep_id INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					ep_number VARCHAR(200),
+					ep_date DATE,
 					ep_unit VARCHAR(200),
 					ep_workexperience VARCHAR(200),
 					ep_strength VARCHAR(200),

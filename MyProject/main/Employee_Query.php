@@ -656,6 +656,14 @@ if ( $_POST[ 'action' ] == "addProfile" ) {
 					</div>
 					<div class="form-group row">
 						<div class="col-2">
+							<label class="col-form-label">Date</label>
+						</div>
+						<div class="col-10">
+							<input type="date" class="form-control" placeholder="Please Select Date" name="txtProfileDate">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
 							<label class="col-form-label">Unit</label>
 						</div>
 						<div class="col-10">
@@ -699,26 +707,30 @@ if ( $_POST[ 'action' ] == "addProfile" ) {
 
 if ( $_POST[ 'action' ] == "insertProfile" ) {
 
-	if ( trim( $formdata[ 6 ][ 'value' ] ) == "" ) {
+	if( trim( $formdata[ 6 ][ 'value' ] ) == "" ){
+		echo "D Null";
+	}
+	else if ( trim( $formdata[ 7 ][ 'value' ] ) == "" ) {
 		echo "U Null";
-	} else if ( trim( $formdata[ 7 ][ 'value' ] ) == "" ) {
+	} else if ( trim( $formdata[ 8 ][ 'value' ] ) == "" ) {
 		echo "WE Null";
 	} 
-	else if(trim( $formdata[ 8 ][ 'value' ] ) == "")
+	else if(trim( $formdata[ 9 ][ 'value' ] ) == "")
 	{
 		echo "S Null";
 	}
-	else if(trim( $formdata[ 9 ][ 'value' ] ) == "")
+	else if(trim( $formdata[ 10 ][ 'value' ] ) == "")
 	{
 		echo "W Null";
 	}
 	else {
-		$AddProfileSQL = "INSERT INTO t_memc_kpcc_employee_profile(ep_number, ep_unit, ep_workexperience, ep_strength, ep_weakness) VALUES(
+		$AddProfileSQL = "INSERT INTO t_memc_kpcc_employee_profile(ep_number, ep_date, ep_unit, ep_workexperience, ep_strength, ep_weakness) VALUES(
                 '" . trim($formdata[ 0 ][ 'value' ]) . "',
 				'" . trim($formdata[ 6 ][ 'value' ]) . "',
-                '" . trim($formdata[ 7 ][ 'value' ]) . "',
+				'" . trim($formdata[ 7 ][ 'value' ]) . "',
                 '" . trim($formdata[ 8 ][ 'value' ]) . "',
-				'" . trim($formdata[ 9 ][ 'value' ]) . "'
+                '" . trim($formdata[ 9 ][ 'value' ]) . "',
+				'" . trim($formdata[ 10 ][ 'value' ]) . "'
             )";
 		$AddProfileResult = mysqli_query( $conn, $AddProfileSQL );
 		if ( $AddProfileResult ) {
@@ -850,6 +862,14 @@ if ( $_POST[ 'action' ] == "editProfile" ) {
 					</div>
 					<div class="form-group row">
 						<div class="col-2">
+							<label class="col-form-label">Date</label>
+						</div>
+						<div class="col-10">
+							<input type="date" class="form-control" value="<?php echo $row['ep_date'];?>" name="txtProfileDate">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2">
 							<label class="col-form-label">Unit</label>
 						</div>
 						<div class="col-10">
@@ -893,25 +913,29 @@ if ( $_POST[ 'action' ] == "editProfile" ) {
 
 if ( $_POST[ 'action' ] == "updateProfile" ) {
 
-	if ( trim( $formdata[ 6 ][ 'value' ] ) == "" ) {
+	if( trim( $formdata[ 6 ][ 'value' ] ) == "" ){
+		echo "D Null";
+	}
+	else if ( trim( $formdata[ 7 ][ 'value' ] ) == "" ) {
 		echo "U Null";
-	} else if ( trim( $formdata[ 7 ][ 'value' ] ) == "" ) {
+	} else if ( trim( $formdata[ 8 ][ 'value' ] ) == "" ) {
 		echo "WE Null";
 	} 
-	else if(trim( $formdata[ 8 ][ 'value' ] ) == "")
+	else if(trim( $formdata[ 9 ][ 'value' ] ) == "")
 	{
 		echo "S Null";
 	}
-	else if(trim( $formdata[ 9 ][ 'value' ] ) == "")
+	else if(trim( $formdata[ 10 ][ 'value' ] ) == "")
 	{
 		echo "W Null";
 	}
 	else 
 	{
-		$UpdateProfileSQL = "UPDATE t_memc_kpcc_employee_profile SET ep_unit = '".trim($formdata[ 6 ][ 'value' ])."',
-		ep_workexperience = '" . trim($formdata[ 7 ][ 'value' ]) . "',
-		ep_strength = '" . trim($formdata[ 8 ][ 'value' ]) . "',
-		ep_weakness = '" . trim($formdata[ 9 ][ 'value' ]) . "'
+		$UpdateProfileSQL = "UPDATE t_memc_kpcc_employee_profile SET ep_date = '".trim($formdata[ 6 ][ 'value' ])."',
+		ep_unit = '".trim($formdata[ 7 ][ 'value' ])."',
+		ep_workexperience = '" . trim($formdata[ 8 ][ 'value' ]) . "',
+		ep_strength = '" . trim($formdata[ 9 ][ 'value' ]) . "',
+		ep_weakness = '" . trim($formdata[ 10 ][ 'value' ]) . "'
 		WHERE ep_number = '".trim($formdata[ 0 ][ 'value' ])."'";
 		$UpdateProfileResult = mysqli_query( $conn, $UpdateProfileSQL );
 

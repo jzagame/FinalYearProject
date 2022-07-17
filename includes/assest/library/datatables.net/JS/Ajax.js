@@ -354,7 +354,11 @@ function InsertProfile(){
 		url: "Employee_Query.php",
 		data: {action:"insertProfile",formdata:$('#InsertProfileForm').serializeArray()},
 		success: function(data){
-			if(data == "U Null")
+			if(data == "D Null")
+			{
+				window.alert('Please Insert Date.');
+			}
+			else if(data == "U Null")
 			{
 				window.alert('Please Insert Unit.');
 			}
@@ -414,7 +418,11 @@ function UpdateProfile(){
 		url: "Employee_Query.php",
 		data: {action:"updateProfile",formdata:$('#EditProfileForm').serializeArray()},
 		success: function(data){
-			if(data == "U Null")
+			if(data == "D Null")
+			{
+				window.alert('Please Insert Date.');
+			}
+			else if(data == "U Null")
 			{
 				window.alert('Please Insert Unit.');
 			}
