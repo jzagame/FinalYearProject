@@ -180,10 +180,11 @@ function Search() {
     $.ajax({
         type: "POST",
         url: "Assessment_plug.php",
-        data: { action: "search_emp", PID: $("#Position").val(), EID: $("#employee_id").val() },
+        data: { action: "search_emp", EID: $("#employee_id").val() },
         success: function (data) {
-            paginationEmp(1);
             showEmpTable(1);
+            paginationEmp(1);
+            
         }
     });
 }
@@ -195,8 +196,10 @@ $('#btn_submit').click(function(e){
         url:"Assessment_db_query.php",
         data: {action:"addcompetencies", formdata:$('#Form_Competencies').serialize(),EID:$("#emp_id").val()},
         success: function(data){
-            console.log(data);
-            SearchEmp($("#emp_id").val());
+            // console.log($("#emp_id").val());
+            // SearchEmp($("#emp_id").val());
+            window.location.href = "Assessment_View_Employee1.php?id=" + $("#emp_id").val();
+            // console.log(data);
         }
     });
 });
@@ -208,28 +211,17 @@ $("#btn_add").click(function(e){
         url: "Assessment_plug.php",
         data : {action:"AddButton"},
         success:function(data){
-            if($("#Quarter" + data).val() == "blank"){
-                alert("please select quarter");
-            }else{
-                $.ajax({
-                    type:"POST",
-                    url: "Assessment_plug.php",
-                    data : {action:"AddButton_1"},
-                    success:function(data){
-                        AddCard("",data);
-                    }
-                });
-            }
+            AddCard("",data);
         }
     })
 });
 
 function removeCard(num){
-    console.log($("#Cat" + num).val());
+    // console.log($("#Cat" + num).val());
     $.ajax({
         type:"POST",
         url:"Assessment_plug.php",
-        data: {action:"removeCard",search:$("#Cat" + num).val()},
+        data: {action:"removeCard",search:$("#Cat" + num).val(),Num:num},
         success:function(data){
             if(data == "remove"){
                 $("#card_" + num).remove();
@@ -285,6 +277,39 @@ function checkExist(num){
         data : {action:"checkExist",catgy:$("#Cat" + num).val(),qutr:$("#quarter"+num).val(),itms:$("#Itm" + num).val(),search:$("#emp_id").val()},
         success:function(data){
 
+        }
+    });
+}
+
+function AddNewActionPlan(num){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data : {action:"AddCardActionPlan",cardnum : num},
+        success:function(data){
+            document.getElementById("cardAP_" + num).insertAdjacentHTML("beforeend",data);
+        }
+    });
+}
+
+function removeCardAP(num,num_start){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data: {action:"removeCardAP",Num:num,n_start:num_start},
+        success:function(){
+            $("#cardAP_IN"+num).remove();
+        }
+    });
+}
+
+function SearchPassingData(){
+    $.ajax({
+        type:"POST",
+        url:"Assessment_plug.php",
+        data:{action:"InEdit_Search_Emp",selected_year:$("#edit_year").val(),selected_quarter:$("#edit_quarter").val(),empid:$("#emp_id").val()},
+        success:function(data){
+            document.getElementById("Quarter_Core").innerHTML = data;
         }
     });
 }

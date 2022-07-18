@@ -12,7 +12,7 @@
             overflow-wrap: break-word;
         }
     </style>
-
+   
 </head>
 
 <body>
@@ -23,6 +23,7 @@
             ?>
         </div>
     </div>
+    </script>
     <div class="container-fluid" id="body1">
         <div id="progress_Ass" style="width: 33%;display:none" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
         <div class="row justify-content-center" id="Assessment_content">
