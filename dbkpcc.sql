@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 16, 2022 at 07:50 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.0.33
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 19, 2022 at 09:10 AM
+-- Server version: 10.5.12-MariaDB-cll-lve
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dbkpcc`
+-- Database: `u881054525_dbkpcc`
 --
 
 -- --------------------------------------------------------
@@ -187,8 +186,87 @@ CREATE TABLE `t_memc_kpcc_access_right` (
 INSERT INTO `t_memc_kpcc_access_right` (`AR_ID`, `AR_Level`, `AR_Description`, `AR_Status`) VALUES
 (1, 0, 'Superuser', 0),
 (2, 1, 'Admin', 1),
-(3, 2, 'HOD', 1),
-(4, 3, 'Supervisor', 1);
+(3, 2, 'Head Of Department', 1),
+(4, 3, 'Supervisor', 1),
+(5, 4, 'Employee', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Access_Right`
+--
+
+CREATE TABLE `t_memc_kpcc_Access_Right` (
+  `AR_ID` int(11) NOT NULL,
+  `AR_Level` int(11) DEFAULT NULL,
+  `AR_Description` varchar(99) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `AR_Status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_ActionPlan`
+--
+
+CREATE TABLE `t_memc_kpcc_ActionPlan` (
+  `AP_ID` int(10) NOT NULL,
+  `AP_Ei_ID` int(10) DEFAULT NULL,
+  `AP_Pt_ID` int(11) DEFAULT NULL,
+  `AP_Description` varchar(10000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `AP_Date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `AP_Status` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_actionplan`
+--
+
+CREATE TABLE `t_memc_kpcc_actionplan` (
+  `AP_ID` int(11) NOT NULL,
+  `AP_Ei_ID` int(11) DEFAULT NULL,
+  `AP_Pt_ID` int(11) DEFAULT NULL,
+  `AP_Description` varchar(10000) DEFAULT NULL,
+  `AP_Date` varchar(20) DEFAULT NULL,
+  `AP_Status` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_memc_kpcc_actionplan`
+--
+
+INSERT INTO `t_memc_kpcc_actionplan` (`AP_ID`, `AP_Ei_ID`, `AP_Pt_ID`, `AP_Description`, `AP_Date`, `AP_Status`) VALUES
+(1, 1, 1, 'try edit ---- 2 -- edit 2 -- edit 3 -- testing function after update --- 19 july 2022', '2022-07-19', '2'),
+(2, 2, 2, 'this is new test data -- 2', '2022-07-05', '2'),
+(3, 3, 4, 'this is new action plan', '2022-07-26', '1'),
+(4, 1, 4, 'try add ----- 3 ', '2022-07-16', '0'),
+(5, 1, 1, 'testing project 2 row printing', '2022-07-05', '1'),
+(6, 4, 1, '18 july 2022 testing\r\nmanagerial -- customer development -- strategy thinking -- target level 4 - Q4 2022 - core competencies -- score level 2 - project -- project', '2022-07-18', '0'),
+(7, 5, 1, 'new action plan ', '2022-07-19', '1'),
+(8, 6, 1, 'young talent action plan ', '2022-07-25', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_category`
+--
+
+CREATE TABLE `t_memc_kpcc_category` (
+  `c_id` int(11) NOT NULL,
+  `c_name` varchar(200) DEFAULT NULL,
+  `c_status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_memc_kpcc_category`
+--
+
+INSERT INTO `t_memc_kpcc_category` (`c_id`, `c_name`, `c_status`) VALUES
+(1, 'KEY POSITION', 1),
+(2, 'YOUNG TALENT', 1),
+(3, 'BACKBONE TALENT', 1);
 
 -- --------------------------------------------------------
 
@@ -209,12 +287,26 @@ CREATE TABLE `t_memc_kpcc_competenciesdimension` (
 --
 
 INSERT INTO `t_memc_kpcc_competenciesdimension` (`Cd_ID`, `Cd_Cc_ID`, `Cd_Name`, `Cd_Definition`, `Cd_status`) VALUES
-(1, 1, '发展客户能力\nCustomer Development \n', '', '1'),
+(1, 1, '发展客户能力\nCustomer Development', '', '1'),
 (2, 2, '质量管理\nQuality Management', '', '1'),
 (3, 2, '生产管理  Production Management', '', '1'),
 (4, 2, '生产管理\nProduction Management', '', '1'),
 (5, 2, '环安管理\nEHS Management', '', '1'),
-(6, 1, '发展个人能力\nPersonal Development ', '', '1');
+(6, 1, '发展个人能力\nPersonal Development', '', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_CompetenciesDimension`
+--
+
+CREATE TABLE `t_memc_kpcc_CompetenciesDimension` (
+  `Cd_ID` int(11) NOT NULL,
+  `Cd_Cc_ID` int(11) DEFAULT NULL,
+  `Cd_Name` varchar(255) DEFAULT NULL,
+  `Cd_Definition` varchar(10000) DEFAULT NULL,
+  `Cd_status` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -234,7 +326,19 @@ CREATE TABLE `t_memc_kpcc_corecompetencies` (
 
 INSERT INTO `t_memc_kpcc_corecompetencies` (`Cc_ID`, `Cc_name`, `Cc_status`) VALUES
 (1, '管理类岗位管理能力库\n Managerial', '1'),
-(2, ' 专业能力库\n Professional', '1');
+(2, '专业能力库\n Professional', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_CoreCompetencies`
+--
+
+CREATE TABLE `t_memc_kpcc_CoreCompetencies` (
+  `Cc_ID` int(11) NOT NULL,
+  `Cc_name` varchar(255) DEFAULT NULL,
+  `Cc_status` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -244,9 +348,9 @@ INSERT INTO `t_memc_kpcc_corecompetencies` (`Cc_ID`, `Cc_name`, `Cc_status`) VAL
 
 CREATE TABLE `t_memc_kpcc_department` (
   `D_ID` int(11) NOT NULL,
-  `D_Name` varchar(50) DEFAULT NULL,
+  `D_DID` varchar(50) DEFAULT NULL,
   `D_HODID` varchar(50) DEFAULT NULL,
-  `D_HODNode` varchar(50) DEFAULT NULL,
+  `D_DPID` varchar(50) DEFAULT NULL,
   `D_Status` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -254,9 +358,51 @@ CREATE TABLE `t_memc_kpcc_department` (
 -- Dumping data for table `t_memc_kpcc_department`
 --
 
-INSERT INTO `t_memc_kpcc_department` (`D_ID`, `D_Name`, `D_HODID`, `D_HODNode`, `D_Status`) VALUES
-(1, '1 - MEAL SUBSIDY', 'L02798', '22 - INGOT & WAFER QUALITY CONTROL', '1'),
-(2, '19-LOGISTIC & WAREHOUSE', 'L03602', '20-WAFER MANUFACTURE', '1');
+INSERT INTO `t_memc_kpcc_department` (`D_ID`, `D_DID`, `D_HODID`, `D_DPID`, `D_Status`) VALUES
+(1, '1', 'L02798', '20', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Department`
+--
+
+CREATE TABLE `t_memc_kpcc_Department` (
+  `D_ID` int(11) NOT NULL,
+  `D_Name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `D_HODID` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `D_HODNode` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `D_Status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_employee_category`
+--
+
+CREATE TABLE `t_memc_kpcc_employee_category` (
+  `ec_id` int(11) NOT NULL,
+  `ec_employee_id` varchar(200) DEFAULT NULL,
+  `ec_category_id` int(11) DEFAULT NULL,
+  `ec_status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_memc_kpcc_employee_category`
+--
+
+INSERT INTO `t_memc_kpcc_employee_category` (`ec_id`, `ec_employee_id`, `ec_category_id`, `ec_status`) VALUES
+(1, 'L02798', 2, NULL),
+(2, 'L03602', 2, NULL),
+(3, 'L01892', 2, NULL),
+(4, 'LT0895', 1, NULL),
+(5, 'L03385', 1, NULL),
+(6, 'LT0190', 1, NULL),
+(7, 'L03590', 1, NULL),
+(8, 'L03468', 1, NULL),
+(9, 'L03048', 1, NULL),
+(10, 'LT0871', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -281,17 +427,34 @@ CREATE TABLE `t_memc_kpcc_employee_detail` (
 --
 
 INSERT INTO `t_memc_kpcc_employee_detail` (`EmpDetail_ID`, `EMP_D_ID`, `Emp_ID`, `Emp_P_ID`, `Emp_Name`, `Emp_Department`, `Emp_JobBand`, `EmpDetail_Status`, `EmpAssign_Status`) VALUES
-(1, 2, 'L02798', NULL, 'Maximilian Parry', 'CELL EQUIPMENT 1', 5, 2, 2),
-(2, 2, 'L03602', NULL, 'Alaya Portillo', 'PURCHASING', 6, 2, 2),
-(3, 2, 'L01892', 2, 'Alejandro Woodard', 'CELL MANUFACTURE 4', 7, 1, 1),
-(4, 2, 'LT0895', NULL, 'Precious Wheatley', 'PLANNING & MATERIAL CONTROL', 6, 1, 2),
-(5, 2, 'L03385', NULL, 'Katrina Mueller', 'CEO OFFICE', 13, 1, 2),
-(6, 2, 'LT0190', NULL, 'Donovan Peck', 'CELL EQUIPMENT 2', 5, 1, 2),
-(7, 2, 'L03590', NULL, 'Phoebe O\'Reilly', 'CELL PROCESS 4', 6, 1, 2),
-(8, 2, 'L03468', NULL, 'Kiki Ashley', 'CELL PROCESS 4', 5, 1, 2),
-(9, 2, 'L03048', NULL, 'Taha Duarte', 'INDUSTRIAL ENGINEERING OPERATION', 6, 1, 2),
-(10, 2, 'LT0871', NULL, 'Rayhan Hopper', 'CELL EQUIPMENT 3', 5, 1, 2),
-(11, 2, 'LT0726', 2, 'Dominika Mcgregor', 'CELL MANUFACTURE 2', 5, 1, 1);
+(1, 177, 'L02798', 3, 'Maximilian Parry', 'CELL EQUIPMENT 1', 5, 1, 1),
+(2, 131, 'L03602', 3, 'Alaya Portillo', 'PURCHASING', 6, 1, 1),
+(3, 174, 'L01892', 5, 'Alejandro Woodard', 'CELL MANUFACTURE 4', 7, 1, 1),
+(4, 113, 'LT0895', 3, 'Precious Wheatley', 'PLANNING & MATERIAL CONTROL', 6, 1, 1),
+(5, 109, 'L03385', NULL, 'Katrina Mueller', 'CEO OFFICE', 13, 1, 2),
+(6, 159, 'LT0190', NULL, 'Donovan Peck', 'CELL EQUIPMENT 2', 5, 1, 2),
+(7, 175, 'L03590', 5, 'Phoebe O\'Reilly', 'CELL PROCESS 4', 6, 2, 1),
+(8, 175, 'L03468', NULL, 'Kiki Ashley', 'CELL PROCESS 4', 5, 1, 2),
+(9, 143, 'L03048', NULL, 'Taha Duarte', 'INDUSTRIAL ENGINEERING OPERATION', 6, 1, 2),
+(10, 153, 'LT0871', NULL, 'Rayhan Hopper', 'CELL EQUIPMENT 3', 5, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Employee_detail`
+--
+
+CREATE TABLE `t_memc_kpcc_Employee_detail` (
+  `EmpDetail_ID` int(11) NOT NULL,
+  `EMP_D_ID` int(11) DEFAULT NULL,
+  `Emp_ID` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Emp_P_ID` int(11) DEFAULT NULL,
+  `Emp_Name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Emp_Department` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Emp_JobBand` int(11) DEFAULT NULL,
+  `EmpDetail_Status` int(11) DEFAULT NULL,
+  `EmpAssign_Status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -303,23 +466,81 @@ CREATE TABLE `t_memc_kpcc_employee_item` (
   `Ei_ID` int(11) NOT NULL,
   `Ei_EMP_ID` varchar(20) DEFAULT NULL,
   `Ei_Im_ID` int(11) DEFAULT NULL,
-  `Ei_Quarter_ID` int(11) DEFAULT NULL,
-  `Ei_ToDo_Desc` varchar(2000) DEFAULT NULL,
+  `Ei_ToDo_Desc` mediumtext DEFAULT NULL,
   `Ei_Category` varchar(20) DEFAULT NULL,
-  `Ei_Score` varchar(20) DEFAULT NULL,
+  `Ei_Score` int(11) DEFAULT NULL,
   `Ei_Target_Score` int(11) DEFAULT NULL,
-  `Ei_Status` varchar(10) DEFAULT NULL
+  `Ei_Status` int(11) DEFAULT NULL,
+  `Ei_Quarter_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `t_memc_kpcc_employee_item`
 --
 
-INSERT INTO `t_memc_kpcc_employee_item` (`Ei_ID`, `Ei_EMP_ID`, `Ei_Im_ID`, `Ei_Quarter_ID`, `Ei_ToDo_Desc`, `Ei_Category`, `Ei_Score`, `Ei_Target_Score`, `Ei_Status`) VALUES
-(1, 'L03048', 1, 1, 'This is new data for testing Score in pending ', 'core', '-', 1, '1'),
-(2, 'L03590', 1, 2, 'abc123', 'core', '-', 1, '1'),
-(3, 'L03590', 4, 2, 'This is new Data for presenting ', 'core', '-', 16, '1'),
-(4, 'L03590', 1, 1, 'This is data for Q1', 'core', '-', 3, '1');
+INSERT INTO `t_memc_kpcc_employee_item` (`Ei_ID`, `Ei_EMP_ID`, `Ei_Im_ID`, `Ei_ToDo_Desc`, `Ei_Category`, `Ei_Score`, `Ei_Target_Score`, `Ei_Status`, `Ei_Quarter_ID`) VALUES
+(1, 'L03590', 2, NULL, 'sub', 7, 8, 0, 2),
+(2, 'L03590', 1, NULL, 'core', 4, 2, 1, 3),
+(3, 'LT0190', 1, NULL, 'core', 2, 4, 1, 2),
+(4, 'L03385', 1, NULL, 'core', 2, 4, 1, 5),
+(5, 'L03468', 11, NULL, 'core', 55, 53, 0, 3),
+(6, 'L03602', 1, NULL, 'core', 2, 3, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Employee_item`
+--
+
+CREATE TABLE `t_memc_kpcc_Employee_item` (
+  `Ei_ID` int(11) NOT NULL,
+  `Ei_EMP_ID` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Ei_Im_ID` int(11) DEFAULT NULL,
+  `Ei_ToDo_Desc` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Ei_Category` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Ei_Score` int(11) DEFAULT NULL,
+  `Ei_Target_Score` int(11) DEFAULT NULL,
+  `Ei_Status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_employee_profile`
+--
+
+CREATE TABLE `t_memc_kpcc_employee_profile` (
+  `ep_id` int(11) NOT NULL,
+  `ep_number` varchar(200) DEFAULT NULL,
+  `ep_unit` varchar(200) DEFAULT NULL,
+  `ep_workexperience` varchar(200) DEFAULT NULL,
+  `ep_strength` varchar(200) DEFAULT NULL,
+  `ep_weakness` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_memc_kpcc_employee_profile`
+--
+
+INSERT INTO `t_memc_kpcc_employee_profile` (`ep_id`, `ep_number`, `ep_unit`, `ep_workexperience`, `ep_strength`, `ep_weakness`) VALUES
+(1, 'L02798', 'LONGi KCH', 'Waiter', 'Good Communication', 'Weak Effective'),
+(2, 'L03590', 'UNIT A', 'testing data', 'test', 'test'),
+(3, 'L01892', 'UNIT B', 'testing working experience', 'my stregth', 'my weakness');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Items`
+--
+
+CREATE TABLE `t_memc_kpcc_Items` (
+  `Im_ID` int(11) NOT NULL,
+  `Im_Cd_ID` int(11) DEFAULT NULL,
+  `Im_UID` varchar(30) DEFAULT NULL,
+  `Im_Name` varchar(1000) DEFAULT NULL,
+  `Im_Definition` longtext DEFAULT NULL,
+  `Im_Status` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -332,7 +553,7 @@ CREATE TABLE `t_memc_kpcc_items` (
   `Im_Cd_ID` int(11) DEFAULT NULL,
   `Im_UID` varchar(30) DEFAULT NULL,
   `Im_Name` varchar(1000) DEFAULT NULL,
-  `Im_Definition` longtext,
+  `Im_Definition` longtext DEFAULT NULL,
   `Im_Status` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -341,7 +562,7 @@ CREATE TABLE `t_memc_kpcc_items` (
 --
 
 INSERT INTO `t_memc_kpcc_items` (`Im_ID`, `Im_Cd_ID`, `Im_UID`, `Im_Name`, `Im_Definition`, `Im_Status`) VALUES
-(1, 1, 'cc001', 'Strategic Thinking ', 'According to available data system, adopting multiple perspective thinking and innovating business modeling to DERIVE BEST STRATEGY decisions in various situations.', '1'),
+(1, 1, 'cc001', 'Strategic Thinking', 'According to available data system, adopting multiple perspective thinking and innovating business modeling to DERIVE BEST STRATEGY decisions in various situations.', '1'),
 (2, 2, 'cc002', 'Quality Control Management', 'Be able to develop management team of quality control, certification and system operation, coordinate the development and optimization of corresponding work', '1'),
 (3, 3, 'cc003', 'Production Planning Management', 'Plan, adjust, and supervise the company\'s various businesses, use the company\'s manpower, financial, and material resources rationally to achieve goals.', '1'),
 (4, 2, 'cc004', 'Quality risk management', 'Base on the group\'s business plan, establish a risk management system of quality,  the ability to prevent EHS risks', '1'),
@@ -357,7 +578,23 @@ INSERT INTO `t_memc_kpcc_items` (`Im_ID`, `Im_Cd_ID`, `Im_UID`, `Im_Name`, `Im_D
 (14, 6, 'cc014', 'Goal Management ', 'Able to DEVELOP and EXECUTE work plan based on organization goal. Able to IMPLEMENT EFFECTIVE PROCESS CONTROL to ensure the acheivement of business goal.', '1'),
 (15, 6, 'cc015', 'Building Partnership', 'Able to build or maintain a FRIENDLY and HARMONIOUS RELATIONSHIP with those who contributed to the achievement of work-related goals', '1'),
 (16, 5, 'cc016', 'EHS risk management', 'Base on the group\'s business plan, establish a risk management system of EHS,  the ability to prevent EHS risks', '1'),
-(17, 5, 'cc017', 'EHS solving abilities', 'Base on current group situation, the ability to discover problems, find the root causes, and seek correct solutions through data mining.', '1');
+(17, 5, 'cc017', 'EHS solving abilities', 'Base on current group situation, the ability to discover problems, find the root causes, and seek correct solutions through data mining.', '1'),
+(18, 1, 'cc999', 'test', 'asd', '1'),
+(19, 6, 'cc998', 'test2', 'asdasd', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Items_lvl_desc`
+--
+
+CREATE TABLE `t_memc_kpcc_Items_lvl_desc` (
+  `Im_lvl_ID` int(11) NOT NULL,
+  `Im_lvl_Im_ID` int(11) DEFAULT NULL,
+  `Im_lvl_Name` varchar(20) DEFAULT NULL,
+  `Im_lvl_Description` varchar(1000) DEFAULT NULL,
+  `Im_lvl_Status` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -462,21 +699,29 @@ INSERT INTO `t_memc_kpcc_items_lvl_desc` (`Im_lvl_ID`, `Im_lvl_Im_ID`, `Im_lvl_N
 (82, 17, 'level 2', 'Base on current group\'s EHS situation, the ability to discover problems and find the root causes through data mining, resolve internal problem.', '1'),
 (83, 17, 'level 3', 'Proficient in EHS data mining, problem analysis, problem-solving methods and tools, and solving general complex problems in the system.', '1'),
 (84, 17, 'level 4', 'Master the system data mining, problem analysis, problem-solving methods and tools, and able to resolve common problem', '1'),
-(85, 17, 'level 5', 'Hold onto basic system data mining, problem analysis, problem solving methods and tools, and be able to complete basic tasks under the guidance.', '1');
+(85, 17, 'level 5', 'Hold onto basic system data mining, problem analysis, problem solving methods and tools, and be able to complete basic tasks under the guidance.', '1'),
+(86, 18, 'level 1', 'asd', 'a'),
+(87, 18, 'level 2', 'asd', 'a'),
+(88, 18, 'level 3', 'sad', 'a'),
+(89, 18, 'level 4', 'das', 'a'),
+(90, 18, 'level 5', '5', 'a'),
+(91, 19, 'level 1', 'dasd', '1'),
+(92, 19, 'level 2', 'asdasda', '1'),
+(93, 19, 'level 3', 'asdas', '1'),
+(94, 19, 'level 4', 'asdasd', '1'),
+(95, 19, 'level 5', 'asd', '1');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `t_memc_kpcc_learning_path`
+-- Table structure for table `t_memc_kpcc_PlanType`
 --
 
-CREATE TABLE `t_memc_kpcc_learning_path` (
-  `Lh_ID` int(11) NOT NULL,
-  `Lh_Emp_ID` varchar(30) DEFAULT NULL,
-  `Lh_Total_Core` int(11) DEFAULT NULL,
-  `Lh_Total_Sub` int(11) DEFAULT NULL,
-  `Lh_Status` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `t_memc_kpcc_PlanType` (
+  `Pt_ID` int(11) NOT NULL,
+  `Pt_Name` varchar(1000) DEFAULT NULL,
+  `Pt_Status` char(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -500,7 +745,8 @@ INSERT INTO `t_memc_kpcc_plantype` (`Pt_ID`, `Pt_Name`, `Pt_Status`) VALUES
 (3, 'Coaching', '1'),
 (4, 'Exposure', '1'),
 (5, 'OJT', '1'),
-(6, 'Others', '1');
+(6, 'Others', '1'),
+(7, 'project', '1');
 
 -- --------------------------------------------------------
 
@@ -520,14 +766,48 @@ CREATE TABLE `t_memc_kpcc_quarter` (
 --
 
 INSERT INTO `t_memc_kpcc_quarter` (`Q_ID`, `Q_Name`, `Q_Year`, `Q_Status`) VALUES
-(1, 'Q1', '2022', '1'),
-(2, 'Q2', '2022', '1'),
-(3, 'Q3', '2022', '1'),
-(4, 'Q4', '2022', '1'),
-(5, 'Q1', '2021', '1'),
+(1, 'Q1', '2021', '1'),
+(2, 'Q1', '2022', '1'),
+(3, 'Q2', '2022', '1'),
+(4, 'Q3', '2022', '1'),
+(5, 'Q4', '2022', '1'),
 (6, 'Q2', '2021', '1'),
-(7, 'Q3', '2021', '1'),
-(8, 'Q4', '2021', '1');
+(7, 'Q4', '2021', '1'),
+(8, 'Q3', '2021', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_quarter_report`
+--
+
+CREATE TABLE `t_memc_kpcc_quarter_report` (
+  `QR_ID` int(11) NOT NULL,
+  `QR_Q_ID` int(11) DEFAULT NULL,
+  `QR_E_ID` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `QR_Mentor_Evaluation` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `QR_PD_Summary` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `QR_Marks` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `t_memc_kpcc_quarter_report`
+--
+
+INSERT INTO `t_memc_kpcc_quarter_report` (`QR_ID`, `QR_Q_ID`, `QR_E_ID`, `QR_Mentor_Evaluation`, `QR_PD_Summary`, `QR_Marks`) VALUES
+(1, 2, 'L03590', 'testing data mentors evaluation and suggestion  -- version 1 -- version 2', 'testing data personal development summary -- version 1 -- version 2 ', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_memc_kpcc_Report_To`
+--
+
+CREATE TABLE `t_memc_kpcc_Report_To` (
+  `RT_ID` int(11) NOT NULL,
+  `RT_Emp_ID` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Report_To_Emp_ID` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -546,8 +826,11 @@ CREATE TABLE `t_memc_kpcc_report_to` (
 --
 
 INSERT INTO `t_memc_kpcc_report_to` (`RT_ID`, `RT_Emp_ID`, `Report_To_Emp_ID`) VALUES
-(1, 'L01892', 'LT0895'),
-(2, 'LT0726', 'LT0895');
+(1, 'L02798', 'L03048'),
+(2, 'L03602', 'L03048'),
+(3, 'L01892', 'LT0871'),
+(4, 'LT0895', 'L03048'),
+(5, 'L03590', 'L03048');
 
 -- --------------------------------------------------------
 
@@ -836,9 +1119,39 @@ ALTER TABLE `t_memc_kpcc_access_right`
   ADD PRIMARY KEY (`AR_ID`);
 
 --
+-- Indexes for table `t_memc_kpcc_Access_Right`
+--
+ALTER TABLE `t_memc_kpcc_Access_Right`
+  ADD PRIMARY KEY (`AR_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_ActionPlan`
+--
+ALTER TABLE `t_memc_kpcc_ActionPlan`
+  ADD PRIMARY KEY (`AP_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_actionplan`
+--
+ALTER TABLE `t_memc_kpcc_actionplan`
+  ADD PRIMARY KEY (`AP_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_category`
+--
+ALTER TABLE `t_memc_kpcc_category`
+  ADD PRIMARY KEY (`c_id`);
+
+--
 -- Indexes for table `t_memc_kpcc_competenciesdimension`
 --
 ALTER TABLE `t_memc_kpcc_competenciesdimension`
+  ADD PRIMARY KEY (`Cd_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_CompetenciesDimension`
+--
+ALTER TABLE `t_memc_kpcc_CompetenciesDimension`
   ADD PRIMARY KEY (`Cd_ID`);
 
 --
@@ -848,15 +1161,39 @@ ALTER TABLE `t_memc_kpcc_corecompetencies`
   ADD PRIMARY KEY (`Cc_ID`);
 
 --
+-- Indexes for table `t_memc_kpcc_CoreCompetencies`
+--
+ALTER TABLE `t_memc_kpcc_CoreCompetencies`
+  ADD PRIMARY KEY (`Cc_ID`);
+
+--
 -- Indexes for table `t_memc_kpcc_department`
 --
 ALTER TABLE `t_memc_kpcc_department`
   ADD PRIMARY KEY (`D_ID`);
 
 --
+-- Indexes for table `t_memc_kpcc_Department`
+--
+ALTER TABLE `t_memc_kpcc_Department`
+  ADD PRIMARY KEY (`D_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_employee_category`
+--
+ALTER TABLE `t_memc_kpcc_employee_category`
+  ADD PRIMARY KEY (`ec_id`);
+
+--
 -- Indexes for table `t_memc_kpcc_employee_detail`
 --
 ALTER TABLE `t_memc_kpcc_employee_detail`
+  ADD PRIMARY KEY (`EmpDetail_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_Employee_detail`
+--
+ALTER TABLE `t_memc_kpcc_Employee_detail`
   ADD PRIMARY KEY (`EmpDetail_ID`);
 
 --
@@ -866,10 +1203,34 @@ ALTER TABLE `t_memc_kpcc_employee_item`
   ADD PRIMARY KEY (`Ei_ID`);
 
 --
+-- Indexes for table `t_memc_kpcc_Employee_item`
+--
+ALTER TABLE `t_memc_kpcc_Employee_item`
+  ADD PRIMARY KEY (`Ei_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_employee_profile`
+--
+ALTER TABLE `t_memc_kpcc_employee_profile`
+  ADD PRIMARY KEY (`ep_id`);
+
+--
+-- Indexes for table `t_memc_kpcc_Items`
+--
+ALTER TABLE `t_memc_kpcc_Items`
+  ADD PRIMARY KEY (`Im_ID`);
+
+--
 -- Indexes for table `t_memc_kpcc_items`
 --
 ALTER TABLE `t_memc_kpcc_items`
   ADD PRIMARY KEY (`Im_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_Items_lvl_desc`
+--
+ALTER TABLE `t_memc_kpcc_Items_lvl_desc`
+  ADD PRIMARY KEY (`Im_lvl_ID`);
 
 --
 -- Indexes for table `t_memc_kpcc_items_lvl_desc`
@@ -878,10 +1239,10 @@ ALTER TABLE `t_memc_kpcc_items_lvl_desc`
   ADD PRIMARY KEY (`Im_lvl_ID`);
 
 --
--- Indexes for table `t_memc_kpcc_learning_path`
+-- Indexes for table `t_memc_kpcc_PlanType`
 --
-ALTER TABLE `t_memc_kpcc_learning_path`
-  ADD PRIMARY KEY (`Lh_ID`);
+ALTER TABLE `t_memc_kpcc_PlanType`
+  ADD PRIMARY KEY (`Pt_ID`);
 
 --
 -- Indexes for table `t_memc_kpcc_plantype`
@@ -894,6 +1255,18 @@ ALTER TABLE `t_memc_kpcc_plantype`
 --
 ALTER TABLE `t_memc_kpcc_quarter`
   ADD PRIMARY KEY (`Q_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_quarter_report`
+--
+ALTER TABLE `t_memc_kpcc_quarter_report`
+  ADD PRIMARY KEY (`QR_ID`);
+
+--
+-- Indexes for table `t_memc_kpcc_Report_To`
+--
+ALTER TABLE `t_memc_kpcc_Report_To`
+  ADD PRIMARY KEY (`RT_ID`);
 
 --
 -- Indexes for table `t_memc_kpcc_report_to`
@@ -921,7 +1294,31 @@ ALTER TABLE `t_memc_staff`
 -- AUTO_INCREMENT for table `t_memc_kpcc_access_right`
 --
 ALTER TABLE `t_memc_kpcc_access_right`
-  MODIFY `AR_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `AR_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Access_Right`
+--
+ALTER TABLE `t_memc_kpcc_Access_Right`
+  MODIFY `AR_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_ActionPlan`
+--
+ALTER TABLE `t_memc_kpcc_ActionPlan`
+  MODIFY `AP_ID` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_actionplan`
+--
+ALTER TABLE `t_memc_kpcc_actionplan`
+  MODIFY `AP_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_category`
+--
+ALTER TABLE `t_memc_kpcc_category`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_competenciesdimension`
@@ -930,52 +1327,106 @@ ALTER TABLE `t_memc_kpcc_competenciesdimension`
   MODIFY `Cd_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `t_memc_kpcc_CompetenciesDimension`
+--
+ALTER TABLE `t_memc_kpcc_CompetenciesDimension`
+  MODIFY `Cd_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `t_memc_kpcc_corecompetencies`
 --
 ALTER TABLE `t_memc_kpcc_corecompetencies`
   MODIFY `Cc_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `t_memc_kpcc_CoreCompetencies`
+--
+ALTER TABLE `t_memc_kpcc_CoreCompetencies`
+  MODIFY `Cc_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `t_memc_kpcc_department`
 --
 ALTER TABLE `t_memc_kpcc_department`
-  MODIFY `D_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `D_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Department`
+--
+ALTER TABLE `t_memc_kpcc_Department`
+  MODIFY `D_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_employee_category`
+--
+ALTER TABLE `t_memc_kpcc_employee_category`
+  MODIFY `ec_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_employee_detail`
 --
 ALTER TABLE `t_memc_kpcc_employee_detail`
-  MODIFY `EmpDetail_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `EmpDetail_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Employee_detail`
+--
+ALTER TABLE `t_memc_kpcc_Employee_detail`
+  MODIFY `EmpDetail_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_employee_item`
 --
 ALTER TABLE `t_memc_kpcc_employee_item`
-  MODIFY `Ei_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Ei_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Employee_item`
+--
+ALTER TABLE `t_memc_kpcc_Employee_item`
+  MODIFY `Ei_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_employee_profile`
+--
+ALTER TABLE `t_memc_kpcc_employee_profile`
+  MODIFY `ep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Items`
+--
+ALTER TABLE `t_memc_kpcc_Items`
+  MODIFY `Im_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_items`
 --
 ALTER TABLE `t_memc_kpcc_items`
-  MODIFY `Im_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Im_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Items_lvl_desc`
+--
+ALTER TABLE `t_memc_kpcc_Items_lvl_desc`
+  MODIFY `Im_lvl_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_items_lvl_desc`
 --
 ALTER TABLE `t_memc_kpcc_items_lvl_desc`
-  MODIFY `Im_lvl_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `Im_lvl_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
--- AUTO_INCREMENT for table `t_memc_kpcc_learning_path`
+-- AUTO_INCREMENT for table `t_memc_kpcc_PlanType`
 --
-ALTER TABLE `t_memc_kpcc_learning_path`
-  MODIFY `Lh_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `t_memc_kpcc_PlanType`
+  MODIFY `Pt_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_plantype`
 --
 ALTER TABLE `t_memc_kpcc_plantype`
-  MODIFY `Pt_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Pt_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `t_memc_kpcc_quarter`
@@ -984,10 +1435,22 @@ ALTER TABLE `t_memc_kpcc_quarter`
   MODIFY `Q_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `t_memc_kpcc_quarter_report`
+--
+ALTER TABLE `t_memc_kpcc_quarter_report`
+  MODIFY `QR_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `t_memc_kpcc_Report_To`
+--
+ALTER TABLE `t_memc_kpcc_Report_To`
+  MODIFY `RT_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `t_memc_kpcc_report_to`
 --
 ALTER TABLE `t_memc_kpcc_report_to`
-  MODIFY `RT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `RT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `t_memc_staff`
