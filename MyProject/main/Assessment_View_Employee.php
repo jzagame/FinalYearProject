@@ -10,20 +10,20 @@
     </title>
 </head>
 
-<body >
+<body>
     <div class="container-fluid">
         <div class="row">
             <?php
-            include "../includes/Menubar.php";
-           
+            include "../includes/MenuBar.php";
+
             ?>
         </div>
         <div class="container-fluid" id="iwantprint">
             <div class="row justify-content-center" id="body1">
-                <div class="col-5">
+                <div class="col-5 mt-3">
                     <input type="text" class="form-control" placeholder="Enter Staff ID To Search ...." name="search_stf" id="search_stf">
                 </div>
-                <div class="col-2">
+                <div class="col-2 mt-3">
                     <button class="btn btn-primary form-control" type="button" id="btn_search_emp" name="btn_search_emp">Search</button>
                 </div>
                 <div class="col-12">

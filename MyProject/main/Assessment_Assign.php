@@ -4,6 +4,7 @@
     <?php
     error_reporting(0);
     session_start();
+    include "../../includes/conn.php";
     ?>
     <title>Assign Competencies</title>
     <style>
@@ -12,68 +13,56 @@
             overflow-wrap: break-word;
         }
     </style>
-   
+
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row">
             <?php
-            include "../includes/Menubar.php";
+            include "../includes/MenuBar.php";
+            $result = $conn -> query("select * from t_memc_staff where stf_employee_number = '".$_GET['id']."'");
+            $data = $result -> fetch_assoc();
             ?>
         </div>
     </div>
     </script>
-    <div class="container-fluid" id="body1">
-        <div id="progress_Ass" style="width: 33%;display:none" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">33%</div>
+    <div class="container-fluid">
         <div class="row justify-content-center" id="Assessment_content">
-
-        </div>
-        <div class="row m-0 mt-5" id="pagination_emp_container">
             <div class="col-12">
-                <ul class="pagination" id="pagination_emp">
-
+                <ul class="list-group mt-2 mb-2">
+                    <li class="list-group-item active">
+                        <h5 class="m-0">Staff Information</h5>
+                    </li>
                 </ul>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Name : </td>
+                        <td><?php echo $data['stf_name'] ?></td>
+                    </tr>
+                    <tr>
+                        <td><label for="emp_id" class="col-form-label">ID: </label></td>
+                        <td><input type="text" id="emp_id" disabled value="<?php echo $_GET['id']; ?>" class="form-control"></td>
+                    </tr>
+                </table>
             </div>
+            
         </div>
-        <div class="row m-0 mt-5 mb-5" id="btn_add_container" style="display: none;">
+        <div class="row m-0 mt-5 mb-5" id="btn_add_container">
             <div class="col-12" style="text-align: center;">
-                <button type="button" id="btn_add" style="display:none" class="btn btn-primary btn-sm" style="width: 200px;">+ Add New Competencies</button>
+                <button type="button" id="btn_add" class="btn btn-primary btn-sm" style="width: 200px;">+ Add New Competencies</button>
             </div>
         </div>
         <div class="row m-0 mt-5 mb-5">
-            <div class="col-5">
-                <button type="button" id="btn_previous" style="display:none" class="btn btn-primary btn-sm" style="width: 100px;">Previous</button>
-            </div>
-            <div class="col-2">
-                <button type="button" id="btn_submit" class="btn btn-primary btn-sm" style="width: 100px;display:none">Submit</button>
-            </div>
-            <div class="col-4">
-                <button type="button" id="btn_next" class="btn btn-primary btn-sm float-right" style="width: 100px;">Next</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade bd-example-modal-lg" id="ModalEmpView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle" style=visibility:hidden>Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="ViewAllCompetenciesEmp">
-
-                </div>
-                <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" style="visibility: hidden;">Save changes</button> -->
-                </div>
+            <div class="col-12" style="text-align: center;">
+                <button type="button" id="btn_submit" class="btn btn-primary btn-sm" style="width: 100px;">Submit</button>
+                <button type="button" id="btn_previous" class="btn btn-primary btn-sm" style="width: 100px;">Previous</button>
             </div>
         </div>
     </div>
 </body>
 
 <script src="../../includes/assest/library/datatables.net/JS/Assessment_Assign.js"></script>
-<script src="../../includes/assest/library/datatables.net/JS/Assessment_View_Employee.js"></script>
+
+
 </html>
