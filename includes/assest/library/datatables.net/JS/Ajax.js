@@ -354,7 +354,11 @@ function InsertProfile(){
 		url: "Employee_Query.php",
 		data: {action:"insertProfile",formdata:$('#InsertProfileForm').serializeArray()},
 		success: function(data){
-			if(data == "U Null")
+			if(data == "D Null")
+			{
+				window.alert('Please Insert Date.');
+			}
+			else if(data == "U Null")
 			{
 				window.alert('Please Insert Unit.');
 			}
@@ -414,7 +418,11 @@ function UpdateProfile(){
 		url: "Employee_Query.php",
 		data: {action:"updateProfile",formdata:$('#EditProfileForm').serializeArray()},
 		success: function(data){
-			if(data == "U Null")
+			if(data == "D Null")
+			{
+				window.alert('Please Insert Date.');
+			}
+			else if(data == "U Null")
 			{
 				window.alert('Please Insert Unit.');
 			}
@@ -431,11 +439,11 @@ function UpdateProfile(){
 				window.alert('Please Insert Weakness.');
 			}
 			else if(data == "success"){
-				window.alert('Add Profile Successfully.');
+				window.alert('Update Profile Successfully.');
 				location="Employee_ViewEditProfile.php";
 			}
 			else{
-				window.alert('Add Profile Failure.');
+				window.alert('Update Profile Failure.');
 			}
 		}
 	});
@@ -532,15 +540,15 @@ function SearchCEmployee(){
 	});
 }
 
-function UpdateCEmployee(){
+function AddNewCategoryEmployee(){
 	$.ajax({
 		type: "POST",
 		url: "Employee_Query.php",
-		data: {action:"updateCEmployee",formdata:$('#searchCEmployeeForm').serialize()},
+		data: {action:"addNewCategoryEmployee",formdata:$('#searchCEmployeeForm').serialize()},
 		success: function(data){
 			if(data == "success"){
-				window.alert('Category Update Successfully');
-				location="Employee_EditCategory.php";
+				window.alert('Category Add Successfully');
+				location="Employee_AddNewCategory.php";
 			}
 			else if(data == "No Employee")
 			{
@@ -551,32 +559,64 @@ function UpdateCEmployee(){
 				window.alert('Please Select Category');
 			}
 			else{
-				window.alert('Category Update Failure');
+				window.alert('Category Add Failure');
 			}
 			// alert(data);
 		}
 	});
 }
 
-//Add Category Tab
-$("#btnAddCategoryTab").click(function(e){
-    e.preventDefault();
-    $.ajax({
-        type:"POST",
-        url: "Employee_Query.php",
-        data : {action:"AddCategoryTab"},
-        success:function(data){
-			$.ajax({
-				type:"POST",
-				url: "Employee_Qeury.php",
-				data : {action:"AddButton_1"},
-				success:function(data){
-					AddCard("",data);
-				}
-			});
-        }
-    })
-});
+function SearchCategoryEmployee(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"SearchCategoryEmployee",formdata:$('#EmployeeCategoryForm').serializeArray()},
+		success: function(data){
+			if(data == "fail"){
+				window.alert("Employee Not Found");
+			}
+			else{
+				document.getElementById("showSearchTable").innerHTML = data;
+			}
+		}
+	});
+}
+
+function ActivateEmployeeCategory(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"ActivateEmployeeCategory",formdata:$('#EmployeeCategoryForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Category Status Update Successfully');
+				location="Employee_EditCategory.php";
+			}
+			else{
+				window.alert('Employee Category Status Update Failure');
+			}
+			// alert(data);
+		}
+	});
+}
+
+function UnactiveEmployeeCategory(){
+	$.ajax({
+		type: "POST",
+		url: "Employee_Query.php",
+		data: {action:"UnactiveEmployeeCategory",formdata:$('#EmployeeCategoryForm').serialize()},
+		success: function(data){
+			if(data == "success"){
+				window.alert('Employee Category Status Update Successfully');
+				location="Employee_EditCategory.php";
+			}
+			else{
+				window.alert('Employee Category Status Update Failure');
+			}
+			// alert(data);
+		}
+	});
+}
 
 function ChangeY(){
 	//alert("HAHA");

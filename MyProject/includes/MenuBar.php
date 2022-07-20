@@ -43,7 +43,6 @@ session_start();
             <li class="dropdown-item" role="button" onclick="location='Employee_RemoveEmployee.php'">Remove</li>
             <li class="dropdown-item" role="button" onclick="location='Employee_AssignPosition.php'">Assign Access Right</li>
             <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditAssign.php'">View/Edit Access Right</li>
-            <li class="dropdown-item" role="button" onclick="location='Employee_EditCategory.php'">View/Edit Category</li>
           </ul>
         </li>
         <li class="dropdown-submenu"> <a class="dropdown-item" tabindex="-1" href="#">Profile</a>
@@ -56,6 +55,8 @@ session_start();
           <ul class="dropdown-menu">
             <li class="dropdown-item" role="button" onclick="location='Employee_AddCategory.php'">Add</li>
             <li class="dropdown-item" role="button" onclick="location='Employee_ViewEditCategory.php'">View/Edit</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_AddNewCategory.php'">Assign New Category</li>
+            <li class="dropdown-item" role="button" onclick="location='Employee_EditCategory.php'">Edit Employee Category</li>
           </ul>
         </li>
       </ul>

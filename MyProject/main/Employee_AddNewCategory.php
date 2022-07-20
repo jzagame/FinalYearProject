@@ -32,7 +32,7 @@ thead tr:nth-child(1) th{
 
     <body>
     <div class="container-fluid">
-        <form id="searchEmployeeForm">
+        <form id="searchCEmployeeForm">
         <ul class="list-group mt-2 mb-2">
             <li class="list-group-item active"><h5 class="m-0">Employee List</h5></li>
         </ul>
@@ -47,7 +47,7 @@ thead tr:nth-child(1) th{
                         <input type="text" class="form-control" placeholder="Search" name="txtSearchEmployee">	
                       </div>
                       <div class="col-1" style="text-align: center;">
-                        <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchEmployee()">
+                        <input type="button" class="btn btn-primary" name="btnSearchEmployee" value="Search" onclick="SearchCEmployee()">
                       </div>
                     </div>
                     <!-- <div class="d-flex align-items-center mb-4">
@@ -63,23 +63,14 @@ thead tr:nth-child(1) th{
                           <th scope="col" style="vertical-align:middle">Employee Name</th>
                           <th scope="col" style="vertical-align:middle">Department</th>
                           <th scope="col" style="vertical-align:middle">Job Band</th>
+                          <th scope="col" style="vertical-align:middle">Category</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          $IsEmptyEmployeeDetailSQL = "SELECT * FROM t_memc_kpcc_employee_detail";
-                          $IsEmptyEmployeeDetailResult = mysqli_query($conn, $IsEmptyEmployeeDetailSQL);
-                          if(mysqli_num_rows($IsEmptyEmployeeDetailResult) <= 0)
-                          {
-                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE t_memc_staff.stf_department_id = t_memc_department.dpt_id
-                            AND stf_user_status = 1";
-                          }
-                          else
-                          {
-                            $SearchSQL = "SELECT * FROM t_memc_staff, t_memc_department WHERE stf_department_id = dpt_id
-                            AND stf_user_status = 1
-                            AND stf_employee_number NOT IN (SELECT Emp_ID FROM t_memc_kpcc_employee_detail WHERE EmpDetail_Status = 1)";
-                          }
+                        $SearchSQL = "SELECT * FROM t_memc_kpcc_employee_detail, t_memc_staff, t_memc_department WHERE EmpDetail_Status = 1 
+                        AND stf_employee_number = Emp_ID
+                        AND stf_department_id = dpt_id";
 
                           $SearchResult = mysqli_query($conn, $SearchSQL);
                           if(mysqli_num_rows($SearchResult) > 0)
@@ -94,6 +85,20 @@ thead tr:nth-child(1) th{
                                 echo "<td>".$row['stf_name']."</td>";
                                 echo "<td>".$row['dpt_name']."</td>";
                                 echo "<td>".$row['stf_grade']."</td>";
+                                echo "<td>";
+                                $SeacrhEmployeeActiveCategorySQL = "SELECT * FROM t_memc_kpcc_employee_category, t_memc_kpcc_category 
+                                WHERE ec_employee_id = '".$row['stf_employee_number']."'
+                                AND ec_category_id = c_id";
+                                $SeacrhEmployeeActiveCategoryResult = mysqli_query($conn, $SeacrhEmployeeActiveCategorySQL);
+                                if(mysqli_num_rows($SeacrhEmployeeActiveCategoryResult) > 0)
+                                {
+                                  for($j = 0; $j < mysqli_num_rows($SeacrhEmployeeActiveCategoryResult); ++$j)
+                                  {
+                                    $jrow = mysqli_fetch_array($SeacrhEmployeeActiveCategoryResult);
+                                    echo "-".$jrow['c_name']."<br>";
+                                  }
+                                }
+                                echo "</td>";
                                 echo "</tr>";
                               }
                           }
@@ -106,7 +111,7 @@ thead tr:nth-child(1) th{
                       </tbody>
                     </table>
                     </div>
-                    <div class="form-group row" style="padding-top: 20px;" id="AddCategoryTab">
+                    <div class="form-group row" style="padding-top: 20px;">
                       <label class="col-2">Category</label>
                       <div class="col-10">
                       <select class="form-control custom-select" name="txtCategory">
@@ -129,7 +134,7 @@ thead tr:nth-child(1) th{
                     </div>
                     <div class="form-group" style="padding-top: 10px;">
                         <div class="col-12" style="text-align: center;">
-                            <input type="button" class="btn btn-primary" name="btnAddEmployee" value="Add" onclick="AddEmployee()">
+                            <input type="button" class="btn btn-primary" name="btnAddNewEmployeeCategory" value="Add" onclick="AddNewCategoryEmployee()">
                             <input type="reset" class="btn btn-primary" name="btnClear" value="Clear">
                         </div>
                     </div>
